@@ -1,0 +1,1030 @@
+---
+import Base from "../layouts/Base.astro";
+import Nav from "../components/Nav.astro";
+import ChapterHero from "../components/ChapterHero.astro";
+import VerticalRow from "../components/VerticalRow.astro";
+
+// ── Data (draft copy, modificabile) ───────────────────────────
+
+const aree = [
+  {
+    title: "Real Estate Internazionale",
+    description:
+      "Partner immobiliare iAD, con operatività sul mercato di Dubai. Accompagno chi cerca di investire e abitare in mercati internazionali in crescita.",
+    meta: "001 / TRE PROGETTI",
+  },
+  {
+    title: "Innovazione e Tecnologie Emergenti",
+    description:
+      "Collaboratrice DBM ed esploratrice del mondo delle nuove tecnologie e delle criptovalute. Partner Sibill. Collaboratrice ScripDBA.com.",
+    meta: "002 / TRE PROGETTI",
+  },
+  {
+    title: "Network e Partnership Business",
+    description:
+      "Partner Jet HR, Ambrogio, Fly Airlines. Collaboro con Castaldo Solutions per la consulenza societaria e fiscale.",
+    meta: "003 / QUATTRO PROGETTI",
+  },
+];
+
+const principi = [
+  {
+    n: "01",
+    label: "INNOVAZIONE",
+    body: "La tecnologia è strumento, non fine. Serve a creare valore reale per le persone, non a impressionare.",
+  },
+  {
+    n: "02",
+    label: "MATERNITÀ",
+    body: "Tre figli, tre ragioni per costruire un mondo migliore. Ogni decisione che prendo è anche per loro.",
+  },
+  {
+    n: "03",
+    label: "IMPATTO",
+    body: "Il successo che non genera valore per gli altri non è successo. È solo accumulo.",
+  },
+];
+
+const formazione = [
+  { name: "Davide Caiazzo", year: "2024" },
+  { name: "Alfio Bardolla", year: "2024" },
+  { name: "Giacomo Freddi", year: "2024" },
+  { name: "Gasparotto", year: "2025" },
+  { name: "Valerio Di Gerolamo", year: "2025" },
+];
+
+const testimonial = [
+  "Anche le prove più difficili possono trasformarsi in occasioni di crescita.",
+  "Il successo non è solo un traguardo professionale, è la capacità di evolvere.",
+  "Voglio unire innovazione, business e impatto sociale per creare valore concreto.",
+];
+---
+
+<Base>
+  <Nav />
+
+  <main>
+    <!-- ════════════════════════════════════════════════════════
+         1 · HERO COVER
+         ════════════════════════════════════════════════════════ -->
+    <section class="hero" aria-label="Copertina">
+      <p class="hero__eyebrow">CAPITOLO ZERO — UNA RINASCITA</p>
+
+      <div class="hero__block">
+        <div class="hero__rule" aria-hidden="true"></div>
+        <h1 class="hero__headline">
+          <span class="hero__line hero__line--1">Vivere</span>
+          <span class="hero__line hero__line--2">due volte</span>
+          <span class="hero__line hero__line--3">con intenzione.</span>
+        </h1>
+      </div>
+
+      <p class="hero__scroll">Scroll ↓</p>
+    </section>
+
+    <!-- ════════════════════════════════════════════════════════
+         2 · INTRO PARAGRAPH
+         ════════════════════════════════════════════════════════ -->
+    <section class="intro" aria-label="Introduzione">
+      <p class="intro__text reveal">
+        Mi chiamo Patrizia. Sono madre, professionista, donna. Due anni fa ho
+        avuto un <em class="accent">ictus</em>. Da quel giorno ho smesso di
+        vivere come se avessi tempo da perdere e ho iniziato a costruire
+        <strong class="strong">qualcosa che valga la pena lasciare</strong>.
+      </p>
+    </section>
+
+    <!-- ════════════════════════════════════════════════════════
+         3 · CAPITOLO 1 — IL PUNTO DI SVOLTA (two-column essay)
+         ════════════════════════════════════════════════════════ -->
+    <section class="essay" aria-labelledby="cap1-title">
+      <div class="essay__inner">
+        <aside class="essay__aside">
+          <div class="essay__sticky">
+            <h2 id="cap1-title" class="essay__title reveal">
+              Il punto di svolta
+            </h2>
+            <div class="essay__meta reveal">
+              <span>CAPITOLO UNO</span>
+              <span>PATRIZIA · 2024</span>
+            </div>
+          </div>
+        </aside>
+
+        <div class="essay__body">
+          <p class="prose reveal">
+            Non è stato un percorso facile. Ha richiesto forza, coraggio,
+            pazienza e la capacità di rimettermi in gioco. Ma proprio da quella
+            esperienza è nata una nuova consapevolezza.
+          </p>
+          <p class="prose reveal">
+            Quel momento mi ha insegnato a dare valore al tempo, alla salute,
+            alla famiglia, alle opportunità che la vita offre ogni giorno. Mi ha
+            spinta a guardare oltre i miei limiti, a credere nelle mie capacità,
+            a investire con determinazione nella mia crescita personale e
+            professionale.
+          </p>
+
+          <blockquote class="pull reveal">
+            Anche le prove più difficili possono trasformarsi in occasioni di
+            rinascita.
+          </blockquote>
+
+          <p class="prose reveal">
+            Un anno fa ho preso una delle decisioni più importanti della mia
+            vita: lasciare il lavoro da dipendente per intraprendere un percorso
+            completamente nuovo.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════════════════════════════
+         4 · CAPITOLO 2 — LE AREE IN CUI LAVORO (vertical list)
+         ════════════════════════════════════════════════════════ -->
+    <section class="section" aria-labelledby="cap2-title">
+      <div class="wrap">
+        <ChapterHero
+          eyebrow="CAPITOLO DUE — IL PRESENTE"
+          title="Cosa costruisco oggi"
+          size="72"
+        />
+      </div>
+      <div class="list">
+        {aree.map((r) => <VerticalRow {...r} />)}
+        <div class="list__close" aria-hidden="true"></div>
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════════════════════════════
+         5 · CAPITOLO 3 — MANIFESTO (light, inverted)
+         ════════════════════════════════════════════════════════ -->
+    <section class="manifesto" aria-labelledby="cap3-title">
+      <div class="wrap">
+        <ChapterHero
+          eyebrow="CAPITOLO TRE — IL MANIFESTO"
+          title="Tre principi"
+          size="72"
+          invert
+        />
+
+        <div class="manifesto__grid">
+          {
+            principi.map((p) => (
+              <article class="principle reveal">
+                <span class="principle__ghost" aria-hidden="true">
+                  {p.n}
+                </span>
+                <div class="principle__content">
+                  <h3 class="principle__label">{p.label}</h3>
+                  <p class="principle__body">{p.body}</p>
+                </div>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════════════════════════════
+         6 · CAPITOLO 4 — LA MISSIONE (full-width centered)
+         ════════════════════════════════════════════════════════ -->
+    <section class="mission" aria-labelledby="cap4-title">
+      <div class="wrap wrap--narrow">
+        <p class="chapter__eyebrow chapter__eyebrow--center reveal">
+          CAPITOLO QUATTRO — LA MISSIONE
+        </p>
+        <h2 id="cap4-title" class="mission__title reveal">Tornare a casa</h2>
+
+        <div class="mission__prose">
+          <p class="prose prose--center reveal">
+            Sono nata a Santo Domingo. È il Paese da cui sono partita, ed è il
+            Paese a cui penso quando immagino dove andrà a finire tutto quello
+            che sto costruendo.
+          </p>
+          <p class="prose prose--center reveal">
+            Uno dei sogni che porto avanti è contribuire alla realizzazione di
+            una <em class="accent">scuola a Santo Domingo</em>, per offrire ai
+            giovani del mio Paese d'origine maggiori possibilità di formazione e
+            futuro.
+          </p>
+          <p class="prose prose--center reveal">
+            Sostengo personalmente cause legate all'infanzia e all'educazione,
+            perché credo che ogni opportunità data a un bambino sia un
+            investimento sul mondo che lasceremo.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════════════════════════════
+         7 · CAPITOLO 5 — FAMIGLIA E PASSIONI (asymmetric essay)
+         ════════════════════════════════════════════════════════ -->
+    <section class="section" aria-labelledby="cap5-title">
+      <div class="wrap">
+        <ChapterHero
+          eyebrow="CAPITOLO CINQUE — VITA PRIVATA"
+          title="Quello che mi tiene viva"
+          size="72"
+        />
+
+        <div class="life">
+          <div class="life__main">
+            <p class="prose reveal">
+              Sono mamma di tre figli: Nicole, Loris e Nicolas. La maternità è
+              la più grande motivazione che ho.
+            </p>
+            <p class="prose reveal">
+              Fuori dal lavoro coltivo passioni che mi danno energia: la
+              <em class="accent">danza</em>, in tutte le sue forme, perché è
+              libertà ed espressione. Il <em class="accent">canto</em>, non a
+              livello professionale ma come modo per ritrovare equilibrio. I
+              <em class="accent">viaggi</em>, perché ogni cultura nuova allarga
+              lo sguardo. La <em class="accent">fotografia</em>, perché mi
+              permette di trattenere quello che altrimenti scivolerebbe via.
+            </p>
+            <p class="prose reveal">
+              Di recente ho intrapreso un percorso nel mondo della moda come
+              modella presso Identity Agency di Milano. Un'esperienza che mi sta
+              insegnando presenza, sicurezza e una nuova consapevolezza del
+              corpo dopo l'ictus.
+            </p>
+          </div>
+
+          <aside class="life__aside" aria-hidden="true">
+            <div class="life__sep"></div>
+            <span class="life__vmeta">PATRIZIA · 2026 · ITALIA</span>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════════════════════════════
+         8 · CAPITOLO 6 — IL PERCORSO FORMATIVO (vertical list)
+         ════════════════════════════════════════════════════════ -->
+    <section class="section" aria-labelledby="cap6-title">
+      <div class="wrap">
+        <ChapterHero
+          eyebrow="CAPITOLO SEI — FORMAZIONE"
+          title="I percorsi che hanno costruito la mia visione"
+          size="60"
+        />
+        <p class="prose prose--lead reveal">
+          Ho investito tempo, energie e risorse nella mia formazione personale e
+          professionale. Marketing, leadership, crescita personale, investimenti,
+          gestione imprenditoriale.
+        </p>
+      </div>
+
+      <div class="formative">
+        {
+          formazione.map((f) => (
+            <div class="formative__row reveal">
+              <span class="formative__name">{f.name}</span>
+              <span class="formative__year">{f.year}</span>
+            </div>
+          ))
+        }
+      </div>
+
+      <div class="wrap">
+        <p class="formative__note reveal">
+          I PERCORSI ELENCATI SONO STATI SEGUITI A TITOLO FORMATIVO E NON
+          RAPPRESENTANO COLLABORAZIONI ATTIVE NÉ ENDORSEMENT RECIPROCI.
+        </p>
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════════════════════════════
+         9 · TESTIMONIAL EDITORIALI (centered quotes)
+         ════════════════════════════════════════════════════════ -->
+    <section class="quotes" aria-label="In poche parole">
+      <p class="chapter__eyebrow chapter__eyebrow--center reveal">
+        CAPITOLO SETTE — IN POCHE PAROLE
+      </p>
+      <div class="quotes__list">
+        {
+          testimonial.map((q) => (
+            <figure class="quote reveal">
+              <blockquote class="quote__text">{q}</blockquote>
+              <figcaption class="quote__cite">— PATRIZIA</figcaption>
+            </figure>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════════════════════════════
+         10 · CALL TO ACTION CARD
+         ════════════════════════════════════════════════════════ -->
+    <section class="cta" aria-labelledby="cta-title">
+      <div class="cta__card reveal">
+        <div class="cta__head">
+          <span>VERSIONE / I</span>
+          <span>EDIZIONE / 2026</span>
+        </div>
+
+        <h2 id="cta-title" class="cta__title">Entriamo in contatto.</h2>
+        <p class="cta__lead">
+          Se quello che hai letto risuona con un progetto che stai costruendo,
+          scrivimi. Risponderò personalmente.
+        </p>
+
+        <form class="form" novalidate>
+          <div class="field">
+            <label class="field__label" for="nome">Nome</label>
+            <input
+              class="field__input"
+              type="text"
+              id="nome"
+              name="nome"
+              autocomplete="name"
+              placeholder="Il tuo nome"
+            />
+          </div>
+          <div class="field">
+            <label class="field__label" for="email">Email</label>
+            <input
+              class="field__input"
+              type="email"
+              id="email"
+              name="email"
+              autocomplete="email"
+              placeholder="La tua email"
+            />
+          </div>
+          <div class="field">
+            <label class="field__label" for="messaggio">Messaggio</label>
+            <textarea
+              class="field__input field__textarea"
+              id="messaggio"
+              name="messaggio"
+              rows="4"
+              placeholder="Raccontami in breve"></textarea>
+          </div>
+
+          <button class="form__submit" type="submit">INVIA</button>
+        </form>
+
+        <p class="cta__disclaimer">
+          I tuoi dati saranno trattati nel rispetto del GDPR.
+          <a href="#">Privacy policy</a>.
+        </p>
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════════════════════════════
+         11 · FINAL STATEMENT (full screen)
+         ════════════════════════════════════════════════════════ -->
+    <section class="final" aria-label="Statement finale">
+      <h2 class="final__headline reveal">
+        <span class="final__line">Costruire</span>
+        <span class="final__line final__line--italic">con</span>
+        <span class="final__line">intenzione.</span>
+      </h2>
+    </section>
+  </main>
+
+  <!-- ════════════════════════════════════════════════════════
+       12 · FOOTER
+       ════════════════════════════════════════════════════════ -->
+  <footer class="footer">
+    <div class="footer__inner">
+      <p class="footer__copy">
+        PATRIZIA · © MMXXVI · TUTTI I DIRITTI RISERVATI
+      </p>
+      <nav class="footer__links" aria-label="Link di servizio">
+        <a href="#">LINKEDIN</a>
+        <a href="#">EMAIL</a>
+        <a href="#">PRIVACY</a>
+        <a href="#">NOTE LEGALI</a>
+      </nav>
+    </div>
+  </footer>
+</Base>
+
+<style>
+  /* ── Shared wrappers ──────────────────────────────────────── */
+  .wrap {
+    max-width: 80rem;
+    margin: 0 auto;
+    padding-inline: clamp(1.25rem, 5vw, 4rem);
+  }
+  .wrap--narrow {
+    max-width: 56rem;
+  }
+  .section {
+    padding-block: clamp(6rem, 14vw, 11rem);
+  }
+
+  /* ── Prose ────────────────────────────────────────────────── */
+  .prose {
+    font-family: var(--font-sans);
+    font-weight: 300;
+    font-size: clamp(1.125rem, 1.6vw, 1.375rem);
+    line-height: 1.7;
+    color: var(--paper);
+    margin: 0 0 1.6em;
+    max-width: 65ch;
+  }
+  .prose--center {
+    margin-inline: auto;
+    text-align: center;
+  }
+  .prose--lead {
+    margin-top: 2.5rem;
+    font-size: clamp(1.25rem, 1.9vw, 1.5rem);
+    color: var(--muted);
+  }
+  .accent {
+    color: var(--accent);
+    font-style: italic;
+  }
+  .strong {
+    font-weight: 600;
+    color: var(--paper);
+  }
+
+  /* ════ 1 · HERO ═══════════════════════════════════════════ */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 7rem clamp(1.25rem, 5vw, 4rem) 4rem;
+  }
+  .hero__eyebrow {
+    position: absolute;
+    left: clamp(1rem, 3vw, 2.5rem);
+    top: 50%;
+    transform: translateY(-50%);
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    margin: 0;
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.32em;
+    color: var(--muted);
+  }
+  .hero__block {
+    margin-left: clamp(2rem, 7vw, 6rem);
+  }
+  .hero__rule {
+    width: min(40%, 22rem);
+    height: 1px;
+    background: var(--rule);
+    margin-bottom: clamp(2rem, 4vw, 3.5rem);
+  }
+  .hero__headline {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-optical-sizing: auto;
+    line-height: 0.82;
+    letter-spacing: -0.01em;
+  }
+  .hero__line {
+    display: block;
+    font-size: clamp(3.5rem, 13vw, 15rem);
+  }
+  .hero__line--1 {
+    font-style: italic;
+    font-weight: 300;
+  }
+  .hero__line--2 {
+    font-weight: 300;
+    color: var(--accent);
+  }
+  .hero__line--3 {
+    font-weight: 400;
+    text-align: right;
+  }
+  .hero__scroll {
+    position: absolute;
+    right: clamp(1.25rem, 5vw, 4rem);
+    bottom: 2.5rem;
+    margin: 0;
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.28em;
+    color: var(--muted);
+  }
+
+  /* ════ 2 · INTRO ══════════════════════════════════════════ */
+  .intro {
+    max-width: 56rem;
+    margin: 0 auto;
+    padding: clamp(7rem, 14vw, 9rem) clamp(1.25rem, 5vw, 4rem);
+  }
+  .intro__text {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-size: clamp(1.75rem, 3.6vw, 3rem);
+    line-height: 1.3;
+    color: var(--paper);
+    text-wrap: balance;
+  }
+  .intro__text .accent {
+    font-style: italic;
+  }
+  .intro__text .strong {
+    font-weight: 600;
+  }
+
+  /* ════ 3 · ESSAY (two-column) ═════════════════════════════ */
+  .essay {
+    padding-block: clamp(5rem, 11vw, 9rem);
+  }
+  .essay__inner {
+    max-width: 80rem;
+    margin: 0 auto;
+    padding-inline: clamp(1.25rem, 5vw, 4rem);
+    display: grid;
+    grid-template-columns: 5fr 7fr;
+    gap: clamp(2rem, 6vw, 5rem);
+  }
+  .essay__sticky {
+    position: sticky;
+    top: 8rem;
+  }
+  .essay__title {
+    margin: 0 0 1.5rem;
+    font-family: var(--font-serif);
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-size: clamp(2.5rem, 5vw, 3.75rem);
+    line-height: 1.05;
+    color: var(--paper);
+  }
+  .essay__meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.28em;
+    color: var(--muted);
+  }
+  .essay__body {
+    max-width: 38rem;
+  }
+  .pull {
+    margin: 2.5rem 0;
+    padding-left: 2rem;
+    border-left: 4px solid var(--accent);
+    font-family: var(--font-serif);
+    font-optical-sizing: auto;
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
+    line-height: 1.25;
+    color: var(--paper);
+  }
+
+  /* ════ 4 · VERTICAL LIST ══════════════════════════════════ */
+  .list {
+    max-width: 80rem;
+    margin: clamp(3rem, 6vw, 5rem) auto 0;
+    padding-inline: clamp(1.25rem, 5vw, 4rem);
+  }
+  .list__close {
+    border-top: 1px solid var(--rule);
+  }
+
+  /* ════ 5 · MANIFESTO (inverted) ═══════════════════════════ */
+  .manifesto {
+    background: var(--paper);
+    color: var(--canvas);
+    padding-block: clamp(6rem, 14vw, 11rem);
+  }
+  .manifesto__grid {
+    margin-top: clamp(3rem, 7vw, 5rem);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(2rem, 4vw, 3.5rem);
+  }
+  .principle {
+    position: relative;
+    padding-top: 3.5rem;
+    min-height: 14rem;
+  }
+  .principle__ghost {
+    position: absolute;
+    top: -2.5rem;
+    left: -0.5rem;
+    font-family: var(--font-serif);
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-size: clamp(8rem, 14vw, 12.5rem);
+    line-height: 1;
+    color: rgba(10, 10, 12, 0.08);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .principle__content {
+    position: relative;
+    z-index: 1;
+  }
+  .principle__label {
+    margin: 0 0 1rem;
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 18px;
+    text-transform: uppercase;
+    letter-spacing: 0.28em;
+    color: var(--canvas);
+  }
+  .principle__body {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-weight: 300;
+    font-size: 18px;
+    line-height: 1.6;
+    color: rgba(10, 10, 12, 0.78);
+    max-width: 24ch;
+  }
+
+  /* ════ 6 · MISSION ════════════════════════════════════════ */
+  .mission {
+    padding-block: clamp(6rem, 14vw, 11rem);
+    text-align: center;
+  }
+  .mission__title {
+    margin: 1.5rem 0 3rem;
+    font-family: var(--font-serif);
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-size: clamp(3rem, 9vw, 6rem);
+    line-height: 1;
+    color: var(--paper);
+  }
+  .mission__prose {
+    margin-top: 2rem;
+  }
+  .chapter__eyebrow {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.28em;
+    color: var(--muted);
+  }
+  .chapter__eyebrow--center {
+    text-align: center;
+  }
+
+  /* ════ 7 · LIFE (asymmetric essay) ════════════════════════ */
+  .life {
+    margin-top: clamp(3rem, 6vw, 4.5rem);
+    display: grid;
+    grid-template-columns: 7fr 5fr;
+    gap: clamp(2rem, 6vw, 5rem);
+  }
+  .life__main {
+    max-width: 42rem;
+  }
+  .life__aside {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+    gap: 1.5rem;
+  }
+  .life__sep {
+    width: 1px;
+    height: 12rem;
+    background: var(--rule);
+  }
+  .life__vmeta {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.28em;
+    color: var(--muted);
+  }
+
+  /* ════ 8 · FORMATIVE LIST ═════════════════════════════════ */
+  .formative {
+    max-width: 80rem;
+    margin: clamp(3rem, 6vw, 4.5rem) auto 0;
+    padding-inline: clamp(1.25rem, 5vw, 4rem);
+  }
+  .formative__row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding: 1.75rem 0;
+    border-top: 1px solid var(--rule);
+  }
+  .formative__row:last-child {
+    border-bottom: 1px solid var(--rule);
+  }
+  .formative__name {
+    font-family: var(--font-sans);
+    font-weight: 300;
+    font-size: clamp(1.25rem, 2.2vw, 1.75rem);
+    color: var(--paper);
+  }
+  .formative__year {
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.28em;
+    color: var(--muted);
+  }
+  .formative__note {
+    margin: clamp(2.5rem, 5vw, 4rem) 0 0;
+    max-width: 48rem;
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 11px;
+    line-height: 1.8;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: var(--muted);
+  }
+
+  /* ════ 9 · QUOTES ═════════════════════════════════════════ */
+  .quotes {
+    padding-block: clamp(8rem, 16vw, 10rem);
+    padding-inline: clamp(1.25rem, 5vw, 4rem);
+  }
+  .quotes__list {
+    max-width: 56rem;
+    margin: clamp(3rem, 6vw, 5rem) auto 0;
+  }
+  .quote {
+    margin: 0;
+    padding-block: clamp(2.5rem, 6vw, 4rem);
+    text-align: center;
+  }
+  .quote__text {
+    margin: 0 0 1.5rem;
+    font-family: var(--font-serif);
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-size: clamp(1.75rem, 3.4vw, 3rem);
+    line-height: 1.2;
+    background: linear-gradient(
+      180deg,
+      var(--paper) 0%,
+      rgba(232, 230, 225, 0.6) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-wrap: balance;
+  }
+  .quote__cite {
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.28em;
+    color: var(--muted);
+  }
+
+  /* ════ 10 · CTA ═══════════════════════════════════════════ */
+  .cta {
+    padding-block: clamp(4rem, 10vw, 8rem);
+    padding-inline: clamp(1.25rem, 5vw, 4rem);
+  }
+  .cta__card {
+    max-width: 56rem;
+    margin: 0 auto;
+    padding: clamp(2rem, 5vw, 4rem);
+    border: 1px solid var(--rule);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    background: rgba(255, 255, 255, 0.015);
+  }
+  .cta__head {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.28em;
+    color: var(--muted);
+  }
+  .cta__title {
+    margin: 2.5rem 0 1rem;
+    font-family: var(--font-serif);
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-size: clamp(2rem, 4.5vw, 3rem);
+    line-height: 1.05;
+    color: var(--paper);
+  }
+  .cta__lead {
+    margin: 0 0 2.5rem;
+    font-family: var(--font-sans);
+    font-weight: 300;
+    font-size: 18px;
+    line-height: 1.6;
+    color: var(--muted);
+    max-width: 42ch;
+  }
+
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+  .field__label {
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.28em;
+    color: var(--muted);
+  }
+  .field__input {
+    appearance: none;
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--rule);
+    border-radius: 0;
+    padding: 0.65rem 0;
+    font-family: var(--font-sans);
+    font-weight: 300;
+    font-size: 1.0625rem;
+    color: var(--paper);
+    transition: border-color 400ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .field__input::placeholder {
+    color: rgba(232, 230, 225, 0.35);
+  }
+  .field__input:focus {
+    outline: none;
+    border-bottom-color: var(--accent);
+  }
+  .field__textarea {
+    resize: vertical;
+    min-height: 6rem;
+    line-height: 1.6;
+  }
+  .form__submit {
+    appearance: none;
+    width: 100%;
+    margin-top: 1rem;
+    padding: 1.15rem 1.5rem;
+    border: none;
+    border-radius: 0;
+    background: #ffffff;
+    color: var(--canvas);
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.28em;
+    cursor: pointer;
+    transition: background-color 400ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .form__submit:hover {
+    background: var(--accent);
+  }
+  .cta__disclaimer {
+    margin: 2rem 0 0;
+    font-family: var(--font-sans);
+    font-weight: 300;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .cta__disclaimer a {
+    color: var(--muted);
+    text-underline-offset: 3px;
+  }
+  .cta__disclaimer a:hover {
+    color: var(--accent);
+  }
+
+  /* ════ 11 · FINAL ═════════════════════════════════════════ */
+  .final {
+    min-height: 100vh;
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6rem clamp(1.25rem, 5vw, 4rem);
+    text-align: center;
+  }
+  .final__headline {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-optical-sizing: auto;
+    font-weight: 300;
+    line-height: 0.95;
+  }
+  .final__line {
+    display: block;
+    font-size: clamp(3rem, 9vw, 9rem);
+  }
+  .final__line--italic {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  /* ════ 12 · FOOTER ════════════════════════════════════════ */
+  .footer {
+    border-top: 1px solid var(--rule);
+  }
+  .footer__inner {
+    max-width: 80rem;
+    margin: 0 auto;
+    padding: 3rem clamp(1.25rem, 5vw, 4rem);
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .footer__copy {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.28em;
+    color: var(--muted);
+  }
+  .footer__links {
+    display: flex;
+    gap: clamp(1rem, 3vw, 2rem);
+    flex-wrap: wrap;
+  }
+  .footer__links a {
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.28em;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 400ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .footer__links a:hover {
+    color: var(--accent);
+  }
+
+  /* ════ RESPONSIVE ═════════════════════════════════════════ */
+  @media (max-width: 900px) {
+    .essay__inner {
+      grid-template-columns: 1fr;
+    }
+    .essay__sticky {
+      position: static;
+    }
+    .essay__body {
+      max-width: none;
+    }
+    .manifesto__grid {
+      grid-template-columns: 1fr;
+      gap: clamp(3rem, 8vw, 4rem);
+    }
+    .principle {
+      min-height: auto;
+    }
+    .life {
+      grid-template-columns: 1fr;
+    }
+    .life__aside {
+      display: none;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .hero__line {
+      font-size: clamp(3rem, 18vw, 7rem);
+    }
+    .hero__block {
+      margin-left: clamp(1.5rem, 9vw, 3rem);
+    }
+    .footer__inner {
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+  }
+</style>

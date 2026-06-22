@@ -1,0 +1,74 @@
+---
+import "../styles/global.css";
+import GrainOverlay from "../components/GrainOverlay.astro";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "Patrizia — Personal Journal, Vol. I",
+  description = "Vivere due volte, con intenzione. Il percorso personale e professionale di Patrizia: rinascita, innovazione, maternità e impatto.",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+
+    <!-- Open Graph (text-only draft) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:locale" content="it_IT" />
+
+    <!-- Fonts: Fraunces (variable serif) + Manrope (sans) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Manrope:wght@300..600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body id="top">
+    <GrainOverlay />
+    <slot />
+
+    <script>
+      // Scroll-reveal: fade + translate-Y on intersection.
+      // Respects prefers-reduced-motion (handled in CSS — elements are
+      // already visible there, so the observer simply has nothing to do).
+      const setup = () => {
+        const els = document.querySelectorAll<HTMLElement>(".reveal");
+        if (!("IntersectionObserver" in window) || els.length === 0) {
+          els.forEach((el) => el.classList.add("is-visible"));
+          return;
+        }
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("is-visible");
+                io.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.12, rootMargin: "0px 0px -8% 0px" },
+        );
+        els.forEach((el) => io.observe(el));
+      };
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", setup);
+      } else {
+        setup();
+      }
+    </script>
+  </body>
+</html>
