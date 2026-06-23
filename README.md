@@ -55,7 +55,9 @@ Regole: niente box-shadow, niente border-radius sui bottoni, niente icone, nient
 
 ## Deploy
 
-Vercel-ready (`vercel.json` incluso). Import del repo su Vercel → framework rilevato automaticamente.
+**Netlify** (`netlify.toml` incluso): importa il repo su Netlify → build command `npm run build`, publish dir `dist`, Node 20. Sito statico, nessun adapter necessario.
+
+In alternativa è incluso anche `vercel.json` per un deploy su Vercel.
 
 ## Note
 

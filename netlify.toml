@@ -1,0 +1,23 @@
+# Configurazione Netlify — sito Astro statico (output: static)
+# Nessun adapter necessario: Astro genera HTML statico in ./dist
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  # Astro 5 richiede Node 18.20.8+ / 20.3+ / 22+ — pinniamo una LTS stabile
+  NODE_VERSION = "20"
+
+# Header di sicurezza/cache di base (opzionali, sani come default)
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+# Cache lunga per gli asset con hash (immutabili)
+[[headers]]
+  for = "/_astro/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
