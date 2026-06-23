@@ -29,18 +29,18 @@ const aree = [
 
 const principi = [
   {
-    n: "01",
-    label: "INNOVAZIONE",
+    num: "01",
+    name: "Innovazione",
     body: "La tecnologia è strumento, non fine. Serve a creare valore reale per le persone, non a impressionare.",
   },
   {
-    n: "02",
-    label: "MATERNITÀ",
+    num: "02",
+    name: "Maternità",
     body: "Tre figli, tre ragioni per costruire un mondo migliore. Ogni decisione che prendo è anche per loro.",
   },
   {
-    n: "03",
-    label: "IMPATTO",
+    num: "03",
+    name: "Impatto",
     body: "Il successo che non genera valore per gli altri non è successo. È solo accumulo.",
   },
 ];
@@ -171,32 +171,94 @@ const testimonial = [
     <!-- ════════════════════════════════════════════════════════
          5 · CAPITOLO 3 — MANIFESTO (light, inverted)
          ════════════════════════════════════════════════════════ -->
-    <section class="manifesto" aria-labelledby="cap3-title">
-      <div class="wrap">
-        <ChapterHero
-          eyebrow="CAPITOLO TRE — IL MANIFESTO"
-          title="Tre principi"
-          size="72"
-          invert
-        />
+    <section class="manifesto" id="capitolo-tre" aria-labelledby="cap3-title">
+      <div class="manifesto-inner">
+        <!-- Colonna sinistra (sticky) -->
+        <aside class="manifesto-left">
+          <div class="manifesto-left-sticky">
+            <span class="manifesto-eyebrow">Capitolo Tre — Il Manifesto</span>
+            <h2 id="cap3-title" class="manifesto-title">Tre principi.</h2>
+            <div class="manifesto-counter" aria-hidden="true">
+              <span class="manifesto-counter-num" data-counter>01</span>
+              <span class="manifesto-counter-sep">—</span>
+              <span class="manifesto-counter-label" data-label>Innovazione</span>
+            </div>
+          </div>
+        </aside>
 
-        <div class="manifesto__grid">
+        <!-- Colonna destra (scrollabile) -->
+        <div class="manifesto-right">
           {
             principi.map((p) => (
-              <article class="principle reveal">
-                <span class="principle__ghost" aria-hidden="true">
-                  {p.n}
+              <article
+                class="manifesto-principle"
+                data-principle={p.num}
+                data-name={p.name}
+              >
+                <span class="manifesto-principle-num" aria-hidden="true">
+                  {p.num}
                 </span>
-                <div class="principle__content">
-                  <h3 class="principle__label">{p.label}</h3>
-                  <p class="principle__body">{p.body}</p>
-                </div>
+                <h3 class="manifesto-principle-name">{p.name}</h3>
+                <p class="manifesto-principle-body">{p.body}</p>
               </article>
             ))
           }
         </div>
       </div>
     </section>
+
+    <!-- Content-switch del counter sticky (Capitolo 3) -->
+    <script>
+      (function () {
+        const principles = document.querySelectorAll(".manifesto-principle");
+        const counterNum = document.querySelector("[data-counter]");
+        const counterLabel = document.querySelector("[data-label]");
+        if (!principles.length || !counterNum || !counterLabel) return;
+
+        let currentActive = "01";
+
+        function updateCounter(num: string, name: string) {
+          if (num === currentActive) return;
+          currentActive = num;
+
+          counterLabel.classList.add("is-changing");
+          setTimeout(() => {
+            counterNum.textContent = num;
+            counterLabel.textContent = name;
+            counterLabel.classList.remove("is-changing");
+          }, 200);
+        }
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            let mostVisible: Element | null = null;
+            let bestRatio = 0;
+
+            entries.forEach((entry) => {
+              if (entry.isIntersecting && entry.intersectionRatio > bestRatio) {
+                bestRatio = entry.intersectionRatio;
+                mostVisible = entry.target;
+              }
+            });
+
+            if (mostVisible) {
+              const el = mostVisible as HTMLElement;
+              updateCounter(
+                el.dataset.principle ?? "",
+                el.dataset.name ?? "",
+              );
+            }
+          },
+          {
+            // attivo solo nella fascia centrale del viewport (40% sopra/sotto morti)
+            rootMargin: "-40% 0px -40% 0px",
+            threshold: [0, 0.25, 0.5, 0.75, 1],
+          },
+        );
+
+        principles.forEach((p) => observer.observe(p));
+      })();
+    </script>
 
     <!-- ════════════════════════════════════════════════════════
          6 · CAPITOLO 4 — LA MISSIONE (full-width centered)
@@ -624,57 +686,126 @@ const testimonial = [
     border-top: 1px solid var(--rule);
   }
 
-  /* ════ 5 · MANIFESTO (inverted) ═══════════════════════════ */
+  /* ════ 5 · MANIFESTO (inverted, sticky content-switch) ════ */
   .manifesto {
     background: var(--paper);
     color: var(--canvas);
-    padding-block: clamp(6rem, 14vw, 11rem);
+    padding: 12vh 0 0 0;
   }
-  .manifesto__grid {
-    margin-top: clamp(3rem, 7vw, 5rem);
+  .manifesto-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 8vw;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: clamp(2rem, 4vw, 3.5rem);
+    grid-template-columns: 1fr 1fr;
+    gap: 8vw;
+    /* stretch: la colonna sinistra prende l'altezza della destra, così la
+       sticky resta pinnata per tutti e 3 i principi e si rilascia solo alla fine */
+    align-items: stretch;
   }
-  .principle {
+
+  /* Colonna sinistra sticky */
+  .manifesto-left {
     position: relative;
-    padding-top: 3.5rem;
-    min-height: 14rem;
+    min-height: 100vh;
   }
-  .principle__ghost {
-    position: absolute;
-    top: -2.5rem;
-    left: -0.5rem;
+  .manifesto-left-sticky {
+    position: sticky;
+    top: 20vh;
+    padding-top: 4vh;
+  }
+  .manifesto-eyebrow {
+    display: block;
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: rgba(10, 10, 12, 0.5);
+    margin-bottom: 4vh;
+  }
+  .manifesto-title {
     font-family: var(--font-serif);
     font-optical-sizing: auto;
     font-weight: 300;
-    font-size: clamp(8rem, 14vw, 12.5rem);
-    line-height: 1;
-    color: rgba(10, 10, 12, 0.08);
-    pointer-events: none;
-    z-index: 0;
-  }
-  .principle__content {
-    position: relative;
-    z-index: 1;
-  }
-  .principle__label {
-    margin: 0 0 1rem;
-    font-family: var(--font-sans);
-    font-weight: 700;
-    font-size: 18px;
-    text-transform: uppercase;
-    letter-spacing: 0.28em;
+    font-size: clamp(48px, 6vw, 96px);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    margin: 0 0 8vh 0;
     color: var(--canvas);
   }
-  .principle__body {
-    margin: 0;
+
+  /* Counter dinamico */
+  .manifesto-counter {
+    display: flex;
+    align-items: baseline;
+    gap: 1ch;
+    font-family: var(--font-serif);
+    font-optical-sizing: auto;
+    font-size: clamp(20px, 2.4vw, 32px);
+    font-weight: 400;
+    font-style: italic;
+    color: var(--canvas);
+    transition: opacity 0.4s ease;
+  }
+  .manifesto-counter-num {
+    color: #8a7a55; /* champagne scuro per contrasto su paper */
+    font-style: normal;
+    font-variant-numeric: tabular-nums;
+  }
+  .manifesto-counter-sep {
+    color: rgba(10, 10, 12, 0.3);
+    font-style: normal;
+  }
+  .manifesto-counter-label {
+    transition: opacity 0.35s ease;
+  }
+  .manifesto-counter-label.is-changing {
+    opacity: 0;
+  }
+
+  /* Colonna destra scrollabile */
+  .manifesto-right {
+    display: flex;
+    flex-direction: column;
+    gap: 30vh; /* quanto scroll serve per cambiare principio */
+    padding-bottom: 30vh;
+  }
+  .manifesto-principle {
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 520px;
+  }
+  .manifesto-principle-num {
+    font-family: var(--font-serif);
+    font-optical-sizing: auto;
+    font-size: clamp(80px, 11vw, 180px);
+    font-weight: 200;
+    line-height: 0.9;
+    color: rgba(10, 10, 12, 0.08);
+    margin-bottom: 2vh;
+    letter-spacing: -0.04em;
+    font-variant-numeric: tabular-nums;
+  }
+  .manifesto-principle-name {
     font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--canvas);
+    margin: 0 0 4vh 0;
+  }
+  .manifesto-principle-body {
+    font-family: var(--font-serif);
+    font-optical-sizing: auto;
+    font-size: clamp(22px, 2.2vw, 32px);
     font-weight: 300;
-    font-size: 18px;
-    line-height: 1.6;
-    color: rgba(10, 10, 12, 0.78);
-    max-width: 24ch;
+    line-height: 1.35;
+    color: rgba(10, 10, 12, 0.85);
+    margin: 0;
   }
 
   /* ════ 6 · MISSION ════════════════════════════════════════ */
@@ -1024,12 +1155,28 @@ const testimonial = [
     .essay__body {
       max-width: none;
     }
-    .manifesto__grid {
+    /* Manifesto: niente sticky, layout verticale normale */
+    .manifesto-inner {
       grid-template-columns: 1fr;
-      gap: clamp(3rem, 8vw, 4rem);
+      gap: 0;
     }
-    .principle {
-      min-height: auto;
+    .manifesto-left {
+      min-height: 0;
+    }
+    .manifesto-left-sticky {
+      position: relative;
+      top: auto;
+      margin-bottom: 6vh;
+    }
+    .manifesto-counter {
+      display: none;
+    }
+    .manifesto-right {
+      gap: 8vh;
+      padding-bottom: 8vh;
+    }
+    .manifesto-principle {
+      min-height: 0;
     }
     .life {
       grid-template-columns: 1fr;
@@ -1058,10 +1205,13 @@ const testimonial = [
     }
   }
 
-  /* Riduzione movimento: nascondi il video, resta lo sfondo scuro */
+  /* Riduzione movimento: nascondi il video, niente transizioni */
   @media (prefers-reduced-motion: reduce) {
     .hero-video {
       display: none;
+    }
+    .manifesto-counter-label {
+      transition: none;
     }
   }
 </style>
