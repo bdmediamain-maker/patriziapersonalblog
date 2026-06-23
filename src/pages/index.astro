@@ -778,6 +778,10 @@ const testimonial = [
     display: flex;
     flex-direction: column;
     gap: 30vh; /* quanto scroll serve per cambiare principio */
+    /* spazio sopra/sotto (solo qui, non sulla colonna del titolo): centra il
+       primo e l'ultimo principio nei frame di inizio/fine, così 01 e 03
+       risultano paralleli al titolo "Tre principi" centrato */
+    padding-block: 20vh;
   }
   .manifesto-principle {
     min-height: 60vh;
@@ -1199,7 +1203,7 @@ const testimonial = [
     }
     .manifesto-right {
       gap: 8vh;
-      padding-bottom: 8vh;
+      padding-block: 0;
     }
     .manifesto-principle {
       min-height: 0;
