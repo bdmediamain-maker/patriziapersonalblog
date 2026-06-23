@@ -67,19 +67,33 @@ const testimonial = [
     <!-- ════════════════════════════════════════════════════════
          1 · HERO COVER
          ════════════════════════════════════════════════════════ -->
-    <section class="hero" aria-label="Copertina">
-      <p class="hero__eyebrow">CAPITOLO ZERO — UNA RINASCITA</p>
+    <section class="hero-cinematic" aria-label="Copertina">
+      <!-- Layer 1: video di sfondo (decorativo, muto, loop) -->
+      <video
+        class="hero-video"
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="auto"
+        aria-hidden="true"
+      >
+        <source src="/hero-background.mp4" type="video/mp4" />
+      </video>
 
-      <div class="hero__block">
-        <div class="hero__rule" aria-hidden="true"></div>
-        <h1 class="hero__headline">
-          <span class="hero__line hero__line--1">Vivere</span>
-          <span class="hero__line hero__line--2">due volte</span>
-          <span class="hero__line hero__line--3">con intenzione.</span>
+      <!-- Layer 2: overlay scuro per leggibilità -->
+      <div class="hero-overlay" aria-hidden="true"></div>
+
+      <!-- Layer 3: contenuto hero (eyebrow + titolo) -->
+      <div class="hero-content">
+        <span class="hero-eyebrow">Capitolo Zero — Una rinascita</span>
+        <h1 class="hero-title">
+          <span class="line-1">Vivere</span>
+          <span class="line-2">due volte</span>
+          <span class="line-3">con intenzione.</span>
         </h1>
+        <span class="hero-scroll">Scroll ↓</span>
       </div>
-
-      <p class="hero__scroll">Scroll ↓</p>
     </section>
 
     <!-- ════════════════════════════════════════════════════════
@@ -445,73 +459,97 @@ const testimonial = [
     color: var(--paper);
   }
 
-  /* ════ 1 · HERO ═══════════════════════════════════════════ */
-  .hero {
+  /* ════ 1 · HERO CINEMATIC (video background) ══════════════ */
+  .hero-cinematic {
     position: relative;
-    min-height: 100vh;
-    min-height: 100svh;
+    width: 100%;
+    height: 100vh;
+    height: 100svh;
+    overflow: hidden;
+    background: #0a0a0c; /* fallback se il video non carica */
+  }
+
+  .hero-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    z-index: 1;
+  }
+
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      rgba(10, 10, 12, 0.5) 0%,
+      rgba(10, 10, 12, 0.35) 40%,
+      rgba(10, 10, 12, 0.7) 100%
+    );
+    z-index: 2;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 3;
+    width: 100%;
+    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 7rem clamp(1.25rem, 5vw, 4rem) 4rem;
+    align-items: flex-start;
+    padding: 0 8vw;
   }
-  .hero__eyebrow {
-    position: absolute;
-    left: clamp(1rem, 3vw, 2.5rem);
-    top: 50%;
-    transform: translateY(-50%);
-    writing-mode: vertical-rl;
-    text-orientation: mixed;
-    margin: 0;
+
+  .hero-eyebrow {
     font-family: var(--font-sans);
-    font-weight: 500;
     font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.3em;
     text-transform: uppercase;
-    letter-spacing: 0.32em;
-    color: var(--muted);
+    color: var(--accent);
+    margin-bottom: 4vh;
   }
-  .hero__block {
-    margin-left: clamp(2rem, 7vw, 6rem);
-  }
-  .hero__rule {
-    width: min(40%, 22rem);
-    height: 1px;
-    background: var(--rule);
-    margin-bottom: clamp(2rem, 4vw, 3.5rem);
-  }
-  .hero__headline {
-    margin: 0;
+
+  .hero-title {
     font-family: var(--font-serif);
     font-optical-sizing: auto;
-    line-height: 0.82;
-    letter-spacing: -0.01em;
-  }
-  .hero__line {
-    display: block;
-    font-size: clamp(3.5rem, 13vw, 15rem);
-  }
-  .hero__line--1 {
-    font-style: italic;
     font-weight: 300;
+    line-height: 0.9;
+    letter-spacing: -0.025em;
+    color: var(--paper);
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
   }
-  .hero__line--2 {
+  .hero-title .line-1 {
+    font-style: italic;
+    font-size: 13vw;
+  }
+  .hero-title .line-2 {
     font-weight: 300;
     color: var(--accent);
+    font-size: 13vw;
   }
-  .hero__line--3 {
+  .hero-title .line-3 {
     font-weight: 400;
+    font-size: 13vw;
+    align-self: flex-end;
     text-align: right;
   }
-  .hero__scroll {
+
+  .hero-scroll {
     position: absolute;
-    right: clamp(1.25rem, 5vw, 4rem);
-    bottom: 2.5rem;
-    margin: 0;
+    bottom: 4vh;
+    right: 8vw;
     font-family: var(--font-sans);
-    font-weight: 500;
     font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.3em;
     text-transform: uppercase;
-    letter-spacing: 0.28em;
     color: var(--muted);
   }
 
@@ -1015,16 +1053,29 @@ const testimonial = [
     }
   }
 
+  /* Hero: su mobile il titolo scala diversamente */
+  @media (max-width: 768px) {
+    .hero-title .line-1,
+    .hero-title .line-2,
+    .hero-title .line-3 {
+      font-size: 18vw;
+    }
+    .hero-content {
+      padding: 0 6vw;
+    }
+  }
+
   @media (max-width: 640px) {
-    .hero__line {
-      font-size: clamp(3rem, 18vw, 7rem);
-    }
-    .hero__block {
-      margin-left: clamp(1.5rem, 9vw, 3rem);
-    }
     .footer__inner {
       flex-direction: column;
       gap: 1.5rem;
+    }
+  }
+
+  /* Riduzione movimento: nascondi il video, resta lo sfondo scuro */
+  @media (prefers-reduced-motion: reduce) {
+    .hero-video {
+      display: none;
     }
   }
 </style>
