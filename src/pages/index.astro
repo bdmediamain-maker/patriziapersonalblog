@@ -711,8 +711,10 @@ const testimonial = [
   }
   .manifesto-left-sticky {
     position: sticky;
-    top: 20vh;
-    padding-top: 4vh;
+    /* centrato verticalmente: il titolo resta allineato ai principi
+       (anch'essi centrati) e a fine sezione non lascia vuoto sotto */
+    top: 50%;
+    transform: translateY(-50%);
   }
   .manifesto-eyebrow {
     display: block;
@@ -776,12 +778,6 @@ const testimonial = [
     flex-direction: column;
     justify-content: center;
     max-width: 520px;
-  }
-  /* L'ultimo principio chiude la sezione: niente spazio vuoto sotto,
-     lo scroll si blocca qui e si passa al Capitolo 4 */
-  .manifesto-principle:last-child {
-    min-height: auto;
-    padding-bottom: 12vh;
   }
   .manifesto-principle-num {
     font-family: var(--font-serif);
@@ -1171,6 +1167,7 @@ const testimonial = [
     .manifesto-left-sticky {
       position: relative;
       top: auto;
+      transform: none;
       margin-bottom: 6vh;
     }
     .manifesto-counter {
