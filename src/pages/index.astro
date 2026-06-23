@@ -690,7 +690,9 @@ const testimonial = [
   .manifesto {
     background: var(--paper);
     color: var(--canvas);
-    padding: 12vh 0 0 0;
+    /* niente padding verticale: la sezione parte dal primo principio e
+       finisce sull'ultimo, simmetrica in cima e in fondo */
+    padding: 0;
   }
   .manifesto-inner {
     max-width: 1400px;
@@ -1167,7 +1169,12 @@ const testimonial = [
     .essay__body {
       max-width: none;
     }
-    /* Manifesto: niente sticky, layout verticale normale */
+    /* Manifesto: niente sticky, layout verticale normale.
+       Su mobile ripristino un po' di respiro verticale (la simmetria
+       sticky non si applica allo stack) */
+    .manifesto {
+      padding-block: clamp(5rem, 14vw, 8rem);
+    }
     .manifesto-inner {
       grid-template-columns: 1fr;
       gap: 0;
