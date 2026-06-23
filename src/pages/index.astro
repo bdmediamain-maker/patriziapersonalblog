@@ -713,10 +713,15 @@ const testimonial = [
   }
   .manifesto-left-sticky {
     position: sticky;
-    /* centrato verticalmente: il titolo resta allineato ai principi
-       (anch'essi centrati) e a fine sezione non lascia vuoto sotto */
-    top: 50%;
-    transform: translateY(-50%);
+    /* Contenitore alto un viewport ancorato in cima, con contenuto centrato:
+       il titolo resta centrato durante lo scroll dei principi senza mai
+       traboccare oltre il bordo della sezione (così non sparisce sotto il
+       Capitolo 2 quando si scrolla verso l'alto) */
+    top: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
   .manifesto-eyebrow {
     display: block;
@@ -1185,7 +1190,8 @@ const testimonial = [
     .manifesto-left-sticky {
       position: relative;
       top: auto;
-      transform: none;
+      min-height: 0;
+      display: block;
       margin-bottom: 6vh;
     }
     .manifesto-counter {
