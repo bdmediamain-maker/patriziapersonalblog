@@ -2,23 +2,26 @@
 /**
  * VerticalRow — one row of a vertical narrative list.
  * 12-col grid: 3 col title | 7 col description | 2 col meta.
- * Border-top 1px rule, hover tint + title shifts to accent.
+ * Border-top 1px rule. Each row can use a different hover animation
+ * via the `variant` prop (so the cards don't all behave the same).
  *
  * Props:
  *  - title:       row title (Fraunces italic)
  *  - description: row body (Manrope light)
  *  - meta:        right-aligned uppercase meta (e.g. "001 / TRE PROGETTI")
+ *  - variant:     "slide" | "expand" | "rule" — hover animation flavour
  */
 interface Props {
   title: string;
   description: string;
   meta: string;
+  variant?: "slide" | "expand" | "rule";
 }
 
-const { title, description, meta } = Astro.props;
+const { title, description, meta, variant = "slide" } = Astro.props;
 ---
 
-<div class="row reveal">
+<div class:list={["row", `row--${variant}`, "reveal"]}>
   <h3 class="row__title">{title}</h3>
   <p class="row__desc">{description}</p>
   <p class="row__meta">{meta}</p>
@@ -26,16 +29,16 @@ const { title, description, meta } = Astro.props;
 
 <style>
   .row {
+    position: relative;
     display: grid;
     grid-template-columns: repeat(12, 1fr);
     gap: 1.5rem;
     align-items: baseline;
     padding: 3rem 1.5rem;
     border-top: 1px solid var(--rule);
-    transition: background-color 500ms cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  .row:hover {
-    background: rgba(255, 255, 255, 0.05);
+    transition:
+      background-color 500ms cubic-bezier(0.22, 1, 0.36, 1),
+      border-top-color 500ms cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   .row__title {
@@ -48,10 +51,10 @@ const { title, description, meta } = Astro.props;
     font-size: clamp(1.5rem, 2.4vw, 2rem);
     line-height: 1.1;
     color: var(--paper);
-    transition: color 500ms cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  .row:hover .row__title {
-    color: var(--accent);
+    transition:
+      color 500ms cubic-bezier(0.22, 1, 0.36, 1),
+      transform 500ms cubic-bezier(0.22, 1, 0.36, 1),
+      letter-spacing 500ms cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   .row__desc {
@@ -62,6 +65,7 @@ const { title, description, meta } = Astro.props;
     font-size: clamp(1.125rem, 1.8vw, 1.5rem);
     line-height: 1.55;
     color: var(--paper);
+    transition: color 500ms cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   .row__meta {
@@ -74,6 +78,60 @@ const { title, description, meta } = Astro.props;
     letter-spacing: 0.28em;
     color: var(--muted);
     text-align: right;
+    transition:
+      color 500ms cubic-bezier(0.22, 1, 0.36, 1),
+      transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  /* ── Variant A · SLIDE ─────────────────────────────────────
+     Una barra oro cresce a sinistra, il titolo scivola a destra. */
+  .row--slide::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 0;
+    height: 42%;
+    transform: translateY(-50%);
+    background: var(--accent);
+    transition: width 500ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .row--slide:hover {
+    background: rgba(255, 255, 255, 0.05);
+  }
+  .row--slide:hover::before {
+    width: 3px;
+  }
+  .row--slide:hover .row__title {
+    color: var(--accent);
+    transform: translateX(14px);
+  }
+
+  /* ── Variant B · EXPAND ────────────────────────────────────
+     Il titolo allarga il tracking, la meta diventa oro. */
+  .row--expand:hover {
+    background: rgba(255, 255, 255, 0.04);
+  }
+  .row--expand:hover .row__title {
+    color: var(--accent);
+    letter-spacing: 0.06em;
+  }
+  .row--expand:hover .row__meta {
+    color: var(--accent);
+  }
+
+  /* ── Variant C · RULE ──────────────────────────────────────
+     La riga 1px in alto si accende d'oro, la meta scivola. */
+  .row--rule:hover {
+    border-top-color: var(--accent);
+    background: rgba(255, 255, 255, 0.03);
+  }
+  .row--rule:hover .row__title {
+    color: var(--accent);
+  }
+  .row--rule:hover .row__meta {
+    color: var(--paper);
+    transform: translateX(-10px);
   }
 
   @media (max-width: 900px) {
@@ -89,6 +147,24 @@ const { title, description, meta } = Astro.props;
     }
     .row__meta {
       text-align: left;
+    }
+  }
+
+  /* Riduzione movimento: niente spostamenti, solo i cambi colore */
+  @media (prefers-reduced-motion: reduce) {
+    .row__title,
+    .row__meta {
+      transition: color 500ms ease;
+    }
+    .row--slide:hover .row__title,
+    .row--rule:hover .row__meta {
+      transform: none;
+    }
+    .row--slide:hover::before {
+      width: 0;
+    }
+    .row--expand:hover .row__title {
+      letter-spacing: normal;
     }
   }
 </style>

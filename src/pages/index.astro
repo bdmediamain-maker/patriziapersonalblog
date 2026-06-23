@@ -163,7 +163,14 @@ const testimonial = [
         />
       </div>
       <div class="list">
-        {aree.map((r) => <VerticalRow {...r} />)}
+        {
+          aree.map((r, i) => (
+            <VerticalRow
+              {...r}
+              variant={(["slide", "expand", "rule"] as const)[i]}
+            />
+          ))
+        }
         <div class="list__close" aria-hidden="true"></div>
       </div>
     </section>
@@ -800,8 +807,14 @@ const testimonial = [
     margin-bottom: 2vh;
     letter-spacing: -0.04em;
     font-variant-numeric: tabular-nums;
+    transform-origin: left center;
+    transition:
+      color 600ms cubic-bezier(0.22, 1, 0.36, 1),
+      transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
   }
   .manifesto-principle-name {
+    position: relative;
+    align-self: flex-start;
     font-family: var(--font-sans);
     font-size: 14px;
     font-weight: 600;
@@ -809,6 +822,9 @@ const testimonial = [
     text-transform: uppercase;
     color: var(--canvas);
     margin: 0 0 4vh 0;
+    transition:
+      color 500ms cubic-bezier(0.22, 1, 0.36, 1),
+      letter-spacing 500ms cubic-bezier(0.22, 1, 0.36, 1);
   }
   .manifesto-principle-body {
     font-family: var(--font-serif);
@@ -818,6 +834,73 @@ const testimonial = [
     line-height: 1.35;
     color: rgba(10, 10, 12, 0.85);
     margin: 0;
+    transition:
+      color 500ms cubic-bezier(0.22, 1, 0.36, 1),
+      transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  /* ── Hover principi — un'animazione diversa per ciascuno ───── */
+
+  /* 01 · il numero-fantasma si scurisce e cresce dal margine */
+  [data-principle="01"]:hover .manifesto-principle-num {
+    color: rgba(10, 10, 12, 0.16);
+    transform: scale(1.07);
+  }
+
+  /* 02 · l'etichetta vira al champagne e una riga la sottolinea */
+  .manifesto-principle-name::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -0.7em;
+    width: 100%;
+    height: 1px;
+    background: #8a7a55;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  [data-principle="02"]:hover .manifesto-principle-name {
+    color: #8a7a55;
+    letter-spacing: 0.34em;
+  }
+  [data-principle="02"]:hover .manifesto-principle-name::after {
+    transform: scaleX(1);
+  }
+
+  /* 03 · una barra champagne cresce a lato e il corpo scivola */
+  [data-principle="03"] {
+    position: relative;
+  }
+  [data-principle="03"]::before {
+    content: "";
+    position: absolute;
+    left: -1.5rem;
+    top: 50%;
+    width: 2px;
+    height: 0;
+    transform: translateY(-50%);
+    background: #8a7a55;
+    transition: height 600ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  [data-principle="03"]:hover::before {
+    height: 56%;
+  }
+  [data-principle="03"]:hover .manifesto-principle-body {
+    color: rgba(10, 10, 12, 1);
+    transform: translateX(12px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-principle="01"]:hover .manifesto-principle-num {
+      transform: none;
+    }
+    [data-principle="02"]:hover .manifesto-principle-name {
+      letter-spacing: 0.28em;
+    }
+    [data-principle="03"]:hover .manifesto-principle-body {
+      transform: none;
+    }
   }
 
   /* ════ 6 · MISSION ════════════════════════════════════════ */
