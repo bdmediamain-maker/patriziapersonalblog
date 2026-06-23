@@ -769,7 +769,6 @@ const testimonial = [
     display: flex;
     flex-direction: column;
     gap: 30vh; /* quanto scroll serve per cambiare principio */
-    padding-bottom: 30vh;
   }
   .manifesto-principle {
     min-height: 60vh;
@@ -777,6 +776,12 @@ const testimonial = [
     flex-direction: column;
     justify-content: center;
     max-width: 520px;
+  }
+  /* L'ultimo principio chiude la sezione: niente spazio vuoto sotto,
+     lo scroll si blocca qui e si passa al Capitolo 4 */
+  .manifesto-principle:last-child {
+    min-height: auto;
+    padding-bottom: 12vh;
   }
   .manifesto-principle-num {
     font-family: var(--font-serif);
