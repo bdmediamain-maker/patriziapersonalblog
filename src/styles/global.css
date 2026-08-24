@@ -13,6 +13,8 @@
   --color-canvas: #0a0a0c;
   --color-paper: #e8e6e1;
   --color-accent: #d4c5a2;
+  --color-gold: #e6a92e;
+  --color-navy: #0b1a2e;
 
   --font-serif: "Fraunces", ui-serif, Georgia, serif;
   --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
@@ -21,7 +23,17 @@
 :root {
   --canvas: #0a0a0c;
   --paper: #e8e6e1;
-  --accent: #d4c5a2;
+
+  /* Editorial base (racconto personale) */
+  --accent: #d4c5a2; /* oro champagne tenue */
+
+  /* PG Network brand (blocchi tecnici) */
+  --gold: #e6a92e; /* oro acceso del brand */
+  --gold-soft: rgba(230, 169, 46, 0.14);
+  --azure: #3d8bd4; /* accento blu tech (RPO/roots) */
+  --navy: #0b1a2e; /* pannelli tecnici */
+  --navy-line: rgba(230, 169, 46, 0.22);
+
   --muted: rgba(232, 230, 225, 0.6);
   --rule: rgba(232, 230, 225, 0.1);
 }

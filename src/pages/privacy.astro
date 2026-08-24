@@ -1,0 +1,197 @@
+---
+import Base from "../layouts/Base.astro";
+import Nav from "../components/Nav.astro";
+
+// NOTA: i campi tra [[ ]] vanno completati con i dati reali del titolare
+// prima della pubblicazione. Testo base conforme GDPR (Reg. UE 2016/679).
+const aggiornamento = "Agosto 2026";
+---
+
+<Base title="Privacy Policy — PGNetwork" description="Informativa sul trattamento dei dati personali ai sensi del Regolamento UE 2016/679 (GDPR).">
+  <Nav />
+  <main class="legal">
+    <div class="legal__wrap">
+      <a class="legal__back" href="/">← Torna al sito</a>
+      <p class="legal__eyebrow">INFORMATIVA PRIVACY</p>
+      <h1 class="legal__title">Privacy Policy</h1>
+      <p class="legal__meta">Ultimo aggiornamento: {aggiornamento}</p>
+
+      <section class="legal__section">
+        <h2>1. Titolare del trattamento</h2>
+        <p>
+          Il Titolare del trattamento dei dati è Patrizia Gardis
+          [[ragione sociale / eventuale P.IVA]], con sede in
+          [[indirizzo completo]].
+        </p>
+        <p>
+          Email di contatto: <a href="mailto:pgardis@pgnetwork.it">pgardis@pgnetwork.it</a><br />
+          Telefono: <a href="tel:+393518108858">+39 351 810 8858</a>
+        </p>
+      </section>
+
+      <section class="legal__section">
+        <h2>2. Dati raccolti</h2>
+        <p>
+          Attraverso il modulo di contatto presente sul sito vengono raccolti
+          esclusivamente i dati che l'utente fornisce volontariamente:
+        </p>
+        <ul>
+          <li>Nome</li>
+          <li>Indirizzo email</li>
+          <li>Contenuto del messaggio</li>
+        </ul>
+        <p>
+          Non vengono raccolti dati particolari (categorie di cui all'art. 9
+          GDPR) né dati di navigazione a fini di profilazione.
+        </p>
+      </section>
+
+      <section class="legal__section">
+        <h2>3. Finalità e base giuridica</h2>
+        <p>
+          I dati forniti sono trattati al solo scopo di rispondere alle
+          richieste di contatto e valutare eventuali collaborazioni
+          professionali. La base giuridica del trattamento è il consenso
+          dell'interessato (art. 6, par. 1, lett. a GDPR), espresso tramite
+          l'apposita casella nel modulo, e l'esecuzione di misure
+          precontrattuali adottate su richiesta dello stesso (art. 6, par. 1,
+          lett. b GDPR).
+        </p>
+      </section>
+
+      <section class="legal__section">
+        <h2>4. Modalità e tempi di conservazione</h2>
+        <p>
+          I dati sono trattati con strumenti informatici e con misure di
+          sicurezza adeguate a prevenire accessi non autorizzati. I dati raccolti
+          tramite il modulo di contatto sono conservati per il tempo strettamente
+          necessario a gestire la richiesta e, comunque, non oltre
+          [[12 / 24]] mesi, salvo diversi obblighi di legge.
+        </p>
+      </section>
+
+      <section class="legal__section">
+        <h2>5. Comunicazione dei dati</h2>
+        <p>
+          I dati non sono diffusi né ceduti a terzi per finalità commerciali.
+          Possono essere trattati da soggetti che forniscono servizi tecnici al
+          Titolare (ad esempio hosting o posta elettronica), nominati, ove
+          previsto, Responsabili del trattamento.
+        </p>
+      </section>
+
+      <section class="legal__section">
+        <h2>6. Diritti dell'interessato</h2>
+        <p>
+          In qualsiasi momento l'utente può esercitare i diritti previsti dagli
+          artt. 15 a 22 del GDPR: accesso, rettifica, cancellazione, limitazione,
+          portabilità, opposizione e revoca del consenso. Per esercitarli è
+          sufficiente scrivere a
+          <a href="mailto:pgardis@pgnetwork.it">pgardis@pgnetwork.it</a>.
+        </p>
+        <p>
+          L'interessato ha inoltre diritto di proporre reclamo all'Autorità
+          Garante per la protezione dei dati personali
+          (<span class="legal__soft">www.garanteprivacy.it</span>).
+        </p>
+      </section>
+
+      <section class="legal__section">
+        <h2>7. Modifiche alla presente informativa</h2>
+        <p>
+          Il Titolare si riserva di aggiornare la presente informativa. Eventuali
+          modifiche saranno pubblicate su questa pagina con l'indicazione della
+          data di ultimo aggiornamento.
+        </p>
+      </section>
+    </div>
+  </main>
+</Base>
+
+<style>
+  .legal {
+    padding-block: clamp(6rem, 12vw, 9rem);
+  }
+  .legal__wrap {
+    max-width: 48rem;
+    margin: 0 auto;
+    padding-inline: clamp(1.25rem, 5vw, 4rem);
+  }
+  .legal__back {
+    display: inline-block;
+    margin-bottom: 2.5rem;
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 300ms ease;
+  }
+  .legal__back:hover {
+    color: var(--gold);
+  }
+  .legal__eyebrow {
+    margin: 0 0 1rem;
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.28em;
+    color: var(--gold);
+  }
+  .legal__title {
+    margin: 0 0 0.75rem;
+    font-family: var(--font-serif);
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    line-height: 1.05;
+    color: var(--paper);
+  }
+  .legal__meta {
+    margin: 0 0 3.5rem;
+    font-family: var(--font-sans);
+    font-weight: 300;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .legal__section {
+    margin-bottom: 2.75rem;
+  }
+  .legal__section h2 {
+    margin: 0 0 1rem;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: clamp(1.1rem, 2vw, 1.35rem);
+    color: var(--paper);
+  }
+  .legal__section p {
+    margin: 0 0 1rem;
+    font-family: var(--font-sans);
+    font-weight: 300;
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    color: rgba(232, 230, 225, 0.82);
+  }
+  .legal__section ul {
+    margin: 0 0 1rem;
+    padding-left: 1.25rem;
+    color: rgba(232, 230, 225, 0.82);
+    font-family: var(--font-sans);
+    font-weight: 300;
+    font-size: 1.0625rem;
+    line-height: 1.7;
+  }
+  .legal__section a {
+    color: var(--paper);
+    text-underline-offset: 3px;
+  }
+  .legal__section a:hover {
+    color: var(--gold);
+  }
+  .legal__soft {
+    color: var(--muted);
+  }
+</style>

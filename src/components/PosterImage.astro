@@ -1,0 +1,54 @@
+---
+/**
+ * PosterImage — mostra una locandina/immagine social SENZA ritagliarla.
+ * L'immagine mantiene le sue proporzioni naturali (nessun crop),
+ * incorniciata su fondo scuro con bordo sottile.
+ *
+ * Props:
+ *  - src: string
+ *  - alt: string
+ *  - w:   number  — larghezza naturale (px)
+ *  - h:   number  — altezza naturale (px)
+ *  - max: string  — max-width del contenitore (default "26rem")
+ *  - caption?: string
+ */
+interface Props {
+  src: string;
+  alt: string;
+  w: number;
+  h: number;
+  max?: string;
+  caption?: string;
+}
+const { src, alt, w, h, max = "26rem", caption } = Astro.props;
+---
+
+<figure class="poster reveal" style={`--poster-max:${max}`}>
+  <img src={src} alt={alt} width={w} height={h} loading="lazy" decoding="async" />
+  {caption && <figcaption class="poster__cap">{caption}</figcaption>}
+</figure>
+
+<style>
+  .poster {
+    margin: 0;
+    width: 100%;
+    max-width: var(--poster-max);
+  }
+  .poster img {
+    display: block;
+    width: 100%;
+    height: auto; /* nessun ritaglio: proporzioni naturali */
+    border: 1px solid var(--navy-line);
+    border-radius: 3px;
+    box-shadow: 0 24px 60px -30px rgba(0, 0, 0, 0.9);
+  }
+  .poster__cap {
+    margin-top: 0.9rem;
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: var(--muted);
+  }
+</style>

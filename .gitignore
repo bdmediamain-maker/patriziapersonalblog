@@ -22,3 +22,7 @@ yarn-error.log*
 *.log
 .vscode/
 .idea/
+
+# materiale sorgente / brand (file di lavoro, non parte del deliverable)
+*.pptx
+WhatsApp Image*

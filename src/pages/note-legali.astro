@@ -1,0 +1,163 @@
+---
+import Base from "../layouts/Base.astro";
+import Nav from "../components/Nav.astro";
+
+// NOTA: completare i campi tra [[ ]] con i dati reali del titolare
+// prima della pubblicazione.
+const aggiornamento = "Agosto 2026";
+---
+
+<Base title="Note legali — PGNetwork" description="Note legali e condizioni d'uso del sito di Patrizia Gardis e del progetto PGNetwork.">
+  <Nav />
+  <main class="legal">
+    <div class="legal__wrap">
+      <a class="legal__back" href="/">← Torna al sito</a>
+      <p class="legal__eyebrow">NOTE LEGALI</p>
+      <h1 class="legal__title">Note legali</h1>
+      <p class="legal__meta">Ultimo aggiornamento: {aggiornamento}</p>
+
+      <section class="legal__section">
+        <h2>1. Titolarità del sito</h2>
+        <p>
+          Il presente sito è di titolarità di Patrizia Gardis
+          [[ragione sociale / eventuale P.IVA]], con sede in
+          [[indirizzo completo]]. Email:
+          <a href="mailto:pgardis@pgnetwork.it">pgardis@pgnetwork.it</a>.
+        </p>
+      </section>
+
+      <section class="legal__section">
+        <h2>2. Proprietà intellettuale</h2>
+        <p>
+          I contenuti del sito (testi, immagini, marchio e logo PGNetwork,
+          elementi grafici) sono protetti dalle normative vigenti in materia di
+          proprietà intellettuale e non possono essere riprodotti, distribuiti o
+          utilizzati senza autorizzazione scritta del titolare.
+        </p>
+      </section>
+
+      <section class="legal__section">
+        <h2>3. Natura del progetto PGNetwork</h2>
+        <p>
+          PGNetwork è un progetto professionale in evoluzione. Le informazioni
+          presenti sul sito hanno finalità descrittiva del percorso e delle
+          competenze e non costituiscono offerta contrattuale vincolante.
+        </p>
+      </section>
+
+      <section class="legal__section">
+        <h2>4. Collaborazioni e riferimenti a terzi</h2>
+        <p>
+          I nomi di aziende, marchi e percorsi formativi eventualmente citati
+          appartengono ai rispettivi titolari. I riferimenti a collaborazioni e
+          partnership hanno valore informativo. I percorsi formativi indicati sono
+          stati seguiti a titolo formativo e non rappresentano collaborazioni
+          attive né endorsement reciproci.
+        </p>
+      </section>
+
+      <section class="legal__section">
+        <h2>5. Limitazione di responsabilità</h2>
+        <p>
+          Il titolare cura i contenuti del sito con la massima attenzione, ma non
+          garantisce l'assenza di errori o l'aggiornamento costante delle
+          informazioni. È esclusa ogni responsabilità per eventuali danni
+          derivanti dall'uso del sito o di siti terzi collegati tramite link.
+        </p>
+      </section>
+
+      <section class="legal__section">
+        <h2>6. Trattamento dei dati</h2>
+        <p>
+          Il trattamento dei dati personali raccolti tramite il sito è descritto
+          nella <a href="/privacy">Privacy Policy</a>.
+        </p>
+      </section>
+
+      <section class="legal__section">
+        <h2>7. Legge applicabile</h2>
+        <p>
+          Il presente sito e le relative note legali sono regolati dalla legge
+          italiana. Per ogni controversia sarà competente il Foro di
+          [[città competente]].
+        </p>
+      </section>
+    </div>
+  </main>
+</Base>
+
+<style>
+  .legal {
+    padding-block: clamp(6rem, 12vw, 9rem);
+  }
+  .legal__wrap {
+    max-width: 48rem;
+    margin: 0 auto;
+    padding-inline: clamp(1.25rem, 5vw, 4rem);
+  }
+  .legal__back {
+    display: inline-block;
+    margin-bottom: 2.5rem;
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 300ms ease;
+  }
+  .legal__back:hover {
+    color: var(--gold);
+  }
+  .legal__eyebrow {
+    margin: 0 0 1rem;
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.28em;
+    color: var(--gold);
+  }
+  .legal__title {
+    margin: 0 0 0.75rem;
+    font-family: var(--font-serif);
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    line-height: 1.05;
+    color: var(--paper);
+  }
+  .legal__meta {
+    margin: 0 0 3.5rem;
+    font-family: var(--font-sans);
+    font-weight: 300;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .legal__section {
+    margin-bottom: 2.75rem;
+  }
+  .legal__section h2 {
+    margin: 0 0 1rem;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: clamp(1.1rem, 2vw, 1.35rem);
+    color: var(--paper);
+  }
+  .legal__section p {
+    margin: 0 0 1rem;
+    font-family: var(--font-sans);
+    font-weight: 300;
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    color: rgba(232, 230, 225, 0.82);
+  }
+  .legal__section a {
+    color: var(--paper);
+    text-underline-offset: 3px;
+  }
+  .legal__section a:hover {
+    color: var(--gold);
+  }
+</style>

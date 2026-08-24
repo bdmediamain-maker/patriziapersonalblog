@@ -1,0 +1,83 @@
+---
+/**
+ * SkillGroup — una colonna della griglia competenze.
+ * Titolo categoria + elenco puntato di skill tecniche.
+ *
+ * Props:
+ *  - title: string  — nome categoria (es. "Database Administration")
+ *  - num:   string  — indice a due cifre (es. "01")
+ *  - items: string[]
+ */
+interface Props {
+  title: string;
+  num: string;
+  items: string[];
+}
+const { title, num, items } = Astro.props;
+---
+
+<article class="skill reveal">
+  <header class="skill__head">
+    <span class="skill__num" aria-hidden="true">{num}</span>
+    <h3 class="skill__title">{title}</h3>
+  </header>
+  <ul class="skill__list" role="list">
+    {items.map((s) => <li class="skill__item">{s}</li>)}
+  </ul>
+</article>
+
+<style>
+  .skill {
+    border-top: 1px solid var(--navy-line);
+    padding-top: 1.75rem;
+  }
+  .skill__head {
+    display: flex;
+    align-items: baseline;
+    gap: 0.9rem;
+    margin-bottom: 1.5rem;
+  }
+  .skill__num {
+    font-family: var(--font-serif);
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-size: 1.25rem;
+    color: var(--gold);
+    font-variant-numeric: tabular-nums;
+  }
+  .skill__title {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: clamp(1.05rem, 1.6vw, 1.25rem);
+    letter-spacing: 0.01em;
+    color: var(--paper);
+  }
+  .skill__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+  }
+  .skill__item {
+    position: relative;
+    padding-left: 1.15rem;
+    font-family: var(--font-sans);
+    font-weight: 300;
+    font-size: 0.975rem;
+    line-height: 1.5;
+    color: rgba(232, 230, 225, 0.82);
+  }
+  .skill__item::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.62em;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--gold);
+  }
+</style>

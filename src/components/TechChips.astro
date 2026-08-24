@@ -1,0 +1,52 @@
+---
+/**
+ * TechChips — riga di badge tecnologie (brand PG Network).
+ * Usa l'oro acceso del brand su fondo navy translucido.
+ *
+ * Props:
+ *  - items: string[] — es. ["Oracle", "SQL Server", ...]
+ */
+interface Props {
+  items: string[];
+}
+const { items } = Astro.props;
+---
+
+<ul class="chips reveal" role="list">
+  {items.map((t) => <li class="chip">{t}</li>)}
+</ul>
+
+<style>
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .chip {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--gold);
+    padding: 0.55rem 0.95rem;
+    border: 1px solid var(--navy-line);
+    background: var(--gold-soft);
+    border-radius: 999px;
+    transition:
+      background-color 400ms cubic-bezier(0.22, 1, 0.36, 1),
+      transform 400ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .chip:hover {
+    background: rgba(230, 169, 46, 0.24);
+    transform: translateY(-2px);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .chip:hover {
+      transform: none;
+    }
+  }
+</style>
