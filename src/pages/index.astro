@@ -2052,13 +2052,30 @@ const testimonial = [
   }
 
   @media (max-width: 768px) {
+    .hero-title {
+      letter-spacing: -0.03em;
+    }
     .hero-title .line-1,
     .hero-title .line-2,
     .hero-title .line-3 {
-      font-size: 17vw;
+      font-size: 13vw;
+      overflow-wrap: break-word;
     }
     .hero-content {
       padding: 0 6vw;
+    }
+    /* Sezione finale: niente schermo vuoto, altezza sul contenuto */
+    .final {
+      min-height: auto;
+      padding-block: clamp(4rem, 16vw, 7rem);
+    }
+  }
+
+  @media (max-width: 430px) {
+    .hero-title .line-1,
+    .hero-title .line-2,
+    .hero-title .line-3 {
+      font-size: 12vw;
     }
   }
 
