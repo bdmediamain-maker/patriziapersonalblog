@@ -2,20 +2,28 @@
 import Base from "../layouts/Base.astro";
 import Nav from "../components/Nav.astro";
 import ChapterHero from "../components/ChapterHero.astro";
-import VerticalRow from "../components/VerticalRow.astro";
-import TechChips from "../components/TechChips.astro";
 import SkillGroup from "../components/SkillGroup.astro";
 import PosterImage from "../components/PosterImage.astro";
 
 // ── Dati ──────────────────────────────────────────────────────
 
-const techMain = [
+const stack = [
   "Oracle",
   "SQL Server",
   "PostgreSQL",
   "MongoDB",
   "Db2",
+  "MySQL",
   "Linux",
+];
+
+const servizi = [
+  "Database Administration",
+  "Migration",
+  "Consolidation",
+  "Security",
+  "Backup & Recovery",
+  "Infrastructure Assessment",
 ];
 
 const competenze = [
@@ -23,7 +31,7 @@ const competenze = [
     num: "01",
     title: "Database Administration",
     items: [
-      "Oracle Database 12c / 18c / 19c",
+      "Oracle 12c / 18c / 19c",
       "Microsoft SQL Server",
       "PostgreSQL",
       "MongoDB",
@@ -37,11 +45,10 @@ const competenze = [
     items: [
       "RMAN / RMAN Duplicate",
       "Data Pump (expdp / impdp)",
-      "Database Link, Scheduler, Network ACL",
-      "Oracle Security, CMU, Wallet",
-      "Active Directory / LDAP / Kerberos",
+      "Security, CMU, Wallet",
+      "AD / LDAP / Kerberos",
       "Unified Auditing, WebLogic",
-      "JDBC, Oracle Net / TNS, Listener",
+      "Oracle Net / TNS, Listener",
     ],
   },
   {
@@ -49,12 +56,11 @@ const competenze = [
     title: "Migration & Consolidation",
     items: [
       "Database Migration",
-      "Production / Pre-Production Refresh",
+      "Production Refresh",
       "Database Consolidation",
       "Backup & Restore",
       "Assessment infrastrutturali",
       "Validazione post-migrazione",
-      "Troubleshooting",
     ],
   },
   {
@@ -66,7 +72,6 @@ const competenze = [
       "Bash / Shell scripting",
       "Networking / DNS",
       "Monitoring",
-      "Technical Documentation",
       "Runbook / Confluence",
     ],
   },
@@ -75,100 +80,112 @@ const competenze = [
 const flusso = [
   { k: "Assessment", d: "Analisi ambiente e criticità" },
   { k: "Planning", d: "Strategia e piano operativo" },
-  { k: "Migration / Refresh", d: "Migrazione e riallineamento" },
-  { k: "Validation", d: "Collaudo e verifica qualità" },
+  { k: "Migration", d: "Migrazione e riallineamento" },
+  { k: "Validation", d: "Collaudo e verifica" },
   { k: "Documentation", d: "Runbook e knowledge base" },
   { k: "Support", d: "Continuità e handover" },
 ];
 
-const stagioni = [
-  {
-    season: "Inverno",
-    key: "Cambiamento",
-    body: "Il momento in cui qualcosa si interrompe e bisogna ridefinire la propria direzione.",
-  },
-  {
-    season: "Primavera",
-    key: "Crescita",
-    body: "Studio, formazione, nuove competenze e nuovi progetti.",
-  },
-  {
-    season: "Estate",
-    key: "Costruzione",
-    body: "Progetti enterprise, collaborazioni, responsabilità, team e nascita di PGNetwork.",
-  },
-  {
-    season: "Autunno",
-    key: "Raccolto e condivisione",
-    body: "Restituire ciò che ho imparato attraverso formazione, mentoring, network e nuove opportunità per altre persone.",
-  },
-];
-
-// Valori professionali (sezione chiara, scroll sticky)
 const valori = [
-  {
-    num: "01",
-    name: "Competenza",
-    body: "Formazione continua e specializzazione tecnica, come base di ogni progetto.",
-  },
-  {
-    num: "02",
-    name: "Affidabilità",
-    body: "Responsabilità, continuità e attenzione al cliente in ogni fase del lavoro.",
-  },
-  {
-    num: "03",
-    name: "Collaborazione",
-    body: "Credo nel lavoro di squadra e nella condivisione delle competenze tra professionisti.",
-  },
-  {
-    num: "04",
-    name: "Innovazione",
-    body: "Studio e sperimento nuove tecnologie senza perdere di vista l'utilità concreta.",
-  },
-  {
-    num: "05",
-    name: "Crescita",
-    body: "Crescere personalmente significa anche aiutare altre persone a crescere.",
-  },
+  { name: "Competenza", body: "Formazione continua e specializzazione tecnica." },
+  { name: "Affidabilità", body: "Responsabilità e continuità in ogni fase." },
+  { name: "Collaborazione", body: "Squadra e condivisione tra professionisti." },
+  { name: "Innovazione", body: "Nuove tecnologie con utilità concreta." },
+  { name: "Crescita", body: "Crescere e far crescere gli altri." },
 ];
 
-// Altre attività, successive al percorso IT principale.
-// NOTA: verificare le diciture "Partner" / "Collaboratrice" prima della pubblicazione.
-const aree = [
+const stagioni = [
+  { season: "Inverno", key: "Cambiamento", body: "Ridefinire la direzione." },
+  { season: "Primavera", key: "Crescita", body: "Studio, formazione, nuovi progetti." },
+  { season: "Estate", key: "Costruzione", body: "Progetti enterprise e nascita di PGNetwork." },
+  { season: "Autunno", key: "Condivisione", body: "Restituire competenze e opportunità." },
+];
+
+// Oltre la tecnologia · attività complementari al percorso IT.
+const interessi = [
   {
     title: "Real Estate Internazionale",
-    description:
-      "Partner immobiliare iAD, con operatività sul mercato di Dubai. Accompagno chi cerca di investire e abitare in mercati internazionali in crescita.",
-    meta: "001 / REAL ESTATE",
+    meta: "Dubai · iAD",
+    desc: "Partner immobiliare iAD sul mercato di Dubai.",
   },
   {
-    title: "Innovazione e Tecnologie Emergenti",
-    description:
-      "Collaboratrice DBM ed esploratrice del mondo delle nuove tecnologie e delle criptovalute. Partner Sibill.",
-    meta: "002 / INNOVAZIONE",
+    title: "Innovazione & Cripto",
+    meta: "DBM · Sibill",
+    desc: "Collaboratrice DBM ed esploratrice di nuove tecnologie e criptovalute. Partner Sibill.",
+    href: "https://sibill.com/referral-program/?referral_code=PATGARWYMD",
+    cta: "Scopri Sibill",
   },
   {
-    title: "Network e Partnership Business",
-    description:
-      "Partner Jet HR, Fly Airlines. Collaboro con Castaldo Solutions per la consulenza societaria e fiscale.",
-    meta: "003 / NETWORK",
+    title: "Network & Partnership",
+    meta: "Jet HR · Fly Airlines",
+    desc: "Partner Jet HR e Fly Airlines, nel mio network di collaborazioni professionali.",
+  },
+  {
+    title: "Trading & Mercati",
+    meta: "Financial Education",
+    desc: "Percorso di studio su analisi tecnica, metodo e gestione del rischio.",
   },
 ];
 
-// Formazione. Anni non ancora verificati rimossi (year opzionale).
+// Formazione sintetica · quattro categorie.
+// NOTA: associazione dei riferimenti alle categorie da confermare col cliente.
 const formazione = [
-  { name: "Davide Caiazzo", year: "2024" },
-  { name: "Alfio Bardolla", year: "2024" },
-  { name: "Giacomo Freddi", year: "" },
-  { name: "Gasparotto", year: "2025" },
-  { name: "Valerio Di Gerolamo", year: "2025" },
+  {
+    cat: "Technology & AI",
+    desc: "Database, infrastrutture, cloud e AI applicata.",
+    refs: ["Aggiornamento tecnico continuo"],
+  },
+  {
+    cat: "Business",
+    desc: "Gestione d'impresa, leadership e strategia.",
+    refs: ["Davide Caiazzo", "Giacomo Freddi"],
+  },
+  {
+    cat: "Marketing & Personal Branding",
+    desc: "Comunicazione, brand personale e posizionamento.",
+    refs: ["Valerio Di Gerolamo", "Gasparotto"],
+  },
+  {
+    cat: "Financial Education",
+    desc: "Investimenti, mercati e gestione del rischio.",
+    refs: [
+      "Alfio Bardolla",
+      "Lux Trading Academy",
+      "Giordi Locatelli",
+      "Andrea Giudice · CGA University",
+    ],
+  },
 ];
 
-const testimonial = [
-  "Ogni progetto nasce da un metodo: analisi, pianificazione, esecuzione, validazione e documentazione.",
-  "La maturità professionale nasce quando le competenze diventano responsabilità verso le persone e i progetti.",
-  "La tecnologia è importante, ma sono le persone a fare la differenza.",
+const journal = [
+  {
+    src: "/poster-dietro-database.jpg",
+    alt: "Dietro un database non ci sono solo tabelle: il ruolo di un DBA",
+    w: 1024,
+    h: 1536,
+    caption: "Il ruolo di un DBA",
+  },
+  {
+    src: "/poster-rto-rpo.jpg",
+    alt: "RTO e RPO: le due metriche chiave del Disaster Recovery",
+    w: 1254,
+    h: 1254,
+    caption: "RTO & RPO nel Disaster Recovery",
+  },
+  {
+    src: "/poster-summer-offer.jpg",
+    alt: "Assessment di database e infrastrutture",
+    w: 1254,
+    h: 1254,
+    caption: "Database & Infrastructure Assessment",
+  },
+  {
+    src: "/poster-bitcoin-mining.jpg",
+    alt: "Prima di investire, scegli di capire: Bitcoin e Mining",
+    w: 1254,
+    h: 1254,
+    caption: "Bitcoin & Mining",
+  },
 ];
 ---
 
@@ -177,7 +194,7 @@ const testimonial = [
 
   <main>
     <!-- ════════════════════════════════════════════════════════
-         1 · HERO COVER
+         1 · HOME · HERO
          ════════════════════════════════════════════════════════ -->
     <section class="hero-cinematic" aria-label="Copertina">
       <video
@@ -194,165 +211,97 @@ const testimonial = [
       <div class="hero-overlay" aria-hidden="true"></div>
 
       <div class="hero-content">
-        <span class="hero-eyebrow">Le stagioni di Patrizia · PGNetwork</span>
+        <span class="hero-eyebrow">PATRIZIA GARDIS · PGNETWORK</span>
         <h1 class="hero-title">
-          <span class="line-1">Tecnologia,</span>
-          <span class="line-2">persone</span>
-          <span class="line-3">e innovazione.</span>
+          <span class="line-1">Database &amp;</span>
+          <span class="line-2">Infrastructure</span>
+          <span class="line-3">Consultant.</span>
         </h1>
+        <p class="hero-role">Founder di PGNetwork</p>
         <p class="hero-tagline">
-          Database &amp; Infrastructure. Il viaggio di una professionista tra
-          competenza tecnica e valore reale per le persone.
+          Oltre sette anni nell'IT enterprise. Progetto, metto in sicurezza e
+          consolido database e infrastrutture critiche.
         </p>
       </div>
     </section>
 
     <!-- ════════════════════════════════════════════════════════
-         2 · INTRO · CHI SONO (identità professionale)
+         2 · HOME · POSIZIONAMENTO (keyword + CTA)
          ════════════════════════════════════════════════════════ -->
-    <section class="section intro-pro" id="chi-sono" aria-labelledby="intro-title">
-      <div class="wrap intro-pro__grid">
-        <div class="intro-pro__text">
-          <p class="chapter__eyebrow reveal">CHI SONO</p>
-          <h2 id="intro-title" class="intro-pro__title reveal">
-            Mi chiamo Patrizia Gardis.
-          </h2>
-          <p class="prose reveal">
-            Lavoro nel settore IT da oltre sette anni. Sono
-            <strong class="strong">donna, madre, professionista e imprenditrice</strong>,
-            ma il mio percorso principale nasce nella
-            <em class="accent">Database Administration</em> e nelle
-            infrastrutture IT.
-          </p>
-          <p class="prose reveal">
-            Sono cresciuta attraverso progetti sempre più complessi:
-            dall'operatività quotidiana alla progettazione di soluzioni
-            infrastrutturali, al consolidamento di ambienti enterprise e alla
-            collaborazione con team multidisciplinari. Metodo, responsabilità e
-            attenzione ai dettagli sono il filo che tiene insieme ogni
-            esperienza.
-          </p>
+    <section class="section strip" aria-label="Specializzazione">
+      <div class="wrap">
+        <div class="strip__row reveal">
+          <span class="strip__label">Stack</span>
+          <ul class="keywords" role="list">
+            {stack.map((k) => <li>{k}</li>)}
+          </ul>
         </div>
-        <div class="intro-pro__media reveal">
-          <img
-            src="/patrizia-ritratto.jpg"
-            alt="Ritratto di Patrizia Gardis"
-            width="800"
-            height="1200"
-            loading="lazy"
-            decoding="async"
-          />
+        <div class="strip__row reveal">
+          <span class="strip__label">Servizi</span>
+          <ul class="keywords" role="list">
+            {servizi.map((k) => <li>{k}</li>)}
+          </ul>
+        </div>
+        <div class="strip__cta reveal">
+          <p class="strip__statement">
+            Una specializzazione chiara, un metodo verificabile.
+          </p>
+          <a class="btn" href="#contatti">Entriamo in contatto</a>
         </div>
       </div>
     </section>
 
     <!-- ════════════════════════════════════════════════════════
-         3 · DATABASE & INFRASTRUCTURE · PGNETWORK
+         3 · EXPERTISE
          ════════════════════════════════════════════════════════ -->
-    <section class="section pg" id="pgnetwork" aria-labelledby="pg-title">
+    <section class="section" id="expertise" aria-labelledby="exp-title">
       <div class="wrap">
         <ChapterHero
-          eyebrow="DATABASE & INFRASTRUCTURE · PGNETWORK"
-          title="Il mio percorso, oggi un progetto."
+          eyebrow="EXPERTISE"
+          title="Database & Infrastructure"
           size="72"
         />
-        <div class="pg__grid">
-          <div class="pg__body">
-            <p class="prose reveal">
-              Da anni lavoro nel mondo della Database Administration e delle
-              infrastrutture IT, collaborando su ambienti enterprise e progetti
-              complessi.
-            </p>
-            <p class="prose reveal">
-              Nel tempo il mio ruolo si è evoluto dall'operatività quotidiana alla
-              progettazione, all'assessment, alla migrazione e al consolidamento
-              di infrastrutture database.
-            </p>
-            <p class="prose reveal">
-              Da questa evoluzione nasce <strong class="strong">PGNetwork</strong>,
-              un progetto che sto costruendo per mettere in rete professionisti con
-              competenze complementari e offrire alle aziende servizi Database
-              &amp; Infrastructure strutturati, affidabili e continuativi.
-            </p>
-          </div>
-          <div class="pg__poster">
-            <PosterImage
-              src="/poster-dietro-database.jpg"
-              alt="Dietro un database non ci sono solo tabelle: il ruolo di un DBA"
-              w={1024}
-              h={1536}
-              max="22rem"
-              caption="Dietro un database non ci sono solo tabelle"
-            />
-          </div>
-        </div>
-        <div class="pg__tech">
-          <p class="chapter__eyebrow reveal">TECNOLOGIE PRINCIPALI</p>
-          <TechChips items={techMain} />
-        </div>
-      </div>
-    </section>
-
-    <!-- Manifesto PGNetwork (banda scura) -->
-    <section class="manifesto-band" aria-label="Manifesto PGNetwork">
-      <div class="wrap wrap--narrow">
-        <blockquote class="manifesto-band__quote reveal">
-          Non amministriamo soltanto database. Costruiamo infrastrutture
-          affidabili, supportiamo le persone e trasformiamo la
-          <em class="accent">complessità in valore</em>.
-        </blockquote>
-        <p class="manifesto-band__note reveal">
-          PGNetwork è un progetto in crescita, non una grande società già
-          strutturata: un modo di lavorare con metodo, sinergia e supporto
-          continuo. Sono disponibile anche come
-          <strong class="strong">partner DBA per società di consulenza IT</strong>,
-          mettendo a disposizione professionisti specializzati per estendere i
-          loro team quando serve.
+        <p class="prose prose--lead reveal">
+          Lavoro nel settore IT da oltre sette anni, con una specializzazione
+          precisa: Database Administration e infrastrutture enterprise.
         </p>
-      </div>
-    </section>
-
-    <!-- ════════════════════════════════════════════════════════
-         4 · COMPETENZE TECNICHE
-         ════════════════════════════════════════════════════════ -->
-    <section class="section competenze" id="competenze" aria-labelledby="comp-title">
-      <div class="wrap">
-        <ChapterHero
-          eyebrow="COMPETENZE"
-          title="Database & Infrastructure, nel dettaglio"
-          size="60"
-        />
+        <p class="prose reveal">
+          Nel tempo il mio ruolo si è evoluto dall'operatività quotidiana alla
+          progettazione di soluzioni infrastrutturali, all'assessment, alla
+          migrazione e al consolidamento di ambienti database complessi.
+          Metodo, responsabilità e attenzione ai dettagli sono il filo che
+          tiene insieme ogni progetto, dall'analisi iniziale fino alla
+          documentazione e all'handover.
+        </p>
         <div class="competenze__grid">
           {competenze.map((c) => <SkillGroup {...c} />)}
         </div>
       </div>
-    </section>
 
-    <!-- ════════════════════════════════════════════════════════
-         5 · PROGETTO RECENTE
-         ════════════════════════════════════════════════════════ -->
-    <section class="section project" id="progetto" aria-labelledby="proj-title">
-      <div class="wrap">
-        <ChapterHero
-          eyebrow="PROGETTO RECENTE"
-          title="Enterprise Database Consolidation"
-          size="60"
-        />
-        <div class="project__body">
-          <p class="prose reveal">
-            In circa due mesi ho partecipato al consolidamento e al riallineamento
-            di molteplici ambienti database di un importante cliente enterprise,
-            lavorando su tecnologie <em class="accent">Oracle, MongoDB e MySQL /
-            MariaDB</em>.
-          </p>
-          <p class="prose reveal">
-            Il progetto ha incluso assessment, pianificazione, refresh e
-            migrazione degli ambienti, configurazioni di sicurezza, riallineamento
-            delle dipendenze applicative, attività di backup e restore,
-            troubleshooting, collaudo e documentazione tecnica.
-          </p>
+      <!-- Proof · progetto recente ridotto a numeri/keyword -->
+      <div class="wrap proof">
+        <div class="proof__head reveal">
+          <span class="chapter__eyebrow">PROGETTO RECENTE</span>
+          <h3 class="proof__title">Enterprise Database Consolidation</h3>
         </div>
-
+        <ul class="proof__stats reveal" role="list">
+          <li><span class="proof__num">~2</span><span class="proof__lab">mesi</span></li>
+          <li><span class="proof__num">3</span><span class="proof__lab">tecnologie core</span></li>
+          <li><span class="proof__num">Multi</span><span class="proof__lab">ambienti enterprise</span></li>
+          <li><span class="proof__num">6</span><span class="proof__lab">fasi di metodo</span></li>
+        </ul>
+        <p class="prose reveal">
+          In circa due mesi ho partecipato al consolidamento e al riallineamento
+          di molteplici ambienti database di un importante cliente enterprise,
+          lavorando su tecnologie <em class="accent">Oracle, MongoDB e MySQL /
+          MariaDB</em>.
+        </p>
+        <p class="prose reveal">
+          Il progetto ha incluso assessment, pianificazione, refresh e
+          migrazione degli ambienti, configurazioni di sicurezza, riallineamento
+          delle dipendenze applicative, backup e restore, troubleshooting,
+          collaudo e documentazione tecnica.
+        </p>
         <ol class="flow reveal" aria-label="Fasi del progetto">
           {
             flusso.map((f, i) => (
@@ -370,428 +319,332 @@ const testimonial = [
     </section>
 
     <!-- ════════════════════════════════════════════════════════
-         6 · IL PUNTO DI SVOLTA (essay corretto)
+         4 · PGNETWORK
          ════════════════════════════════════════════════════════ -->
-    <section class="essay" aria-labelledby="cap1-title">
-      <div class="essay__inner">
-        <aside class="essay__aside">
-          <div class="essay__sticky">
-            <h2 id="cap1-title" class="essay__title reveal">
-              Il punto di svolta
-            </h2>
-            <div class="essay__meta reveal">
-              <span>IL PERCORSO</span>
-              <span>PATRIZIA · IT</span>
-            </div>
+    <section class="section pg" id="pgnetwork" aria-labelledby="pg-title">
+      <div class="wrap">
+        <ChapterHero
+          eyebrow="PGNETWORK"
+          title="L'evoluzione: un network."
+          size="72"
+        />
+        <div class="pg__grid">
+          <div class="pg__body">
+            <p class="prose reveal">
+              Da anni lavoro nella Database Administration e nelle infrastrutture
+              IT, collaborando su ambienti enterprise e progetti complessi. Nel
+              tempo il mio ruolo si è evoluto dall'operatività alla
+              progettazione, all'assessment, alla migrazione e al consolidamento.
+            </p>
+            <p class="prose reveal">
+              Da questa evoluzione nasce <strong class="strong">PGNetwork</strong>:
+              un network di professionisti IT specializzati che lavorano in
+              sinergia per offrire ad aziende e partner servizi Database &amp;
+              Infrastructure strutturati, affidabili e continuativi.
+            </p>
+            <p class="prose reveal">
+              È un progetto in crescita, non una grande società già strutturata:
+              un modo di lavorare con metodo, sinergia e supporto continuo. Sono
+              disponibile anche come <em class="accent">partner DBA per società
+              di consulenza IT</em>, per estendere i loro team quando serve.
+            </p>
           </div>
-        </aside>
+          <div class="pg__poster">
+            <PosterImage
+              src="/poster-opportunita.jpg"
+              alt="Ogni stagione porta nuove opportunità"
+              w={1024}
+              h={1536}
+              max="20rem"
+              caption="Un progetto in crescita"
+            />
+          </div>
+        </div>
 
-        <div class="essay__body">
-          <p class="prose reveal">
-            Circa un anno fa la mia carriera ha attraversato uno dei cambiamenti
-            più importanti del mio percorso. Quello che inizialmente sembrava un
-            momento di incertezza si è trasformato in un'opportunità per evolvere
-            professionalmente, ampliare le mie competenze e iniziare a costruire
-            nuovi progetti.
+        <ul class="values reveal" role="list">
+          {
+            valori.map((v) => (
+              <li class="value">
+                <span class="value__name">{v.name}</span>
+                <span class="value__body">{v.body}</span>
+              </li>
+            ))
+          }
+        </ul>
+
+        <div class="pg-partner reveal">
+          <span class="chapter__eyebrow">PARTNER TECNOLOGICO</span>
+          <p class="prose">
+            In sinergia con <strong class="strong">Castaldo Solutions</strong>,
+            partner tecnologico e system integrator in ambito
+            <em class="accent">AI full stack</em>. Loro l'intelligenza
+            artificiale, PGNetwork i database e le infrastrutture: Oracle,
+            PostgreSQL e altro.
           </p>
-          <p class="prose reveal">
-            Non sono diventata DBA dopo questo cambiamento: lavoravo già da anni
-            nel settore. La vera evoluzione è stata passare progressivamente da
-            attività di Service Desk e presidio cliente a un ruolo più orientato
-            a progettazione e responsabilità.
-          </p>
+          <a
+            class="pg-partner__link"
+            href="https://www.castaldosolutions.it/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            castaldosolutions.it <span aria-hidden="true">→</span>
+          </a>
+        </div>
+      </div>
 
-          <ul class="essay__list reveal" role="list">
-            <li>Progettazione</li>
-            <li>Assessment</li>
-            <li>Migrazioni</li>
-            <li>Consolidamento di infrastrutture database</li>
-            <li>Gestione di ambienti enterprise</li>
-            <li>Coordinamento di attività DBA applicative</li>
-            <li>Formazione</li>
-            <li>Collaborazione con team multidisciplinari</li>
-            <li>Sviluppo di un mio network professionale</li>
-          </ul>
-
-          <blockquote class="pull reveal">
-            Anche le prove più difficili possono trasformarsi in occasioni di
-            crescita.
+      <div class="pg-quote">
+        <div class="wrap wrap--narrow">
+          <blockquote class="pg-quote__text reveal">
+            Non amministriamo soltanto database. Trasformiamo la
+            <em class="accent">complessità in valore</em>.
           </blockquote>
         </div>
       </div>
     </section>
 
     <!-- ════════════════════════════════════════════════════════
-         7 · LE STAGIONI DI PATRIZIA
+         5 · ABOUT (Stagioni + personale + interessi + formazione)
          ════════════════════════════════════════════════════════ -->
-    <section class="seasons" id="stagioni" aria-labelledby="seasons-title">
-      <div class="seasons__bg" aria-hidden="true"></div>
-      <div class="seasons__content">
-        <div class="wrap">
-          <ChapterHero
-            eyebrow="LE STAGIONI DI PATRIZIA"
-            title="Il viaggio di una professionista tra tecnologia, persone e innovazione"
-            size="60"
-          />
-        </div>
-
-        <div class="wrap seasons__grid">
-        {
-          stagioni.map((s) => (
-            <article class="season reveal">
-              <span class="season__name">{s.season}</span>
-              <h3 class="season__key">{s.key}</h3>
-              <p class="season__body">{s.body}</p>
-            </article>
-          ))
-        }
+    <section class="section" id="about" aria-labelledby="about-title">
+      <div class="wrap">
+        <ChapterHero
+          eyebrow="CHI SONO"
+          title="Mi chiamo Patrizia Gardis."
+          size="96"
+        />
+        <div class="about__intro">
+          <div>
+            <p class="prose reveal">
+              Lavoro nel settore IT da oltre sette anni. Sono
+              <strong class="strong">donna, madre, professionista e
+              imprenditrice</strong>, ma il mio percorso principale nasce nella
+              <em class="accent">Database Administration</em> e nelle
+              infrastrutture IT.
+            </p>
+            <p class="prose reveal">
+              Sono cresciuta attraverso progetti sempre più complessi:
+              dall'operatività quotidiana alla progettazione di soluzioni
+              infrastrutturali, al consolidamento di ambienti enterprise e alla
+              collaborazione con team multidisciplinari. Metodo, responsabilità
+              e attenzione ai dettagli sono il filo che tiene insieme ogni
+              esperienza.
+            </p>
+          </div>
+          <div class="about__media reveal">
+            <img
+              src="/patrizia-ritratto.jpg"
+              alt="Ritratto di Patrizia Gardis"
+              width="1024"
+              height="1536"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
         </div>
       </div>
-    </section>
 
-    <!-- ════════════════════════════════════════════════════════
-         8 · VALORI (sezione chiara, sticky content-switch)
-         ════════════════════════════════════════════════════════ -->
-    <section class="manifesto" id="valori" aria-labelledby="valori-title">
-      <div class="manifesto-inner">
-        <aside class="manifesto-left">
-          <div class="manifesto-left-sticky">
-            <span class="manifesto-eyebrow">I valori di PGNetwork</span>
-            <h2 id="valori-title" class="manifesto-title">Cinque valori.</h2>
-            <div class="manifesto-counter" aria-hidden="true">
-              <span class="manifesto-counter-num" data-counter>01</span>
-              <span class="manifesto-counter-sep">·</span>
-              <span class="manifesto-counter-label" data-label>Competenza</span>
-            </div>
-          </div>
-        </aside>
-
-        <div class="manifesto-right">
+      <!-- Stagioni -->
+      <div class="wrap subhead reveal">
+        <span class="chapter__eyebrow">IL PERCORSO</span>
+        <h3 class="subhead__title">Le stagioni di Patrizia</h3>
+      </div>
+      <div class="seasons">
+        <div class="seasons__bg" aria-hidden="true"></div>
+        <div class="seasons__content wrap seasons__grid">
           {
-            valori.map((p) => (
-              <article
-                class="manifesto-principle"
-                data-principle={p.num}
-                data-name={p.name}
-              >
-                <span class="manifesto-principle-num" aria-hidden="true">
-                  {p.num}
-                </span>
-                <h3 class="manifesto-principle-name">{p.name}</h3>
-                <p class="manifesto-principle-body">{p.body}</p>
+            stagioni.map((s) => (
+              <article class="season reveal">
+                <span class="season__name">{s.season}</span>
+                <h3 class="season__key">{s.key}</h3>
+                <p class="season__body">{s.body}</p>
               </article>
             ))
           }
         </div>
       </div>
-    </section>
 
-    <script>
-      (function () {
-        const principles = document.querySelectorAll(".manifesto-principle");
-        const counterNum = document.querySelector("[data-counter]");
-        const counterLabel = document.querySelector("[data-label]");
-        if (!principles.length || !counterNum || !counterLabel) return;
-
-        let currentActive = "01";
-
-        function updateCounter(num: string, name: string) {
-          if (num === currentActive) return;
-          currentActive = num;
-
-          counterLabel.classList.add("is-changing");
-          setTimeout(() => {
-            counterNum.textContent = num;
-            counterLabel.textContent = name;
-            counterLabel.classList.remove("is-changing");
-          }, 200);
-        }
-
-        const observer = new IntersectionObserver(
-          (entries) => {
-            let mostVisible: Element | null = null;
-            let bestRatio = 0;
-
-            entries.forEach((entry) => {
-              if (entry.isIntersecting && entry.intersectionRatio > bestRatio) {
-                bestRatio = entry.intersectionRatio;
-                mostVisible = entry.target;
-              }
-            });
-
-            if (mostVisible) {
-              const el = mostVisible as HTMLElement;
-              updateCounter(el.dataset.principle ?? "", el.dataset.name ?? "");
-            }
-          },
-          {
-            rootMargin: "-40% 0px -40% 0px",
-            threshold: [0, 0.25, 0.5, 0.75, 1],
-          },
-        );
-
-        principles.forEach((p) => observer.observe(p));
-      })();
-    </script>
-
-    <!-- ════════════════════════════════════════════════════════
-         9 · ALTRE ATTIVITÀ (dopo il percorso IT)
-         ════════════════════════════════════════════════════════ -->
-    <section class="section" id="altre-attivita" aria-labelledby="altre-title">
-      <div class="wrap">
-        <ChapterHero
-          eyebrow="OLTRE LA TECNOLOGIA"
-          title="Altre attività e collaborazioni"
-          size="60"
-        />
-        <div class="altre__intro">
-          <p class="prose prose--lead reveal">
-            Attività complementari al mio percorso principale in ambito Database
-            &amp; Infrastructure, nate dalla curiosità e da un network in
-            crescita, tra cui l'esplorazione delle nuove tecnologie e delle
-            criptovalute.
-          </p>
-          <PosterImage
-            src="/poster-bitcoin-mining.jpg"
-            alt="Prima di investire, scegli di capire: Bitcoin e Mining"
-            w={1254}
-            h={1254}
-            max="24rem"
-            caption="Innovazione · Bitcoin e Mining"
-          />
-        </div>
-      </div>
-      <div class="list">
-        {
-          aree.map((r, i) => (
-            <VerticalRow
-              {...r}
-              variant={(["slide", "expand", "rule"] as const)[i]}
-            />
-          ))
-        }
-        <div class="list__close" aria-hidden="true"></div>
-      </div>
-    </section>
-
-    <!-- ════════════════════════════════════════════════════════
-         10 · LE RADICI (parte personale)
-         ════════════════════════════════════════════════════════ -->
-    <section class="section" id="radici" aria-labelledby="radici-title">
-      <div class="wrap">
-        <ChapterHero
-          eyebrow="LE RADICI"
-          title="Valori, famiglia e crescita"
-          size="72"
-        />
-
-        <div class="life">
-          <div class="life__main">
-            <p class="prose reveal">
-              Sono una professionista, una donna e una mamma di tre figli:
-              Nicole, Loris e Nicolas. La <em class="accent">famiglia</em> è una
-              delle mie più grandi motivazioni e mi ricorda ogni giorno perché
-              vale la pena continuare a crescere, studiare e costruire.
-            </p>
-            <p class="prose reveal">
-              Credo nel valore dell'educazione, dell'innovazione e dell'impatto
-              positivo sulle persone, e voglio costruire qualcosa che abbia valore
-              anche per le nuove generazioni.
+      <!-- Approfondimenti comprimibili -->
+      <div class="wrap disc-group">
+        <details class="disc reveal">
+          <summary class="disc__summary">
+            <span class="disc__head">
+              <span class="chapter__eyebrow">IL PERCORSO</span>
+              <span class="disc__title">Il punto di svolta</span>
+            </span>
+            <span class="disc__icon" aria-hidden="true"></span>
+          </summary>
+          <div class="disc__content">
+            <blockquote class="svolta__quote">
+              Anche le prove più difficili possono trasformarsi in occasioni di
+              crescita.
+            </blockquote>
+            <p class="prose">
+              Circa un anno fa la mia carriera ha attraversato un cambiamento
+              importante. Quello che sembrava un momento di incertezza è
+              diventato un'opportunità: ampliare le competenze, evolvere verso
+              progettazione e responsabilità, e iniziare a costruire nuovi
+              progetti, dalla nascita di PGNetwork allo sviluppo di un mio
+              network professionale.
             </p>
           </div>
+        </details>
 
-          <div class="radici__media">
-            <PosterImage
-              src="/poster-competenza-persone.jpg"
-              alt="Quando competenza, passione e persone si incontrano, nascono grandi progetti"
-              w={1254}
-              h={1254}
-              max="26rem"
-              caption="Radici forti · Ali per crescere"
-            />
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ════════════════════════════════════════════════════════
-         11 · LA MISSIONE (Santo Domingo)
-         ════════════════════════════════════════════════════════ -->
-    <section class="mission" aria-labelledby="mission-title">
-      <div class="wrap wrap--narrow">
-        <p class="chapter__eyebrow chapter__eyebrow--center reveal">
-          LA MISSIONE
-        </p>
-        <h2 id="mission-title" class="mission__title reveal">Restituire</h2>
-
-        <div class="mission__prose">
-          <p class="prose prose--center reveal">
-            Uno dei sogni che porto avanti è contribuire, un giorno, alla
-            realizzazione di una <em class="accent">scuola a Santo Domingo</em>,
-            il mio Paese d'origine, per offrire ai giovani maggiori possibilità di
-            formazione e futuro.
-          </p>
-          <p class="prose prose--center reveal">
-            Sostengo personalmente cause legate all'infanzia e all'educazione,
-            perché credo che ogni opportunità data a un bambino sia un
-            investimento sul mondo che lasceremo.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- ════════════════════════════════════════════════════════
-         12 · VITA PRIVATA
-         ════════════════════════════════════════════════════════ -->
-    <section class="section" aria-labelledby="vita-title">
-      <div class="wrap">
-        <ChapterHero
-          eyebrow="VITA PRIVATA"
-          title="Quello che mi tiene viva"
-          size="72"
-        />
-
-        <div class="life">
-          <div class="life__main">
-            <p class="prose reveal">
-              Fuori dal lavoro coltivo passioni che mi danno energia: la
-              <em class="accent">danza</em>, in tutte le sue forme, perché è
-              libertà ed espressione. Il <em class="accent">canto</em>, non a
-              livello professionale ma come modo per ritrovare equilibrio. I
-              <em class="accent">viaggi</em>, perché ogni cultura nuova allarga lo
-              sguardo. La <em class="accent">fotografia</em>, perché mi permette di
-              trattenere quello che altrimenti scivolerebbe via.
-            </p>
-            <p class="prose reveal">
-              Di recente ho intrapreso anche un percorso nel mondo della moda come
-              modella presso Identity Agency di Milano: un'esperienza che mi sta
-              insegnando presenza, sicurezza e una nuova consapevolezza di me.
-            </p>
-          </div>
-
-          <aside class="life__aside" aria-hidden="true">
-            <div class="life__sep"></div>
-            <span class="life__vmeta">PATRIZIA · 2026 · ITALIA</span>
-          </aside>
-        </div>
-      </div>
-    </section>
-
-    <!-- ════════════════════════════════════════════════════════
-         13 · FORMAZIONE
-         ════════════════════════════════════════════════════════ -->
-    <section class="section" id="formazione" aria-labelledby="form-title">
-      <div class="wrap">
-        <ChapterHero
-          eyebrow="FORMAZIONE"
-          title="I percorsi che hanno costruito la mia visione"
-          size="60"
-        />
-        <p class="prose prose--lead reveal">
-          Ho investito tempo, energie e risorse nella mia formazione personale e
-          professionale: marketing, leadership, crescita personale, investimenti,
-          gestione imprenditoriale.
-        </p>
-      </div>
-
-      <div class="formative">
-        {
-          formazione.map((f) => (
-            <div class="formative__row reveal">
-              <span class="formative__name">{f.name}</span>
-              {f.year && <span class="formative__year">{f.year}</span>}
+        <details class="disc reveal">
+          <summary class="disc__summary">
+            <span class="disc__head">
+              <span class="chapter__eyebrow">VITA PRIVATA</span>
+              <span class="disc__title">Famiglia, passioni e missione</span>
+            </span>
+            <span class="disc__icon" aria-hidden="true"></span>
+          </summary>
+          <div class="disc__content">
+            <div class="personal">
+              <div class="personal__block">
+                <span class="chapter__eyebrow">FAMIGLIA</span>
+                <p class="personal__line">
+                  Tre figli: Nicole, Loris e Nicolas. La famiglia è una delle
+                  mie motivazioni più grandi e mi ricorda ogni giorno perché
+                  vale la pena crescere, studiare e costruire.
+                </p>
+              </div>
+              <div class="personal__block">
+                <span class="chapter__eyebrow">PASSIONI</span>
+                <ul class="keywords keywords--soft" role="list">
+                  <li>Danza</li>
+                  <li>Canto</li>
+                  <li>Viaggi</li>
+                  <li>Fotografia</li>
+                  <li>Moda</li>
+                </ul>
+                <p class="personal__line personal__line--sm">
+                  Passioni che mi danno energia ed equilibrio. Di recente anche
+                  un percorso come modella presso Identity Agency di Milano.
+                </p>
+              </div>
+              <div class="personal__block">
+                <span class="chapter__eyebrow">MISSIONE</span>
+                <p class="personal__line">
+                  Un giorno, una scuola a Santo Domingo, il mio Paese d'origine,
+                  per offrire ai giovani più possibilità di formazione e futuro.
+                  Sostengo cause legate all'infanzia e all'educazione.
+                </p>
+              </div>
             </div>
-          ))
-        }
-      </div>
+          </div>
+        </details>
 
-      <div class="wrap">
-        <p class="formative__note reveal">
-          I PERCORSI ELENCATI SONO STATI SEGUITI A TITOLO FORMATIVO E NON
-          RAPPRESENTANO COLLABORAZIONI ATTIVE NÉ ENDORSEMENT RECIPROCI.
-        </p>
+        <details class="disc reveal">
+          <summary class="disc__summary">
+            <span class="disc__head">
+              <span class="chapter__eyebrow">OLTRE LA TECNOLOGIA</span>
+              <span class="disc__title">Progetti &amp; Interessi</span>
+            </span>
+            <span class="disc__icon" aria-hidden="true"></span>
+          </summary>
+          <div class="disc__content">
+            <div class="cards">
+              {
+                interessi.map((r) => (
+                  <article class="card">
+                    <span class="card__meta">{r.meta}</span>
+                    <h4 class="card__title">{r.title}</h4>
+                    <p class="card__desc">{r.desc}</p>
+                    {r.href && (
+                      <a
+                        class="card__cta"
+                        href={r.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {r.cta} <span aria-hidden="true">→</span>
+                      </a>
+                    )}
+                  </article>
+                ))
+              }
+            </div>
+          </div>
+        </details>
+
+        <details class="disc reveal">
+          <summary class="disc__summary">
+            <span class="disc__head">
+              <span class="chapter__eyebrow">FORMAZIONE</span>
+              <span class="disc__title">Quattro aree di crescita</span>
+            </span>
+            <span class="disc__icon" aria-hidden="true"></span>
+          </summary>
+          <div class="disc__content">
+            <div class="formgrid">
+              {
+                formazione.map((f) => (
+                  <article class="formcat">
+                    <h4 class="formcat__cat">{f.cat}</h4>
+                    <p class="formcat__desc">{f.desc}</p>
+                    <ul class="formcat__refs" role="list">
+                      {f.refs.map((r) => <li>{r}</li>)}
+                    </ul>
+                  </article>
+                ))
+              }
+            </div>
+            <p class="fineprint">
+              I percorsi e i professionisti citati sono seguiti a titolo
+              formativo e non implicano partnership o endorsement. I contenuti
+              hanno finalità narrative e formative e non costituiscono consulenza
+              finanziaria o raccomandazioni di investimento. Il trading comporta
+              rischio di perdita del capitale.
+            </p>
+          </div>
+        </details>
       </div>
     </section>
 
     <!-- ════════════════════════════════════════════════════════
-         14 · TESTIMONIAL
+         6 · JOURNAL · Approfondimenti
          ════════════════════════════════════════════════════════ -->
-    <section class="quotes" aria-label="In poche parole">
-      <p class="chapter__eyebrow chapter__eyebrow--center reveal">
-        IN POCHE PAROLE
-      </p>
-      <div class="quotes__list">
-        {
-          testimonial.map((q) => (
-            <figure class="quote reveal">
-              <blockquote class="quote__text">{q}</blockquote>
-              <figcaption class="quote__cite">— PATRIZIA GARDIS</figcaption>
-            </figure>
-          ))
-        }
-      </div>
-    </section>
-
-    <!-- ════════════════════════════════════════════════════════
-         15 · SERVIZI & APPROFONDIMENTI
-         ════════════════════════════════════════════════════════ -->
-    <section class="section servizi" id="servizi" aria-labelledby="servizi-title">
+    <section class="section" id="journal" aria-labelledby="journal-title">
       <div class="wrap">
-        <ChapterHero
-          eyebrow="SERVIZI & APPROFONDIMENTI"
-          title="Cosa offro, e cosa condivido"
-          size="60"
-        />
+        <ChapterHero eyebrow="JOURNAL" title="Approfondimenti" size="72" />
         <p class="prose prose--lead reveal">
-          Assessment e messa in sicurezza delle infrastrutture, insieme a
-          contenuti divulgativi su temi chiave come continuità operativa e
-          disaster recovery.
+          Contenuti divulgativi su database, continuità operativa e innovazione.
+        </p>
+        <p class="prose reveal">
+          Condivido ciò che imparo su temi chiave come il ruolo di un DBA, le
+          metriche del Disaster Recovery (RTO e RPO), l'assessment delle
+          infrastrutture e l'esplorazione di nuove tecnologie e criptovalute.
         </p>
       </div>
-      <div class="wrap servizi__grid">
-        <PosterImage
-          src="/poster-summer-offer.jpg"
-          alt="Summer Offer PGNetwork: assessment di database e infrastrutture"
-          w={1254}
-          h={1254}
-          max="30rem"
-          caption="Offerta · Database & Infrastructure Assessment"
-        />
-        <PosterImage
-          src="/poster-rto-rpo.jpg"
-          alt="RTO e RPO: le due metriche chiave del Disaster Recovery"
-          w={1254}
-          h={1254}
-          max="30rem"
-          caption="Approfondimento · RTO & RPO nel Disaster Recovery"
-        />
+      <div class="wrap journal__grid">
+        {
+          journal.map((p) => (
+            <PosterImage
+              src={p.src}
+              alt={p.alt}
+              w={p.w}
+              h={p.h}
+              max="24rem"
+              caption={p.caption}
+            />
+          ))
+        }
       </div>
     </section>
 
     <!-- ════════════════════════════════════════════════════════
-         16 · CONTATTI
+         7 · CONTATTI
          ════════════════════════════════════════════════════════ -->
     <section class="cta" id="contatti" aria-labelledby="cta-title">
-      <div class="cta__lead-poster reveal">
-        <PosterImage
-          src="/poster-opportunita.jpg"
-          alt="Ogni stagione porta nuove opportunità: disponibile per nuovi progetti"
-          w={1024}
-          h={1536}
-          max="20rem"
-          caption="Disponibile per nuove collaborazioni"
-        />
-      </div>
       <div class="cta__card reveal">
         <div class="cta__head">
           <span>PGNETWORK</span>
-          <span>DATABASE & INFRASTRUCTURE</span>
+          <span>DATABASE &amp; INFRASTRUCTURE</span>
         </div>
 
         <h2 id="cta-title" class="cta__title">Entriamo in contatto.</h2>
         <p class="cta__lead">
-          Se pensi che il mio profilo possa essere interessante per un progetto in
-          ambito Database &amp; Infrastructure, sarò felice di confrontarmi.
+          Se il mio profilo è utile per un progetto in ambito Database &amp;
+          Infrastructure, scriviamoci.
         </p>
 
         <ul class="contact-list" role="list">
@@ -869,7 +722,7 @@ const testimonial = [
     </section>
 
     <!-- ════════════════════════════════════════════════════════
-         16 · FINAL STATEMENT
+         8 · FINAL STATEMENT
          ════════════════════════════════════════════════════════ -->
     <section class="final" aria-label="Statement finale">
       <h2 class="final__headline reveal">
@@ -880,17 +733,12 @@ const testimonial = [
     </section>
   </main>
 
-  <!-- ════════════════════════════════════════════════════════
-       17 · FOOTER
-       ════════════════════════════════════════════════════════ -->
   <footer class="footer">
     <div class="footer__inner">
       <p class="footer__copy">
-        PATRIZIA GARDIS · PGNETWORK · © MMXXVI
+        PATRIZIA GARDIS · DATABASE &amp; INFRASTRUCTURE · FOUNDER PGNETWORK
       </p>
       <nav class="footer__links" aria-label="Link di servizio">
-        <!-- TODO: sostituire con l'URL reale del profilo LinkedIn -->
-        <a href="#linkedin-da-inserire" aria-disabled="true">LINKEDIN</a>
         <a href="mailto:pgardis@pgnetwork.it">EMAIL</a>
         <a href="/privacy">PRIVACY</a>
         <a href="/note-legali">NOTE LEGALI</a>
@@ -910,7 +758,7 @@ const testimonial = [
     max-width: 56rem;
   }
   .section {
-    padding-block: clamp(3.5rem, 7vw, 6rem);
+    padding-block: clamp(2.5rem, 5vw, 4.5rem);
   }
 
   /* ── Prose ────────────────────────────────────────────────── */
@@ -921,14 +769,10 @@ const testimonial = [
     line-height: 1.7;
     color: var(--paper);
     margin: 0 0 1.6em;
-    max-width: 65ch;
-  }
-  .prose--center {
-    margin-inline: auto;
-    text-align: center;
+    max-width: 60ch;
   }
   .prose--lead {
-    margin-top: 2.5rem;
+    margin-top: 2rem;
     font-size: clamp(1.25rem, 1.9vw, 1.5rem);
     color: var(--muted);
   }
@@ -939,6 +783,24 @@ const testimonial = [
   .strong {
     font-weight: 600;
     color: var(--paper);
+  }
+
+  /* ── Buttons ──────────────────────────────────────────────── */
+  .btn {
+    display: inline-block;
+    padding: 1rem 2rem;
+    background: #ffffff;
+    color: var(--canvas);
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.28em;
+    text-decoration: none;
+    transition: background-color 400ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .btn:hover {
+    background: var(--gold);
   }
 
   /* ════ 1 · HERO CINEMATIC ═════════════════════════════════ */
@@ -966,7 +828,7 @@ const testimonial = [
       180deg,
       rgba(10, 10, 12, 0.55) 0%,
       rgba(10, 10, 12, 0.4) 40%,
-      rgba(10, 10, 12, 0.75) 100%
+      rgba(10, 10, 12, 0.78) 100%
     );
     z-index: 2;
   }
@@ -987,14 +849,14 @@ const testimonial = [
     font-weight: 500;
     letter-spacing: 0.3em;
     text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 4vh;
+    color: var(--gold);
+    margin-bottom: 3vh;
   }
   .hero-title {
     font-family: var(--font-serif);
     font-optical-sizing: auto;
     font-weight: 300;
-    line-height: 0.9;
+    line-height: 0.95;
     letter-spacing: -0.025em;
     color: var(--paper);
     margin: 0;
@@ -1004,21 +866,28 @@ const testimonial = [
   }
   .hero-title .line-1 {
     font-style: italic;
-    font-size: 12vw;
+    font-size: clamp(2.75rem, 8.5vw, 7.5rem);
   }
   .hero-title .line-2 {
     font-weight: 300;
     color: var(--accent);
-    font-size: 12vw;
+    font-size: clamp(2.75rem, 8.5vw, 7.5rem);
   }
   .hero-title .line-3 {
     font-weight: 400;
-    font-size: 12vw;
-    align-self: flex-end;
-    text-align: right;
+    font-size: clamp(2.75rem, 8.5vw, 7.5rem);
+  }
+  .hero-role {
+    margin: 2.5vh 0 0;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: clamp(0.8rem, 1.4vw, 1rem);
+    text-transform: uppercase;
+    letter-spacing: 0.28em;
+    color: var(--gold);
   }
   .hero-tagline {
-    margin: 4vh 0 0;
+    margin: 2vh 0 0;
     max-width: 34rem;
     font-family: var(--font-sans);
     font-weight: 300;
@@ -1027,91 +896,132 @@ const testimonial = [
     color: rgba(232, 230, 225, 0.85);
   }
 
-  /* ════ 2 · INTRO PRO ══════════════════════════════════════ */
-  .intro-pro__grid {
+  /* ════ 2 · STRIP · POSIZIONAMENTO ═════════════════════════ */
+  .strip {
+    border-bottom: 1px solid var(--rule);
+  }
+  .strip__row {
     display: grid;
-    grid-template-columns: 7fr 5fr;
-    gap: clamp(2rem, 6vw, 5rem);
+    grid-template-columns: 8rem 1fr;
+    gap: 1.5rem;
+    align-items: baseline;
+    padding: 1.5rem 0;
+    border-top: 1px solid var(--rule);
+  }
+  .strip__label {
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.28em;
+    color: var(--gold);
+  }
+  .keywords {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
     align-items: center;
+    gap: 0.4rem 0;
   }
-  .intro-pro__title {
-    margin: 1.25rem 0 2rem;
+  .keywords li {
+    display: flex;
+    align-items: center;
     font-family: var(--font-serif);
     font-optical-sizing: auto;
     font-weight: 300;
-    font-size: clamp(2.25rem, 5vw, 3.5rem);
-    line-height: 1.05;
+    font-size: clamp(1.1rem, 1.9vw, 1.55rem);
+    line-height: 1.2;
     color: var(--paper);
   }
-  .intro-pro__media {
-    position: relative;
+  .keywords li:not(:last-child)::after {
+    content: "•";
+    margin: 0 0.9rem;
+    color: var(--gold);
+    font-size: 0.7em;
   }
-  .intro-pro__media img {
-    display: block;
-    width: 100%;
-    height: auto; /* proporzioni naturali, nessun ritaglio */
-    border: 1px solid var(--rule);
-    border-radius: 3px;
-  }
-
-  /* ════ 3 · PGNETWORK ══════════════════════════════════════ */
-  .pg__body {
-    margin-top: clamp(2rem, 5vw, 3.5rem);
-    max-width: 46rem;
-  }
-  .pg__tech {
-    margin-top: clamp(2.5rem, 5vw, 3.5rem);
-  }
-  .pg__tech .chapter__eyebrow {
-    margin-bottom: 1.25rem;
-  }
-
-  /* Manifesto band (scura) */
-  .manifesto-band {
-    padding-block: clamp(4rem, 9vw, 7rem);
-    padding-inline: clamp(1.25rem, 5vw, 4rem);
-    background:
-      radial-gradient(
-        120% 100% at 0% 0%,
-        rgba(230, 169, 46, 0.06) 0%,
-        transparent 55%
-      ),
-      var(--navy);
-    border-block: 1px solid var(--navy-line);
-  }
-  .manifesto-band__quote {
-    margin: 0 auto;
-    max-width: 48rem;
-    font-family: var(--font-serif);
-    font-optical-sizing: auto;
-    font-weight: 300;
-    font-size: clamp(1.6rem, 3.4vw, 2.75rem);
-    line-height: 1.25;
-    color: var(--paper);
-    text-wrap: balance;
-  }
-  .manifesto-band__note {
-    margin: 2rem auto 0;
-    max-width: 44rem;
+  .keywords--soft li {
     font-family: var(--font-sans);
     font-weight: 300;
-    font-size: clamp(1rem, 1.5vw, 1.2rem);
-    line-height: 1.65;
-    color: rgba(232, 230, 225, 0.78);
+    font-size: clamp(0.95rem, 1.5vw, 1.15rem);
+    color: rgba(232, 230, 225, 0.85);
+  }
+  .strip__cta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-top: 2.5rem;
+  }
+  .strip__statement {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-optical-sizing: auto;
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(1.35rem, 2.6vw, 2rem);
+    line-height: 1.2;
+    color: var(--paper);
+    max-width: 34ch;
   }
 
-  /* ════ 4 · COMPETENZE ═════════════════════════════════════ */
+  /* ════ 3 · EXPERTISE ══════════════════════════════════════ */
   .competenze__grid {
-    margin-top: clamp(3rem, 6vw, 4.5rem);
+    margin-top: clamp(2.5rem, 5vw, 4rem);
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: clamp(1.5rem, 3vw, 2.5rem);
   }
-
-  /* ════ 5 · PROJECT + FLOW ═════════════════════════════════ */
-  .project__body {
-    margin-top: clamp(2rem, 5vw, 3rem);
-    max-width: 46rem;
+  .proof {
+    margin-top: clamp(3.5rem, 7vw, 5.5rem);
+    padding-top: clamp(2.5rem, 5vw, 3.5rem);
+    border-top: 1px solid var(--rule);
+  }
+  .proof__head {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .proof__title {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-size: clamp(1.75rem, 3.5vw, 2.75rem);
+    line-height: 1.05;
+    color: var(--paper);
+  }
+  .proof__stats {
+    list-style: none;
+    margin: clamp(2rem, 4vw, 3rem) 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+  }
+  .proof__stats li {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    border-top: 1px solid var(--navy-line);
+    padding-top: 1rem;
+  }
+  .proof__num {
+    font-family: var(--font-serif);
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-size: clamp(2rem, 3.6vw, 3.25rem);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--gold);
+  }
+  .proof__lab {
+    font-family: var(--font-sans);
+    font-weight: 300;
+    font-size: 0.85rem;
+    color: var(--muted);
   }
   .flow {
     margin: clamp(2.5rem, 5vw, 3.5rem) 0 0;
@@ -1135,7 +1045,6 @@ const testimonial = [
     font-family: var(--font-sans);
     font-weight: 600;
     font-size: 0.95rem;
-    letter-spacing: 0.01em;
     color: var(--gold);
   }
   .flow__d {
@@ -1153,89 +1062,149 @@ const testimonial = [
     font-size: 1.1rem;
   }
 
-  /* ════ 6 · ESSAY ══════════════════════════════════════════ */
-  .essay {
-    padding-block: clamp(3.5rem, 7vw, 5.5rem);
-  }
-  .essay__inner {
-    max-width: 80rem;
-    margin: 0 auto;
-    padding-inline: clamp(1.25rem, 5vw, 4rem);
+  /* ════ 4 · PGNETWORK ══════════════════════════════════════ */
+  .pg__grid {
+    margin-top: clamp(2rem, 5vw, 3.5rem);
     display: grid;
-    grid-template-columns: 5fr 7fr;
-    gap: clamp(2rem, 6vw, 5rem);
+    grid-template-columns: 1fr auto;
+    gap: clamp(2rem, 5vw, 4rem);
+    align-items: start;
   }
-  .essay__sticky {
-    position: sticky;
-    top: 8rem;
+  .pg__body {
+    max-width: 46rem;
   }
-  .essay__title {
-    margin: 0 0 1.5rem;
-    font-family: var(--font-serif);
-    font-optical-sizing: auto;
-    font-weight: 300;
-    font-size: clamp(2.5rem, 5vw, 3.75rem);
-    line-height: 1.05;
-    color: var(--paper);
+  .pg__poster {
+    display: flex;
+    justify-content: flex-end;
   }
-  .essay__meta {
+  .values {
+    list-style: none;
+    margin: clamp(3rem, 6vw, 4.5rem) 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: clamp(1.25rem, 2.5vw, 2rem);
+  }
+  .value {
     display: flex;
     flex-direction: column;
-    gap: 0.4rem;
+    gap: 0.6rem;
+    border-top: 1px solid var(--navy-line);
+    padding-top: 1.1rem;
+  }
+  .value__name {
     font-family: var(--font-sans);
-    font-weight: 500;
-    font-size: 11px;
+    font-weight: 600;
+    font-size: 12px;
     text-transform: uppercase;
-    letter-spacing: 0.28em;
-    color: var(--muted);
+    letter-spacing: 0.22em;
+    color: var(--gold);
   }
-  .essay__body {
-    max-width: 38rem;
-  }
-  .essay__list {
-    margin: 0 0 2rem;
-    padding: 0;
-    list-style: none;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.65rem 1.5rem;
-  }
-  .essay__list li {
-    position: relative;
-    padding-left: 1.2rem;
+  .value__body {
     font-family: var(--font-sans);
     font-weight: 300;
-    font-size: 1rem;
-    line-height: 1.4;
-    color: rgba(232, 230, 225, 0.85);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: rgba(232, 230, 225, 0.78);
   }
-  .essay__list li::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 0.6em;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--accent);
+  .pg-partner {
+    margin-top: clamp(3rem, 6vw, 4.5rem);
+    padding: clamp(1.75rem, 4vw, 2.75rem);
+    border: 1px solid var(--navy-line);
+    border-radius: 4px;
+    background:
+      radial-gradient(
+        140% 120% at 100% 0%,
+        rgba(230, 169, 46, 0.06) 0%,
+        transparent 55%
+      ),
+      rgba(255, 255, 255, 0.015);
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+    align-items: flex-start;
   }
-  .pull {
-    margin: 2.5rem 0 0;
-    padding-left: 2rem;
-    border-left: 4px solid var(--accent);
-    font-family: var(--font-serif);
-    font-optical-sizing: auto;
-    font-style: italic;
-    font-weight: 300;
-    font-size: clamp(1.5rem, 3vw, 2.5rem);
-    line-height: 1.25;
-    color: var(--paper);
+  .pg-partner .chapter__eyebrow {
+    color: var(--gold);
+  }
+  .pg-partner .prose {
+    margin: 0;
+    max-width: 54rem;
+  }
+  .pg-partner__link {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--gold);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 300ms ease;
+  }
+  .pg-partner__link:hover {
+    border-bottom-color: var(--gold);
   }
 
-  /* ════ 7 · SEASONS (albero come sfondo sfocato scuro) ═════ */
+  .pg-quote {
+    margin-top: clamp(3rem, 6vw, 4.5rem);
+    padding-block: clamp(3rem, 6vw, 5rem);
+    background:
+      radial-gradient(
+        120% 100% at 0% 0%,
+        rgba(230, 169, 46, 0.06) 0%,
+        transparent 55%
+      ),
+      var(--navy);
+    border-block: 1px solid var(--navy-line);
+  }
+  .pg-quote__text {
+    margin: 0 auto;
+    max-width: 44rem;
+    font-family: var(--font-serif);
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-size: clamp(1.6rem, 3.4vw, 2.75rem);
+    line-height: 1.25;
+    color: var(--paper);
+    text-align: center;
+    text-wrap: balance;
+  }
+
+  /* ════ 5 · ABOUT ══════════════════════════════════════════ */
+  .about__intro {
+    margin-top: clamp(2rem, 5vw, 3rem);
+    display: grid;
+    grid-template-columns: 7fr 5fr;
+    gap: clamp(2rem, 6vw, 5rem);
+    align-items: start;
+  }
+  .about__intro > div .prose:first-child {
+    font-size: clamp(1.35rem, 2.3vw, 1.85rem);
+    line-height: 1.5;
+    color: var(--paper);
+  }
+  .about__media {
+    display: flex;
+    justify-content: flex-end;
+  }
+  .about__media img {
+    display: block;
+    width: 100%;
+    max-width: 24rem;
+    height: auto;
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+  }
+
+  /* Seasons */
+  .subhead + .seasons {
+    margin-top: clamp(1.5rem, 3vw, 2.25rem);
+  }
   .seasons {
     position: relative;
-    padding-block: clamp(4rem, 8vw, 7rem);
+    margin-top: clamp(2rem, 4vw, 3rem);
+    padding-block: clamp(2.75rem, 5.5vw, 4.5rem);
     overflow: hidden;
     isolation: isolate;
   }
@@ -1248,7 +1217,7 @@ const testimonial = [
     background-position: center;
     background-repeat: no-repeat;
     filter: blur(6px) brightness(0.5) saturate(0.95);
-    transform: scale(1.08); /* evita bordi chiari dal blur */
+    transform: scale(1.08);
   }
   .seasons__bg::after {
     content: "";
@@ -1267,16 +1236,12 @@ const testimonial = [
     z-index: 1;
   }
   .seasons__grid {
-    margin-top: clamp(2.5rem, 5vw, 3.5rem);
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: clamp(1.25rem, 2.5vw, 2rem);
   }
-  .seasons .season {
-    border-top-color: rgba(230, 169, 46, 0.4);
-  }
   .season {
-    border-top: 1px solid var(--navy-line);
+    border-top: 1px solid rgba(230, 169, 46, 0.4);
     padding-top: 1.5rem;
   }
   .season__name {
@@ -1305,371 +1270,296 @@ const testimonial = [
     color: rgba(232, 230, 225, 0.8);
   }
 
-  /* ════ 8 · MANIFESTO / VALORI (invertito) ═════════════════ */
-  .manifesto {
-    background: var(--paper);
-    color: var(--canvas);
-    padding: 0;
-  }
-  .manifesto-inner {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 0 8vw;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8vw;
-    align-items: stretch;
-  }
-  .manifesto-left {
-    position: relative;
-    min-height: 100vh;
-  }
-  .manifesto-left-sticky {
-    position: sticky;
-    top: 0;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-  .manifesto-eyebrow {
-    display: block;
-    font-family: var(--font-sans);
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: rgba(10, 10, 12, 0.5);
-    margin-bottom: 4vh;
-  }
-  .manifesto-title {
-    font-family: var(--font-serif);
-    font-optical-sizing: auto;
-    font-weight: 300;
-    font-size: clamp(48px, 6vw, 96px);
-    line-height: 0.95;
-    letter-spacing: -0.02em;
-    margin: 0 0 8vh 0;
-    color: var(--canvas);
-  }
-  .manifesto-counter {
-    display: flex;
-    align-items: baseline;
-    gap: 1ch;
-    font-family: var(--font-serif);
-    font-optical-sizing: auto;
-    font-size: clamp(20px, 2.4vw, 32px);
-    font-weight: 400;
-    font-style: italic;
-    color: var(--canvas);
-    transition: opacity 0.4s ease;
-  }
-  .manifesto-counter-num {
-    color: #8a7a55;
-    font-style: normal;
-    font-variant-numeric: tabular-nums;
-  }
-  .manifesto-counter-sep {
-    color: rgba(10, 10, 12, 0.3);
-    font-style: normal;
-  }
-  .manifesto-counter-label {
-    transition: opacity 0.35s ease;
-  }
-  .manifesto-counter-label.is-changing {
-    opacity: 0;
-  }
-  .manifesto-right {
-    display: flex;
-    flex-direction: column;
-    gap: 22vh;
-    padding-block: 20vh;
-  }
-  .manifesto-principle {
-    min-height: 52vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    max-width: 520px;
-  }
-  .manifesto-principle-num {
-    font-family: var(--font-serif);
-    font-optical-sizing: auto;
-    font-size: clamp(80px, 11vw, 180px);
-    font-weight: 200;
-    line-height: 0.9;
-    color: rgba(10, 10, 12, 0.08);
-    margin-bottom: 2vh;
-    letter-spacing: -0.04em;
-    font-variant-numeric: tabular-nums;
-    transform-origin: left center;
-    transition:
-      color 600ms cubic-bezier(0.22, 1, 0.36, 1),
-      transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  .manifesto-principle-name {
-    position: relative;
-    align-self: flex-start;
-    font-family: var(--font-sans);
-    font-size: 14px;
-    font-weight: 600;
-    letter-spacing: 0.28em;
-    text-transform: uppercase;
-    color: var(--canvas);
-    margin: 0 0 4vh 0;
-    transition:
-      color 500ms cubic-bezier(0.22, 1, 0.36, 1),
-      letter-spacing 500ms cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  .manifesto-principle-body {
-    font-family: var(--font-serif);
-    font-optical-sizing: auto;
-    font-size: clamp(22px, 2.2vw, 32px);
-    font-weight: 300;
-    line-height: 1.35;
-    color: rgba(10, 10, 12, 0.85);
-    margin: 0;
-  }
-  .manifesto-principle-name::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: -0.7em;
-    width: 100%;
-    height: 1px;
-    background: #8a7a55;
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  .manifesto-principle:hover .manifesto-principle-name {
-    color: #8a7a55;
-    letter-spacing: 0.34em;
-  }
-  .manifesto-principle:hover .manifesto-principle-name::after {
-    transform: scaleX(1);
-  }
-  .manifesto-principle:hover .manifesto-principle-num {
-    color: rgba(10, 10, 12, 0.16);
-    transform: scale(1.05);
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .manifesto-principle:hover .manifesto-principle-num {
-      transform: none;
-    }
-    .manifesto-principle:hover .manifesto-principle-name {
-      letter-spacing: 0.28em;
-    }
-  }
-
-  /* ════ · VERTICAL LIST (altre attività) ═══════════════════ */
-  .list {
-    max-width: 80rem;
-    margin: clamp(3rem, 6vw, 5rem) auto 0;
-    padding-inline: clamp(1.25rem, 5vw, 4rem);
-  }
-  .list__close {
-    border-top: 1px solid var(--rule);
-  }
-
-  /* ════ · MISSION ══════════════════════════════════════════ */
-  .mission {
-    position: relative;
-    padding-block: clamp(4rem, 8vw, 6.5rem);
-    text-align: center;
-    background-image: linear-gradient(
-        rgba(10, 10, 12, 0.8),
-        rgba(10, 10, 12, 0.8)
-      ),
-      url("/cap4-santodomingo.jpg");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-  }
-  .mission__title {
-    margin: 1.5rem 0 3rem;
-    font-family: var(--font-serif);
-    font-optical-sizing: auto;
-    font-weight: 300;
-    font-size: clamp(3rem, 9vw, 6rem);
-    line-height: 1;
-    color: var(--paper);
-  }
-  .mission__prose {
-    margin-top: 2rem;
-  }
-  .chapter__eyebrow {
-    margin: 0;
-    font-family: var(--font-sans);
-    font-weight: 500;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.28em;
-    color: var(--muted);
-  }
-  .chapter__eyebrow--center {
-    text-align: center;
-  }
-
-  /* ════ · LIFE ═════════════════════════════════════════════ */
-  .life {
+  /* Personale */
+  .personal {
     margin-top: clamp(3rem, 6vw, 4.5rem);
     display: grid;
-    grid-template-columns: 7fr 5fr;
-    gap: clamp(2rem, 6vw, 5rem);
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(1.5rem, 4vw, 3rem);
   }
-  .life__main {
-    max-width: 42rem;
-  }
-  .life__aside {
+  .personal__block {
     display: flex;
-    align-items: flex-start;
-    justify-content: flex-end;
-    gap: 1.5rem;
-  }
-  .life__sep {
-    width: 1px;
-    height: 12rem;
-    background: var(--rule);
-  }
-  .life__vmeta {
-    writing-mode: vertical-rl;
-    text-orientation: mixed;
-    font-family: var(--font-sans);
-    font-weight: 500;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.28em;
-    color: var(--muted);
-  }
-
-  /* ════ · FORMATIVE LIST ═══════════════════════════════════ */
-  .formative {
-    max-width: 80rem;
-    margin: clamp(3rem, 6vw, 4.5rem) auto 0;
-    padding-inline: clamp(1.25rem, 5vw, 4rem);
-  }
-  .formative__row {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 1.5rem;
-    padding: 1.75rem 0;
+    flex-direction: column;
+    gap: 1rem;
     border-top: 1px solid var(--rule);
-    transition: background-color 500ms cubic-bezier(0.22, 1, 0.36, 1);
+    padding-top: 1.25rem;
   }
-  .formative__row:last-child {
-    border-bottom: 1px solid var(--rule);
-  }
-  .formative__row:hover {
-    background: rgba(255, 255, 255, 0.04);
-  }
-  .formative__name {
-    position: relative;
-    font-family: var(--font-sans);
-    font-weight: 300;
-    font-size: clamp(1.25rem, 2.2vw, 1.75rem);
-    color: var(--paper);
-    transition:
-      color 500ms cubic-bezier(0.22, 1, 0.36, 1),
-      transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  .formative__name::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: -0.35em;
-    width: 100%;
-    height: 1px;
-    background: var(--accent);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  .formative__row:hover .formative__name {
-    color: var(--accent);
-    transform: translateX(8px);
-  }
-  .formative__row:hover .formative__name::after {
-    transform: scaleX(1);
-  }
-  .formative__year {
-    font-family: var(--font-sans);
-    font-weight: 500;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.28em;
-    color: var(--muted);
-    transition:
-      color 500ms cubic-bezier(0.22, 1, 0.36, 1),
-      transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  .formative__row:hover .formative__year {
-    color: var(--paper);
-    transform: translateX(-8px);
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .formative__row:hover .formative__name,
-    .formative__row:hover .formative__year {
-      transform: none;
-    }
-    .formative__row:hover .formative__name::after {
-      transform: scaleX(0);
-    }
-  }
-  .formative__note {
-    margin: clamp(2.5rem, 5vw, 4rem) 0 0;
-    max-width: 48rem;
-    font-family: var(--font-sans);
-    font-weight: 500;
-    font-size: 11px;
-    line-height: 1.8;
-    text-transform: uppercase;
-    letter-spacing: 0.22em;
-    color: var(--muted);
-  }
-
-  /* ════ · QUOTES ═══════════════════════════════════════════ */
-  .quotes {
-    padding-block: clamp(4.5rem, 8vw, 6.5rem);
-    padding-inline: clamp(1.25rem, 5vw, 4rem);
-  }
-  .quotes__list {
-    max-width: 56rem;
-    margin: clamp(3rem, 6vw, 5rem) auto 0;
-  }
-  .quote {
+  .personal__line {
     margin: 0;
-    padding-block: clamp(2.5rem, 6vw, 4rem);
-    text-align: center;
-  }
-  .quote__text {
-    margin: 0 0 1.5rem;
     font-family: var(--font-serif);
     font-optical-sizing: auto;
     font-weight: 300;
-    font-size: clamp(1.6rem, 3.2vw, 2.75rem);
-    line-height: 1.2;
-    background: linear-gradient(
-      180deg,
-      var(--paper) 0%,
-      rgba(232, 230, 225, 0.6) 100%
-    );
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    text-wrap: balance;
+    font-size: clamp(1.15rem, 1.9vw, 1.4rem);
+    line-height: 1.35;
+    color: var(--paper);
   }
-  .quote__cite {
+  .personal__line--sm {
+    margin-top: 0.9rem;
+    font-family: var(--font-sans);
+    font-size: 0.95rem;
+    line-height: 1.55;
+    color: rgba(232, 230, 225, 0.72);
+  }
+
+  /* Punto di svolta */
+  .svolta {
+    margin-top: clamp(3rem, 6vw, 4.5rem);
+    display: grid;
+    grid-template-columns: 5fr 7fr;
+    gap: clamp(2rem, 5vw, 4rem);
+    align-items: start;
+  }
+  .svolta__quote {
+    margin: 0;
+    padding-left: 1.75rem;
+    border-left: 4px solid var(--accent);
+    font-family: var(--font-serif);
+    font-optical-sizing: auto;
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(1.4rem, 2.8vw, 2.1rem);
+    line-height: 1.25;
+    color: var(--paper);
+  }
+  .svolta .prose {
+    margin: 0;
+  }
+
+  /* Subhead (divisori interni About) */
+  .subhead {
+    margin-top: clamp(3.5rem, 7vw, 5rem);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .subhead__title {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-size: clamp(1.75rem, 3.5vw, 2.75rem);
+    line-height: 1.05;
+    color: var(--paper);
+  }
+
+  /* Cards (interessi) */
+  .cards {
+    margin-top: clamp(1.75rem, 4vw, 2.5rem);
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: clamp(1.25rem, 2.5vw, 2rem);
+  }
+  .card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    border-top: 1px solid var(--rule);
+    padding-top: 1.25rem;
+  }
+  .card__meta {
     font-family: var(--font-sans);
     font-weight: 500;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.24em;
+    color: var(--gold);
+  }
+  .card__title {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-size: clamp(1.1rem, 1.7vw, 1.35rem);
+    line-height: 1.15;
+    color: var(--paper);
+  }
+  .card__desc {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-weight: 300;
+    font-size: 0.9rem;
+    line-height: 1.55;
+    color: rgba(232, 230, 225, 0.72);
+  }
+  .card__cta {
+    margin-top: 0.4rem;
+    align-self: flex-start;
+    font-family: var(--font-sans);
+    font-weight: 600;
     font-size: 11px;
     text-transform: uppercase;
-    letter-spacing: 0.28em;
+    letter-spacing: 0.18em;
+    color: var(--gold);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 300ms ease;
+  }
+  .card__cta:hover {
+    border-bottom-color: var(--gold);
+  }
+
+  /* Formazione categorie */
+  .formgrid {
+    margin-top: clamp(1.75rem, 4vw, 2.5rem);
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: clamp(1.5rem, 3vw, 2.5rem);
+  }
+  .formcat {
+    border-top: 1px solid var(--navy-line);
+    padding-top: 1.35rem;
+  }
+  .formcat__cat {
+    margin: 0 0 0.5rem;
+    font-family: var(--font-serif);
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-size: clamp(1.25rem, 2vw, 1.6rem);
+    line-height: 1.1;
+    color: var(--paper);
+  }
+  .formcat__desc {
+    margin: 0 0 1rem;
+    font-family: var(--font-sans);
+    font-weight: 300;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: var(--muted);
+  }
+  .formcat__refs {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .formcat__refs li {
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 12px;
+    letter-spacing: 0.02em;
+    color: rgba(232, 230, 225, 0.85);
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    padding: 0.35rem 0.85rem;
+  }
+  .fineprint {
+    margin: clamp(2.5rem, 5vw, 3.5rem) 0 0;
+    max-width: 52rem;
+    font-family: var(--font-sans);
+    font-weight: 300;
+    font-size: 12px;
+    line-height: 1.7;
     color: var(--muted);
   }
 
-  /* ════ · CTA / CONTATTI ═══════════════════════════════════ */
+  /* Blocchi comprimibili (details/summary) */
+  .disc-group {
+    margin-top: clamp(2.5rem, 5vw, 3.5rem);
+  }
+  .disc {
+    border-top: 1px solid var(--rule);
+  }
+  .disc:last-of-type {
+    border-bottom: 1px solid var(--rule);
+  }
+  .disc__summary {
+    list-style: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding: 1.4rem 0;
+  }
+  .disc__summary::-webkit-details-marker {
+    display: none;
+  }
+  .disc__head {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+  }
+  .disc__title {
+    font-family: var(--font-serif);
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+    line-height: 1.05;
+    color: var(--paper);
+    transition: color 300ms ease;
+  }
+  .disc__summary:hover .disc__title,
+  .disc[open] .disc__title {
+    color: var(--gold);
+  }
+  .disc__icon {
+    position: relative;
+    flex: 0 0 auto;
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+  .disc__icon::before,
+  .disc__icon::after {
+    content: "";
+    position: absolute;
+    background: var(--gold);
+    transition:
+      transform 320ms cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 320ms ease;
+  }
+  .disc__icon::before {
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 1.5px;
+    transform: translateY(-50%);
+  }
+  .disc__icon::after {
+    left: 50%;
+    top: 0;
+    width: 1.5px;
+    height: 100%;
+    transform: translateX(-50%);
+  }
+  .disc[open] .disc__icon::after {
+    transform: translateX(-50%) scaleY(0);
+    opacity: 0;
+  }
+  .disc__content {
+    padding: 0.35rem 0 2rem;
+  }
+  .disc__content .personal,
+  .disc__content .cards,
+  .disc__content .formgrid {
+    margin-top: 0;
+  }
+  .disc__content .svolta__quote {
+    margin: 0 0 1.5rem;
+  }
+  .disc__content .prose:last-child,
+  .disc__content .fineprint {
+    margin-bottom: 0;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .disc__icon::before,
+    .disc__icon::after {
+      transition: none;
+    }
+  }
+
+  /* ════ 6 · JOURNAL ════════════════════════════════════════ */
+  .journal__grid {
+    margin-top: clamp(2.5rem, 5vw, 3.5rem);
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: clamp(2rem, 4vw, 3.5rem);
+    justify-items: center;
+    align-items: start;
+  }
+
+  /* ════ 7 · CTA / CONTATTI ═════════════════════════════════ */
   .cta {
     padding-block: clamp(3rem, 6vw, 5rem);
     padding-inline: clamp(1.25rem, 5vw, 4rem);
@@ -1757,7 +1647,6 @@ const testimonial = [
     color: var(--muted);
     font-style: italic;
   }
-
   .form {
     display: flex;
     flex-direction: column;
@@ -1859,15 +1748,25 @@ const testimonial = [
     color: var(--gold);
   }
 
-  /* ════ · FINAL ════════════════════════════════════════════ */
+  .chapter__eyebrow {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.28em;
+    color: var(--muted);
+  }
+
+  /* ════ 8 · FINAL ══════════════════════════════════════════ */
   .final {
-    min-height: 100vh;
-    min-height: 100svh;
+    min-height: 46vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 6rem clamp(1.25rem, 5vw, 4rem);
+    padding: clamp(4rem, 12vw, 8rem) clamp(1.25rem, 5vw, 4rem);
     text-align: center;
+    border-top: 1px solid var(--rule);
   }
   .final__headline {
     margin: 0;
@@ -1885,7 +1784,7 @@ const testimonial = [
     color: var(--accent);
   }
 
-  /* ════ · FOOTER ═══════════════════════════════════════════ */
+  /* ════ FOOTER ═════════════════════════════════════════════ */
   .footer {
     border-top: 1px solid var(--rule);
   }
@@ -1927,161 +1826,69 @@ const testimonial = [
     color: var(--gold);
   }
 
-  /* ════ · POSTER LAYOUTS ═══════════════════════════════════ */
-  .pg__grid {
-    margin-top: clamp(2rem, 5vw, 3.5rem);
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: clamp(2rem, 5vw, 4rem);
-    align-items: start;
-  }
-  .pg__grid .pg__body {
-    margin-top: 0;
-  }
-  .pg__poster {
-    display: flex;
-    justify-content: flex-end;
-  }
-
-  .altre__intro {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: clamp(2rem, 5vw, 4rem);
-    align-items: center;
-  }
-  .altre__intro .prose--lead {
-    margin-top: 0;
-  }
-
-  .radici__media {
-    display: flex;
-    align-items: flex-start;
-    justify-content: flex-end;
-  }
-
-  .servizi__grid {
-    margin-top: clamp(2.5rem, 5vw, 3.5rem);
-    display: flex;
-    flex-wrap: wrap;
-    gap: clamp(1.5rem, 4vw, 3rem);
-    justify-content: center;
-  }
-
-  .cta__lead-poster {
-    display: flex;
-    justify-content: center;
-    margin-bottom: clamp(2rem, 5vw, 3rem);
-  }
-
   /* ════ RESPONSIVE ═════════════════════════════════════════ */
   @media (max-width: 1000px) {
-    .competenze__grid {
+    .competenze__grid,
+    .proof__stats {
       grid-template-columns: repeat(2, 1fr);
     }
-    .seasons__grid {
+    .seasons__grid,
+    .values,
+    .cards {
       grid-template-columns: repeat(2, 1fr);
+    }
+    .values {
+      grid-template-columns: repeat(3, 1fr);
     }
   }
 
   @media (max-width: 900px) {
-    .intro-pro__grid {
+    .about__intro,
+    .pg__grid,
+    .svolta {
       grid-template-columns: 1fr;
     }
-    .intro-pro__media {
-      max-width: 26rem;
+    .about__media,
+    .pg__poster {
+      justify-content: flex-start;
     }
-    .essay__inner {
+    .personal {
       grid-template-columns: 1fr;
-    }
-    .essay__sticky {
-      position: static;
-    }
-    .essay__body {
-      max-width: none;
-    }
-    .essay__list {
-      grid-template-columns: 1fr;
-    }
-    .manifesto {
-      padding-block: clamp(5rem, 14vw, 8rem);
-    }
-    .manifesto-inner {
-      grid-template-columns: 1fr;
-      gap: 0;
-    }
-    .manifesto-left {
-      min-height: 0;
-    }
-    .manifesto-left-sticky {
-      position: relative;
-      top: auto;
-      min-height: 0;
-      display: block;
-      margin-bottom: 6vh;
-    }
-    .manifesto-counter {
-      display: none;
-    }
-    .manifesto-right {
-      gap: 8vh;
-      padding-block: 0;
-    }
-    .manifesto-principle {
-      min-height: 0;
-    }
-    .life {
-      grid-template-columns: 1fr;
-    }
-    .life__aside {
-      display: none;
     }
     .flow__step {
       flex: 1 1 45%;
     }
-    .pg__grid,
-    .altre__intro {
+    .strip__row {
       grid-template-columns: 1fr;
-    }
-    .pg__poster,
-    .radici__media {
-      justify-content: flex-start;
-    }
-    .radici__media {
-      margin-top: 1rem;
+      gap: 0.75rem;
     }
   }
 
   @media (max-width: 768px) {
-    .hero-title {
-      letter-spacing: -0.03em;
+    .hero-content {
+      padding: 0 6vw;
     }
     .hero-title .line-1,
     .hero-title .line-2,
     .hero-title .line-3 {
-      font-size: 13vw;
       overflow-wrap: break-word;
     }
-    .hero-content {
-      padding: 0 6vw;
-    }
-    /* Sezione finale: niente schermo vuoto, altezza sul contenuto */
     .final {
       min-height: auto;
       padding-block: clamp(4rem, 16vw, 7rem);
     }
-  }
-
-  @media (max-width: 430px) {
-    .hero-title .line-1,
-    .hero-title .line-2,
-    .hero-title .line-3 {
-      font-size: 12vw;
+    .formgrid,
+    .values,
+    .journal__grid {
+      grid-template-columns: 1fr;
     }
   }
 
   @media (max-width: 640px) {
     .competenze__grid,
-    .seasons__grid {
+    .seasons__grid,
+    .cards,
+    .proof__stats {
       grid-template-columns: 1fr;
     }
     .flow__step {
@@ -2100,9 +1907,6 @@ const testimonial = [
   @media (prefers-reduced-motion: reduce) {
     .hero-video {
       display: none;
-    }
-    .manifesto-counter-label {
-      transition: none;
     }
   }
 </style>

@@ -43,7 +43,7 @@ const {
   .chapter {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 1.15rem;
   }
   .chapter--center {
     align-items: center;
@@ -53,11 +53,11 @@ const {
   .chapter__eyebrow {
     margin: 0;
     font-family: var(--font-sans);
-    font-weight: 500;
-    font-size: 11px;
+    font-weight: 600;
+    font-size: 12px;
     text-transform: uppercase;
-    letter-spacing: 0.28em;
-    color: var(--muted);
+    letter-spacing: 0.32em;
+    color: var(--gold);
   }
   .chapter--invert .chapter__eyebrow {
     color: rgba(10, 10, 12, 0.55);
@@ -68,21 +68,24 @@ const {
     font-family: var(--font-serif);
     font-optical-sizing: auto;
     font-weight: 300;
-    line-height: 1.05;
+    line-height: 1;
+    letter-spacing: -0.02em;
     color: var(--paper);
     text-wrap: balance;
+    /* default di sicurezza: un size non previsto resta comunque grande */
+    font-size: clamp(3rem, 7.5vw, 5rem);
   }
   .chapter--invert .chapter__title {
     color: var(--canvas);
   }
 
   .chapter__title--60 {
-    font-size: clamp(2.5rem, 6vw, 3.75rem);
+    font-size: clamp(2.75rem, 6.5vw, 4.25rem);
   }
   .chapter__title--72 {
-    font-size: clamp(2.75rem, 7vw, 4.5rem);
+    font-size: clamp(3rem, 7.5vw, 5rem);
   }
   .chapter__title--96 {
-    font-size: clamp(3rem, 9vw, 6rem);
+    font-size: clamp(3.25rem, 9.5vw, 6.75rem);
   }
 </style>

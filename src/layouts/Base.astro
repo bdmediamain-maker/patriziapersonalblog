@@ -8,8 +8,8 @@ interface Props {
 }
 
 const {
-  title = "Patrizia Gardis — Database & Infrastructure | PGNetwork",
-  description = "Patrizia Gardis, professionista IT specializzata in Database Administration e infrastrutture. Da anni nel mondo enterprise: assessment, migrazioni, consolidamento. Fondatrice del progetto PGNetwork.",
+  title = "Patrizia Gardis · Database & Infrastructure Consultant · Founder PGNetwork",
+  description = "Database & Infrastructure Consultant con oltre sette anni di esperienza enterprise: assessment, migrazione, consolidamento e sicurezza. Founder di PGNetwork, network di professionisti IT specializzati.",
 } = Astro.props;
 ---
 
@@ -19,6 +19,9 @@ const {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="generator" content={Astro.generator} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="mask-icon" href="/favicon.svg" color="#e6a92e" />
+    <meta name="theme-color" content="#0a0a0c" />
     <title>{title}</title>
     <meta name="description" content={description} />
 
@@ -39,6 +42,19 @@ const {
   <body id="top">
     <GrainOverlay />
     <slot />
+
+    <!-- Lightbox: ingrandimento locandine -->
+    <div class="lightbox" data-lightbox hidden aria-hidden="true">
+      <button
+        type="button"
+        class="lightbox__close"
+        data-lightbox-close
+        aria-label="Chiudi"
+      >
+        &times;
+      </button>
+      <img class="lightbox__img" data-lightbox-img alt="" />
+    </div>
 
     <script>
       // Scroll-reveal: fade + translate-Y on intersection.
@@ -70,5 +86,106 @@ const {
         setup();
       }
     </script>
+
+    <script>
+      // Lightbox: apre la locandina a schermo intero per leggerne il contenuto.
+      (function () {
+        const lb = document.querySelector<HTMLElement>("[data-lightbox]");
+        if (!lb) return;
+        const lbImg = lb.querySelector<HTMLImageElement>("[data-lightbox-img]");
+        if (!lbImg) return;
+
+        const open = (src: string, alt: string) => {
+          lbImg.src = src;
+          lbImg.alt = alt;
+          lb.hidden = false;
+          lb.setAttribute("aria-hidden", "false");
+          document.body.style.overflow = "hidden";
+        };
+        const close = () => {
+          lb.hidden = true;
+          lb.setAttribute("aria-hidden", "true");
+          lbImg.removeAttribute("src");
+          document.body.style.overflow = "";
+        };
+
+        document.querySelectorAll<HTMLElement>("[data-zoom]").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const img = btn.querySelector("img");
+            if (img) open(img.currentSrc || img.src, img.alt);
+          });
+        });
+
+        lb.addEventListener("click", (e) => {
+          const t = e.target as HTMLElement;
+          if (t === lb || t.hasAttribute("data-lightbox-close")) close();
+        });
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "Escape" && !lb.hidden) close();
+        });
+      })();
+    </script>
+
+    <style>
+      .lightbox {
+        position: fixed;
+        inset: 0;
+        z-index: 100;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: clamp(1rem, 4vw, 3rem);
+        background: rgba(6, 6, 8, 0.92);
+        backdrop-filter: blur(6px);
+        -webkit-backdrop-filter: blur(6px);
+        cursor: zoom-out;
+        animation: lb-fade 260ms ease;
+      }
+      .lightbox[hidden] {
+        display: none;
+      }
+      .lightbox__img {
+        max-width: 92vw;
+        max-height: 90vh;
+        width: auto;
+        height: auto;
+        border-radius: 4px;
+        box-shadow: 0 30px 90px -20px rgba(0, 0, 0, 0.9);
+        cursor: default;
+      }
+      .lightbox__close {
+        position: fixed;
+        top: 1rem;
+        right: 1.25rem;
+        width: 2.75rem;
+        height: 2.75rem;
+        display: grid;
+        place-items: center;
+        border: none;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.12);
+        color: #fff;
+        font-size: 1.7rem;
+        line-height: 1;
+        cursor: pointer;
+        transition: background-color 300ms ease;
+      }
+      .lightbox__close:hover {
+        background: rgba(255, 255, 255, 0.22);
+      }
+      @keyframes lb-fade {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .lightbox {
+          animation: none;
+        }
+      }
+    </style>
   </body>
 </html>

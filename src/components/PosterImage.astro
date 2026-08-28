@@ -24,7 +24,15 @@ const { src, alt, w, h, max = "26rem", caption } = Astro.props;
 ---
 
 <figure class="poster reveal" style={`--poster-max:${max}`}>
-  <img src={src} alt={alt} width={w} height={h} loading="lazy" decoding="async" />
+  <button
+    type="button"
+    class="poster__btn"
+    data-zoom
+    aria-label={`Ingrandisci: ${caption ?? alt}`}
+  >
+    <img src={src} alt={alt} width={w} height={h} loading="lazy" decoding="async" />
+    <span class="poster__hint" aria-hidden="true">⤢</span>
+  </button>
   {caption && <figcaption class="poster__cap">{caption}</figcaption>}
 </figure>
 
@@ -34,6 +42,15 @@ const { src, alt, w, h, max = "26rem", caption } = Astro.props;
     width: 100%;
     max-width: var(--poster-max);
   }
+  .poster__btn {
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: zoom-in;
+    position: relative;
+  }
   .poster img {
     display: block;
     width: 100%;
@@ -41,6 +58,38 @@ const { src, alt, w, h, max = "26rem", caption } = Astro.props;
     border: 1px solid var(--navy-line);
     border-radius: 3px;
     box-shadow: 0 24px 60px -30px rgba(0, 0, 0, 0.9);
+    transition: transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .poster__btn:hover img,
+  .poster__btn:focus-visible img {
+    transform: scale(1.015);
+  }
+  .poster__hint {
+    position: absolute;
+    top: 0.7rem;
+    right: 0.7rem;
+    width: 2.1rem;
+    height: 2.1rem;
+    display: grid;
+    place-items: center;
+    border-radius: 999px;
+    background: rgba(10, 10, 12, 0.6);
+    color: #fff;
+    font-size: 1rem;
+    opacity: 0;
+    transition: opacity 300ms ease;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+  .poster__btn:hover .poster__hint,
+  .poster__btn:focus-visible .poster__hint {
+    opacity: 1;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .poster__btn:hover img,
+    .poster__btn:focus-visible img {
+      transform: none;
+    }
   }
   .poster__cap {
     margin-top: 0.9rem;

@@ -1,9 +1,18 @@
 ---
 /**
  * Nav — sticky top navigation.
- * Transparent, no border. mix-blend-difference keeps it readable
- * across both the dark canvas and the light inverted sections.
+ * Brand a sinistra (mix-blend-difference per leggibilità su fondo chiaro/scuro),
+ * toggle hamburger a destra che apre un overlay drawer con tutte le sezioni,
+ * rivelate a scaletta. Funziona su desktop e mobile.
  */
+const sezioni = [
+  { href: "#top", name: "Home" },
+  { href: "#expertise", name: "Expertise" },
+  { href: "#pgnetwork", name: "PGNetwork" },
+  { href: "#about", name: "About" },
+  { href: "#journal", name: "Journal" },
+  { href: "#contatti", name: "Contatti" },
+];
 ---
 
 <header class="nav">
@@ -12,9 +21,45 @@
       <span class="nav__name">PATRIZIA GARDIS</span>
       <span class="nav__sub">DATABASE &amp; INFRASTRUCTURE · PGNETWORK</span>
     </a>
-    <a class="nav__meta" href="#contatti">CONTATTI</a>
+    <button
+      type="button"
+      class="nav__toggle"
+      id="menu-toggle"
+      aria-expanded="false"
+      aria-controls="site-menu"
+      aria-label="Apri il menu"
+    >
+      <span class="nav__toggle-label" data-label>MENU</span>
+      <span class="nav__burger" aria-hidden="true">
+        <span></span>
+        <span></span>
+      </span>
+    </button>
   </nav>
 </header>
+
+<div class="menu" id="site-menu" data-menu>
+  <div class="menu__backdrop" data-close></div>
+  <nav class="menu__panel" aria-label="Menu sezioni">
+    <p class="menu__eyebrow">LE STAGIONI DI PATRIZIA</p>
+    <ol class="menu__list">
+      {
+        sezioni.map((s, i) => (
+          <li class="menu__item" style={`--i:${i}`}>
+            <a class="menu__link" href={s.href} data-nav>
+              <span class="menu__idx">{String(i + 1).padStart(2, "0")}</span>
+              <span class="menu__name">{s.name}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ol>
+    <div class="menu__foot">
+      <a href="mailto:pgardis@pgnetwork.it">pgardis@pgnetwork.it</a>
+      <a href="tel:+393518108858">+39 351 810 8858</a>
+    </div>
+  </nav>
+</div>
 
 <style>
   .nav {
@@ -22,16 +67,16 @@
     top: 0;
     left: 0;
     right: 0;
-    z-index: 40;
+    z-index: 60;
     mix-blend-mode: difference;
     pointer-events: none;
   }
   .nav__inner {
     display: flex;
-    align-items: baseline;
+    align-items: center;
     justify-content: space-between;
     gap: 1.5rem;
-    padding: 1.5rem clamp(1.25rem, 5vw, 4rem);
+    padding: 1.35rem clamp(1.25rem, 5vw, 4rem);
   }
   .nav__brand {
     display: flex;
@@ -57,22 +102,249 @@
     letter-spacing: 0.28em;
     color: #ffffff;
   }
-  .nav__meta {
+
+  /* ── Toggle hamburger ─────────────────────────────────────── */
+  .nav__toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.4rem 0;
     margin: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #ffffff;
+    pointer-events: auto;
+  }
+  .nav__toggle-label {
     font-family: var(--font-sans);
-    font-weight: 500;
+    font-weight: 600;
     font-size: 10px;
     text-transform: uppercase;
     letter-spacing: 0.28em;
     color: #ffffff;
-    text-align: right;
-    text-decoration: none;
-    pointer-events: auto;
+  }
+  .nav__burger {
+    position: relative;
+    display: inline-block;
+    width: 26px;
+    height: 12px;
+  }
+  .nav__burger span {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 1.5px;
+    background: #ffffff;
+    transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1),
+      top 320ms cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 200ms ease;
+  }
+  .nav__burger span:nth-child(1) {
+    top: 2px;
+  }
+  .nav__burger span:nth-child(2) {
+    top: 9px;
+  }
+  /* Stato aperto → X */
+  .nav__toggle[aria-expanded="true"] .nav__burger span:nth-child(1) {
+    top: 5.5px;
+    transform: rotate(45deg);
+  }
+  .nav__toggle[aria-expanded="true"] .nav__burger span:nth-child(2) {
+    top: 5.5px;
+    transform: rotate(-45deg);
   }
 
-  @media (max-width: 640px) {
-    .nav__meta {
+  /* ── Overlay menu ─────────────────────────────────────────── */
+  .menu {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    visibility: hidden;
+    pointer-events: none;
+  }
+  .menu.is-open {
+    visibility: visible;
+    pointer-events: auto;
+  }
+  .menu__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(6, 6, 8, 0.55);
+    opacity: 0;
+    transition: opacity 500ms cubic-bezier(0.22, 1, 0.36, 1);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+  }
+  .menu.is-open .menu__backdrop {
+    opacity: 1;
+  }
+  .menu__panel {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: min(30rem, 100%);
+    display: flex;
+    flex-direction: column;
+    padding: clamp(5.5rem, 12vh, 8rem) clamp(1.75rem, 5vw, 3.5rem)
+      clamp(2rem, 5vh, 3rem);
+    background:
+      radial-gradient(
+        120% 80% at 100% 0%,
+        rgba(230, 169, 46, 0.08) 0%,
+        transparent 55%
+      ),
+      var(--canvas);
+    border-left: 1px solid var(--navy-line);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    transform: translateX(100%);
+    transition: transform 560ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .menu.is-open .menu__panel {
+    transform: translateX(0);
+  }
+  .menu__eyebrow {
+    margin: 0 0 1.5rem;
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+  }
+  .menu__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    flex: 1;
+  }
+  .menu__item {
+    opacity: 0;
+    transform: translateX(24px);
+    transition: opacity 500ms cubic-bezier(0.22, 1, 0.36, 1),
+      transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
+    transition-delay: 0ms;
+  }
+  .menu.is-open .menu__item {
+    opacity: 1;
+    transform: translateX(0);
+    transition-delay: calc(180ms + var(--i) * 42ms);
+  }
+  .menu__link {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    padding: 0.62rem 0;
+    text-decoration: none;
+    border-bottom: 1px solid var(--rule);
+  }
+  .menu__idx {
+    flex: 0 0 auto;
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+    transition: color 400ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .menu__name {
+    position: relative;
+    font-family: var(--font-serif);
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-size: clamp(1.35rem, 2.4vw, 1.7rem);
+    line-height: 1.1;
+    color: var(--paper);
+    transition: color 400ms cubic-bezier(0.22, 1, 0.36, 1),
+      transform 400ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .menu__link:hover .menu__name,
+  .menu__link:focus-visible .menu__name {
+    color: var(--gold);
+    transform: translateX(6px);
+  }
+  .menu__link:hover .menu__idx,
+  .menu__link:focus-visible .menu__idx {
+    color: var(--gold);
+  }
+  .menu__foot {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--rule);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .menu__foot a {
+    font-family: var(--font-sans);
+    font-weight: 300;
+    font-size: 0.95rem;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 300ms ease;
+  }
+  .menu__foot a:hover {
+    color: var(--gold);
+  }
+
+  @media (max-width: 480px) {
+    .nav__toggle-label {
       display: none;
     }
   }
+
+  @media (prefers-reduced-motion: reduce) {
+    .menu__panel,
+    .menu__backdrop,
+    .menu__item,
+    .nav__burger span {
+      transition: none;
+    }
+    .menu.is-open .menu__item {
+      transition-delay: 0ms;
+    }
+  }
 </style>
+
+<script>
+  (function () {
+    const toggle = document.getElementById("menu-toggle");
+    const menu = document.querySelector<HTMLElement>("[data-menu]");
+    if (!toggle || !menu) return;
+
+    const label = toggle.querySelector<HTMLElement>("[data-label]");
+    const links = menu.querySelectorAll<HTMLAnchorElement>("[data-nav]");
+    const closers = menu.querySelectorAll<HTMLElement>("[data-close]");
+
+    const open = () => {
+      menu.classList.add("is-open");
+      toggle.setAttribute("aria-expanded", "true");
+      toggle.setAttribute("aria-label", "Chiudi il menu");
+      if (label) label.textContent = "CHIUDI";
+      document.body.style.overflow = "hidden";
+    };
+
+    const close = () => {
+      menu.classList.remove("is-open");
+      toggle.setAttribute("aria-expanded", "false");
+      toggle.setAttribute("aria-label", "Apri il menu");
+      if (label) label.textContent = "MENU";
+      document.body.style.overflow = "";
+    };
+
+    toggle.addEventListener("click", () => {
+      menu.classList.contains("is-open") ? close() : open();
+    });
+
+    closers.forEach((c) => c.addEventListener("click", close));
+    links.forEach((l) => l.addEventListener("click", close));
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && menu.classList.contains("is-open")) close();
+    });
+  })();
+</script>
