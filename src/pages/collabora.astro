@@ -1,0 +1,700 @@
+---
+import Base from "../layouts/Base.astro";
+import Nav from "../components/Nav.astro";
+import ChapterHero from "../components/ChapterHero.astro";
+
+// Posizioni aperte
+const posizioni = [
+  {
+    ruolo: "GIS Developer",
+    posti: "3 posizioni",
+    claim:
+      "Unisciti al nostro team e contribuisci a progetti ad alto impatto nel mondo GIS.",
+    meta: [
+      { k: "Esperienza", v: "Almeno 3 anni in ambito GIS / Geospatial" },
+      { k: "Livello", v: "Middle" },
+      { k: "Tariffa", v: "Da definire (si valutano diversi livelli)" },
+      { k: "Modalità", v: "Full remote" },
+      { k: "Distacco", v: "Sì, previsto" },
+    ],
+    competenze: [
+      "Laurea in Informatica, Ingegneria Informatica o discipline affini",
+      "Python per l'elaborazione di dati geografici",
+      "GeoServer, Oracle Spatial e FME",
+      "Java 11+ e Spring Boot",
+      "Sviluppo di microservizi",
+      "API REST e servizi SOAP",
+      "Buona conoscenza di SQL",
+      "Angular 9+",
+      "Git / GitLab e metodologie Agile / Scrum",
+    ],
+  },
+];
+---
+
+<Base title="Collabora con noi · PGNetwork | Entra nel Network">
+  <Nav />
+
+  <main class="page">
+    <!-- Intro -->
+    <section class="section">
+      <div class="wrap">
+        <ChapterHero
+          eyebrow="COLLABORA CON NOI"
+          title="Costruiamo il network insieme."
+          size="96"
+        />
+        <p class="lead">
+          Che tu stia cercando una nuova opportunità o voglia mettere le tue
+          competenze al servizio di nuovi progetti, puoi entrare in PGNetwork:
+          una rete di professionisti, consulenti e specialisti che condividono
+          competenze, esperienza e visione.
+        </p>
+
+        <div class="paths">
+          <a class="path" href="#posizioni">
+            <span class="path__eyebrow">POSIZIONI APERTE</span>
+            <span class="path__title">Cerchi una nuova opportunità?</span>
+            <span class="path__cta">Invia il tuo CV →</span>
+          </a>
+          <a class="path" href="#team">
+            <span class="path__eyebrow">ENTRA NEL TEAM</span>
+            <span class="path__title">Vuoi collaborare con noi?</span>
+            <span class="path__cta">Candidati al Team →</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Posizioni aperte -->
+    <section class="section band" id="posizioni">
+      <div class="wrap">
+        <span class="chapter__eyebrow gold">POSIZIONI APERTE</span>
+        <h2 class="h2">Le ricerche attive</h2>
+
+        {
+          posizioni.map((p) => (
+            <article class="pos">
+              <div class="pos__head">
+                <div>
+                  <span class="pos__posti">{p.posti}</span>
+                  <h3 class="pos__ruolo">{p.ruolo}</h3>
+                  <p class="pos__claim">{p.claim}</p>
+                </div>
+                <a class="btn" href="#form-cv">
+                  Invia il tuo CV
+                </a>
+              </div>
+              <div class="pos__grid">
+                <ul class="pos__meta" role="list">
+                  {p.meta.map((m) => (
+                    <li>
+                      <span class="pos__k">{m.k}</span>
+                      <span class="pos__v">{m.v}</span>
+                    </li>
+                  ))}
+                </ul>
+                <div class="pos__skills">
+                  <span class="pos__skills-lab">Competenze e tecnologie</span>
+                  <ul role="list">
+                    {p.competenze.map((c) => (
+                      <li>{c}</li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- Form: Invia il tuo CV -->
+    <section class="section" id="form-cv">
+      <div class="wrap wrap--form">
+        <span class="chapter__eyebrow gold">AGGIUNGI IL TUO CV</span>
+        <h2 class="h2">Invia il tuo profilo</h2>
+        <p class="lead lead--sm">
+          Vuoi entrare nel network PGNetwork? Inviaci il tuo profilo: potresti
+          essere contattato per una delle nostre posizioni aperte o per future
+          opportunità di collaborazione.
+        </p>
+
+        <form class="form" data-pgform data-tipo="candidatura-cv" novalidate>
+          <div class="form__grid">
+            <label class="field">
+              <span class="field__label">Nome e cognome *</span>
+              <input class="field__input" type="text" name="nome_cognome" required autocomplete="name" />
+            </label>
+            <label class="field">
+              <span class="field__label">Email *</span>
+              <input class="field__input" type="email" name="email" required autocomplete="email" />
+            </label>
+            <label class="field">
+              <span class="field__label">Ruolo / specializzazione</span>
+              <input class="field__input" type="text" name="ruolo" />
+            </label>
+            <label class="field">
+              <span class="field__label">Anni di esperienza</span>
+              <input class="field__input" type="text" name="esperienza" inputmode="numeric" />
+            </label>
+            <label class="field field--full">
+              <span class="field__label">Tecnologie / competenze</span>
+              <textarea class="field__input field__textarea" name="competenze" rows="3"></textarea>
+            </label>
+            <label class="field">
+              <span class="field__label">Disponibilità</span>
+              <input class="field__input" type="text" name="disponibilita" placeholder="Es. immediata, 30 giorni" />
+            </label>
+            <label class="field">
+              <span class="field__label">LinkedIn</span>
+              <input class="field__input" type="url" name="linkedin" placeholder="https://" />
+            </label>
+            <label class="field field--full">
+              <span class="field__label">Partita IVA / tipologia di collaborazione</span>
+              <input class="field__input" type="text" name="collaborazione" placeholder="Es. P.IVA, dipendente, freelance" />
+            </label>
+            <label class="field field--full field--file">
+              <span class="field__label">CV (PDF o Word, max 8 MB)</span>
+              <input class="field__file" type="file" name="cv" accept=".pdf,.doc,.docx,application/pdf" />
+            </label>
+          </div>
+
+          <label class="consent">
+            <input type="checkbox" name="consenso" required />
+            <span>
+              Ho letto la <a href="/privacy">Privacy Policy</a> e autorizzo il
+              trattamento dei miei dati per la candidatura.
+            </span>
+          </label>
+
+          <button class="form__submit" type="submit">Invia il tuo CV</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- Form: Entra nel Team -->
+    <section class="section band" id="team">
+      <div class="wrap wrap--form">
+        <span class="chapter__eyebrow gold">ENTRA NEL TEAM</span>
+        <h2 class="h2">Aggiungi il tuo talento al nostro Team</h2>
+        <p class="lead lead--sm">
+          PGNetwork è una rete di professionisti che condividono competenze,
+          esperienza e visione. Se pensi di poter portare valore nel nostro
+          network, raccontaci chi sei e cosa sai fare.
+        </p>
+
+        <form class="form" data-pgform data-tipo="candidatura-team" novalidate>
+          <div class="form__grid">
+            <label class="field">
+              <span class="field__label">Nome e cognome *</span>
+              <input class="field__input" type="text" name="nome_cognome" required autocomplete="name" />
+            </label>
+            <label class="field">
+              <span class="field__label">Email *</span>
+              <input class="field__input" type="email" name="email" required autocomplete="email" />
+            </label>
+            <label class="field">
+              <span class="field__label">Ruolo</span>
+              <input class="field__input" type="text" name="ruolo" />
+            </label>
+            <label class="field">
+              <span class="field__label">Specializzazione</span>
+              <input class="field__input" type="text" name="specializzazione" />
+            </label>
+            <label class="field field--full">
+              <span class="field__label">Bio breve</span>
+              <textarea class="field__input field__textarea" name="bio" rows="3"></textarea>
+            </label>
+            <label class="field field--full">
+              <span class="field__label">Competenze</span>
+              <textarea class="field__input field__textarea" name="competenze" rows="2"></textarea>
+            </label>
+            <label class="field">
+              <span class="field__label">Tecnologie</span>
+              <input class="field__input" type="text" name="tecnologie" />
+            </label>
+            <label class="field">
+              <span class="field__label">LinkedIn</span>
+              <input class="field__input" type="url" name="linkedin" placeholder="https://" />
+            </label>
+            <label class="field">
+              <span class="field__label">Disponibilità a collaborare</span>
+              <input class="field__input" type="text" name="disponibilita" />
+            </label>
+            <label class="field field--file">
+              <span class="field__label">Foto (immagine, max 8 MB)</span>
+              <input class="field__file" type="file" name="foto" accept="image/*" />
+            </label>
+            <label class="field field--full field--file">
+              <span class="field__label">CV (PDF o Word, max 8 MB)</span>
+              <input class="field__file" type="file" name="cv" accept=".pdf,.doc,.docx,application/pdf" />
+            </label>
+          </div>
+
+          <label class="consent">
+            <input type="checkbox" name="consenso" required />
+            <span>
+              Ho letto la <a href="/privacy">Privacy Policy</a> e autorizzo il
+              trattamento dei miei dati per la candidatura.
+            </span>
+          </label>
+
+          <button class="form__submit" type="submit">Candidati al Team</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer__inner">
+      <p class="footer__copy">
+        PATRIZIA GARDIS · DATABASE &amp; INFRASTRUCTURE · FOUNDER PGNETWORK
+      </p>
+      <nav class="footer__links" aria-label="Link di servizio">
+        <a href="/servizi">SERVIZI</a>
+        <a href="/#contatti">CONTATTI</a>
+        <a href="/privacy">PRIVACY</a>
+        <a href="/note-legali">NOTE LEGALI</a>
+      </nav>
+    </div>
+  </footer>
+</Base>
+
+<script>
+  import { initForms } from "../lib/forms";
+  initForms();
+</script>
+
+<style>
+  .page {
+    padding-top: clamp(4.5rem, 10vh, 7rem);
+  }
+  .wrap {
+    max-width: 72rem;
+    margin: 0 auto;
+    padding-inline: clamp(1.25rem, 5vw, 4rem);
+  }
+  .wrap--form {
+    max-width: 56rem;
+  }
+  .section {
+    padding-block: clamp(2.5rem, 5vw, 4.5rem);
+  }
+  .band {
+    background:
+      radial-gradient(
+        120% 100% at 0% 0%,
+        rgba(230, 169, 46, 0.05) 0%,
+        transparent 55%
+      ),
+      var(--navy);
+    border-block: 1px solid var(--navy-line);
+  }
+  .lead {
+    margin: 2rem 0 0;
+    max-width: 62ch;
+    font-family: var(--font-sans);
+    font-weight: 300;
+    font-size: clamp(1.15rem, 1.8vw, 1.4rem);
+    line-height: 1.6;
+    color: var(--muted);
+  }
+  .lead--sm {
+    font-size: clamp(1rem, 1.5vw, 1.15rem);
+    margin-top: 1rem;
+  }
+  .chapter__eyebrow {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    color: var(--muted);
+  }
+  .chapter__eyebrow.gold {
+    color: var(--gold);
+  }
+  .h2 {
+    margin: 0.9rem 0 0;
+    font-family: var(--font-serif);
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-size: clamp(1.9rem, 4vw, 3rem);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--paper);
+  }
+
+  /* Path cards */
+  .paths {
+    margin-top: clamp(2.5rem, 5vw, 3.5rem);
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: clamp(1.25rem, 2.5vw, 2rem);
+  }
+  .path {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: clamp(1.75rem, 3.5vw, 2.5rem);
+    border: 1px solid var(--navy-line);
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.015);
+    text-decoration: none;
+    transition:
+      border-color 300ms ease,
+      transform 400ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .path:hover {
+    border-color: var(--gold);
+    transform: translateY(-3px);
+  }
+  .path__eyebrow {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.26em;
+    color: var(--gold);
+  }
+  .path__title {
+    font-family: var(--font-serif);
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-size: clamp(1.35rem, 2.4vw, 1.85rem);
+    line-height: 1.1;
+    color: var(--paper);
+  }
+  .path__cta {
+    margin-top: 0.5rem;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--gold);
+  }
+
+  /* Posizione */
+  .pos {
+    margin-top: clamp(2rem, 4vw, 3rem);
+    padding: clamp(1.5rem, 3.5vw, 2.5rem);
+    border: 1px solid var(--navy-line);
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.015);
+  }
+  .pos__head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .pos__posti {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.24em;
+    color: var(--gold);
+  }
+  .pos__ruolo {
+    margin: 0.5rem 0 0.6rem;
+    font-family: var(--font-serif);
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    line-height: 1.05;
+    color: var(--paper);
+  }
+  .pos__claim {
+    margin: 0;
+    max-width: 42ch;
+    font-family: var(--font-sans);
+    font-weight: 300;
+    font-size: 1rem;
+    line-height: 1.55;
+    color: var(--muted);
+  }
+  .pos__grid {
+    margin-top: clamp(1.75rem, 4vw, 2.5rem);
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: clamp(1.5rem, 4vw, 3rem);
+  }
+  .pos__meta {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+  }
+  .pos__meta li {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    border-top: 1px solid var(--rule);
+    padding-top: 0.7rem;
+  }
+  .pos__k {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: var(--gold);
+  }
+  .pos__v {
+    font-family: var(--font-sans);
+    font-weight: 300;
+    font-size: 0.95rem;
+    color: var(--paper);
+  }
+  .pos__skills-lab {
+    display: block;
+    margin-bottom: 0.9rem;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: var(--gold);
+  }
+  .pos__skills ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.55rem;
+  }
+  .pos__skills li {
+    position: relative;
+    padding-left: 1.2rem;
+    font-family: var(--font-sans);
+    font-weight: 300;
+    font-size: 0.95rem;
+    line-height: 1.45;
+    color: rgba(232, 230, 225, 0.85);
+  }
+  .pos__skills li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.55em;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--gold);
+  }
+
+  /* Buttons */
+  .btn {
+    display: inline-block;
+    padding: 0.9rem 1.9rem;
+    background: #ffffff;
+    color: var(--canvas);
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.24em;
+    text-decoration: none;
+    transition: background-color 400ms ease;
+  }
+  .btn:hover {
+    background: var(--gold);
+  }
+
+  /* Form */
+  .form {
+    margin-top: clamp(2rem, 4vw, 3rem);
+  }
+  .form__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+  }
+  .field--full {
+    grid-column: 1 / -1;
+  }
+  .field__label {
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.24em;
+    color: var(--muted);
+  }
+  .field__input {
+    appearance: none;
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--rule);
+    border-radius: 0;
+    padding: 0.6rem 0;
+    font-family: var(--font-sans);
+    font-weight: 300;
+    font-size: 1.0625rem;
+    color: var(--paper);
+    transition: border-color 400ms ease;
+  }
+  .field__input:focus {
+    outline: none;
+    border-bottom-color: var(--gold);
+  }
+  .field__textarea {
+    resize: vertical;
+    min-height: 4.5rem;
+    line-height: 1.6;
+  }
+  .field__file {
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    color: var(--muted);
+    padding: 0.5rem 0;
+  }
+  .field__file::file-selector-button {
+    margin-right: 1rem;
+    padding: 0.55rem 1.1rem;
+    border: 1px solid var(--rule);
+    background: transparent;
+    color: var(--paper);
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    cursor: pointer;
+    transition: border-color 300ms ease;
+  }
+  .field__file::file-selector-button:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+  .consent {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    margin-top: 1.75rem;
+    font-family: var(--font-sans);
+    font-weight: 300;
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--muted);
+  }
+  .consent input {
+    margin-top: 0.2rem;
+    accent-color: var(--gold);
+    flex: 0 0 auto;
+  }
+  .consent a {
+    color: var(--paper);
+    text-underline-offset: 3px;
+  }
+  .consent a:hover {
+    color: var(--gold);
+  }
+  .form__submit {
+    appearance: none;
+    margin-top: 1.75rem;
+    padding: 1.05rem 2.25rem;
+    border: none;
+    background: #ffffff;
+    color: var(--canvas);
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.24em;
+    cursor: pointer;
+    transition: background-color 400ms ease;
+  }
+  .form__submit:hover {
+    background: var(--gold);
+  }
+  .form__submit:disabled {
+    opacity: 0.6;
+    cursor: default;
+  }
+  .form-status {
+    margin: 1.25rem 0 0;
+    font-family: var(--font-sans);
+    font-weight: 400;
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+  .form-status[data-state="ok"] {
+    color: var(--gold);
+  }
+  .form-status[data-state="err"] {
+    color: #e88;
+  }
+  .form-status[data-state="info"] {
+    color: var(--muted);
+  }
+
+  /* Footer */
+  .footer {
+    border-top: 1px solid var(--rule);
+  }
+  .footer__inner {
+    max-width: 80rem;
+    margin: 0 auto;
+    padding: 3rem clamp(1.25rem, 5vw, 4rem);
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .footer__copy {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.28em;
+    color: var(--muted);
+  }
+  .footer__links {
+    display: flex;
+    gap: clamp(1rem, 3vw, 2rem);
+    flex-wrap: wrap;
+  }
+  .footer__links a {
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.28em;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 400ms ease;
+  }
+  .footer__links a:hover {
+    color: var(--gold);
+  }
+
+  @media (max-width: 800px) {
+    .paths,
+    .pos__grid,
+    .form__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  @media (max-width: 640px) {
+    .footer__inner {
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+  }
+</style>

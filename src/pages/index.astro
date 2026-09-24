@@ -94,6 +94,22 @@ const valori = [
   { name: "Crescita", body: "Crescere e far crescere gli altri." },
 ];
 
+// Partner tecnologici del network.
+const partner = [
+  {
+    name: "Castaldo Solutions",
+    desc: "Partner tecnologico e system integrator in ambito AI full stack. Loro l'intelligenza artificiale, PGNetwork i database e le infrastrutture: Oracle, PostgreSQL e altro.",
+    href: "https://www.castaldosolutions.it/",
+    label: "castaldosolutions.it",
+  },
+  {
+    name: "SARCTE",
+    desc: "Consulenza e supporto IT su infrastrutture, sistemi, networking, cybersecurity e monitoring, con particolare attenzione all'affidabilità e alla continuità operativa. Progettazione, gestione ed evoluzione delle infrastrutture IT.",
+    href: "https://sarcte.it",
+    label: "sarcte.it",
+  },
+];
+
 const stagioni = [
   { season: "Inverno", key: "Cambiamento", body: "Ridefinire la direzione." },
   { season: "Primavera", key: "Crescita", body: "Studio, formazione, nuovi progetti." },
@@ -372,23 +388,31 @@ const journal = [
           }
         </ul>
 
-        <div class="pg-partner reveal">
-          <span class="chapter__eyebrow">PARTNER TECNOLOGICO</span>
-          <p class="prose">
-            In sinergia con <strong class="strong">Castaldo Solutions</strong>,
-            partner tecnologico e system integrator in ambito
-            <em class="accent">AI full stack</em>. Loro l'intelligenza
-            artificiale, PGNetwork i database e le infrastrutture: Oracle,
-            PostgreSQL e altro.
+        <div class="partners reveal">
+          <span class="chapter__eyebrow">PARTNER TECNOLOGICI</span>
+          <p class="partners__intro">
+            PGNetwork lavora in sinergia con partner specializzati, per coprire
+            l'intera catena tecnologica: database, infrastrutture, AI e
+            sicurezza.
           </p>
-          <a
-            class="pg-partner__link"
-            href="https://www.castaldosolutions.it/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            castaldosolutions.it <span aria-hidden="true">→</span>
-          </a>
+          <div class="partners__grid">
+            {
+              partner.map((p) => (
+                <article class="partner">
+                  <h3 class="partner__name">{p.name}</h3>
+                  <p class="partner__desc">{p.desc}</p>
+                  <a
+                    class="partner__link"
+                    href={p.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {p.label} <span aria-hidden="true">→</span>
+                  </a>
+                </article>
+              ))
+            }
+          </div>
         </div>
       </div>
 
@@ -429,6 +453,9 @@ const journal = [
               e attenzione ai dettagli sono il filo che tiene insieme ogni
               esperienza.
             </p>
+            <a class="cv-link reveal" href="/cv-patrizia-gardis.pdf" download>
+              Scarica il CV <span aria-hidden="true">↓</span>
+            </a>
           </div>
           <div class="about__media reveal">
             <img
@@ -632,6 +659,25 @@ const journal = [
     </section>
 
     <!-- ════════════════════════════════════════════════════════
+         6b · NETWORK · Servizi & Collabora
+         ════════════════════════════════════════════════════════ -->
+    <section class="network-band" aria-label="PGNetwork">
+      <div class="wrap wrap--narrow">
+        <span class="chapter__eyebrow reveal">PGNETWORK</span>
+        <h2 class="network-band__title reveal">Costruiamo il network insieme.</h2>
+        <p class="prose reveal">
+          Che tu cerchi un servizio Database &amp; Infrastructure o voglia
+          mettere le tue competenze al servizio di nuovi progetti, PGNetwork è
+          il punto di incontro.
+        </p>
+        <div class="network-band__cta reveal">
+          <a class="btn" href="/servizi">Servizi PGNetwork</a>
+          <a class="btn btn--ghost" href="/collabora">Collabora con noi</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════════════════════════════
          7 · CONTATTI
          ════════════════════════════════════════════════════════ -->
     <section class="cta" id="contatti" aria-labelledby="cta-title">
@@ -664,6 +710,8 @@ const journal = [
 
         <form
           class="form"
+          data-pgform
+          data-tipo="contatto"
           novalidate
           action="mailto:pgardis@pgnetwork.it"
           method="post"
@@ -747,6 +795,11 @@ const journal = [
   </footer>
 </Base>
 
+<script>
+  import { initForms } from "../lib/forms";
+  initForms();
+</script>
+
 <style>
   /* ── Shared wrappers ──────────────────────────────────────── */
   .wrap {
@@ -801,6 +854,55 @@ const journal = [
   }
   .btn:hover {
     background: var(--gold);
+  }
+  .btn--ghost {
+    background: transparent;
+    color: var(--paper);
+    border: 1px solid var(--rule);
+  }
+  .btn--ghost:hover {
+    background: transparent;
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  /* Network band (home → Servizi / Collabora) */
+  .network-band {
+    padding-block: clamp(3rem, 6vw, 5rem);
+    padding-inline: clamp(1.25rem, 5vw, 4rem);
+    text-align: center;
+    background:
+      radial-gradient(
+        120% 100% at 50% 0%,
+        rgba(230, 169, 46, 0.06) 0%,
+        transparent 55%
+      ),
+      var(--navy);
+    border-block: 1px solid var(--navy-line);
+  }
+  .network-band .chapter__eyebrow {
+    color: var(--gold);
+  }
+  .network-band__title {
+    margin: 1rem auto 1.25rem;
+    font-family: var(--font-serif);
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--paper);
+  }
+  .network-band .prose {
+    margin-inline: auto;
+    text-align: center;
+  }
+  .network-band__cta {
+    margin-top: 2rem;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
   }
 
   /* ════ 1 · HERO CINEMATIC ═════════════════════════════════ */
@@ -1107,9 +1209,33 @@ const journal = [
     line-height: 1.5;
     color: rgba(232, 230, 225, 0.78);
   }
-  .pg-partner {
+  .partners {
     margin-top: clamp(3rem, 6vw, 4.5rem);
-    padding: clamp(1.75rem, 4vw, 2.75rem);
+  }
+  .partners .chapter__eyebrow {
+    color: var(--gold);
+  }
+  .partners__intro {
+    margin: 1rem 0 0;
+    max-width: 52rem;
+    font-family: var(--font-sans);
+    font-weight: 300;
+    font-size: clamp(1.05rem, 1.5vw, 1.25rem);
+    line-height: 1.6;
+    color: var(--muted);
+  }
+  .partners__grid {
+    margin-top: clamp(1.75rem, 4vw, 2.5rem);
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: clamp(1.25rem, 2.5vw, 2rem);
+  }
+  .partner {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    align-items: flex-start;
+    padding: clamp(1.5rem, 3vw, 2.25rem);
     border: 1px solid var(--navy-line);
     border-radius: 4px;
     background:
@@ -1119,19 +1245,27 @@ const journal = [
         transparent 55%
       ),
       rgba(255, 255, 255, 0.015);
-    display: flex;
-    flex-direction: column;
-    gap: 1.1rem;
-    align-items: flex-start;
   }
-  .pg-partner .chapter__eyebrow {
-    color: var(--gold);
-  }
-  .pg-partner .prose {
+  .partner__name {
     margin: 0;
-    max-width: 54rem;
+    font-family: var(--font-serif);
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-size: clamp(1.25rem, 2vw, 1.6rem);
+    line-height: 1.1;
+    color: var(--paper);
   }
-  .pg-partner__link {
+  .partner__desc {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-weight: 300;
+    font-size: 0.95rem;
+    line-height: 1.55;
+    color: rgba(232, 230, 225, 0.78);
+  }
+  .partner__link {
+    margin-top: auto;
+    padding-top: 0.35rem;
     font-family: var(--font-sans);
     font-weight: 600;
     font-size: 12px;
@@ -1142,7 +1276,7 @@ const journal = [
     border-bottom: 1px solid transparent;
     transition: border-color 300ms ease;
   }
-  .pg-partner__link:hover {
+  .partner__link:hover {
     border-bottom-color: var(--gold);
   }
 
@@ -1183,6 +1317,26 @@ const journal = [
     font-size: clamp(1.35rem, 2.3vw, 1.85rem);
     line-height: 1.5;
     color: var(--paper);
+  }
+  .cv-link {
+    display: inline-block;
+    margin-top: 0.5rem;
+    padding: 0.8rem 1.6rem;
+    border: 1px solid var(--rule);
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.24em;
+    color: var(--paper);
+    text-decoration: none;
+    transition:
+      border-color 300ms ease,
+      color 300ms ease;
+  }
+  .cv-link:hover {
+    border-color: var(--gold);
+    color: var(--gold);
   }
   .about__media {
     display: flex;
@@ -1879,7 +2033,8 @@ const journal = [
     }
     .formgrid,
     .values,
-    .journal__grid {
+    .journal__grid,
+    .partners__grid {
       grid-template-columns: 1fr;
     }
   }
