@@ -602,6 +602,17 @@ const journal = [
             <span class="disc__icon" aria-hidden="true"></span>
           </summary>
           <div class="disc__content">
+            <p class="disc-intro">
+              Il mio percorso è iniziato con la formazione Oracle e Linux di
+              <a
+                class="disc-link"
+                href="https://www.scriptdba.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >Script DBA</a>, dove ho mosso i primi passi nel mondo dei
+              database. Un punto di partenza fondamentale e una collaborazione
+              che continua nel tempo.
+            </p>
             <div class="formgrid">
               {
                 formazione.map((f) => (
@@ -1688,6 +1699,24 @@ const journal = [
   .disc__content .cards,
   .disc__content .formgrid {
     margin-top: 0;
+  }
+  .disc-intro {
+    margin: 0 0 1.75rem;
+    max-width: 52rem;
+    font-family: var(--font-sans);
+    font-weight: 300;
+    font-size: clamp(1rem, 1.5vw, 1.15rem);
+    line-height: 1.6;
+    color: rgba(232, 230, 225, 0.82);
+  }
+  .disc-link {
+    color: var(--gold);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 300ms ease;
+  }
+  .disc-link:hover {
+    border-bottom-color: var(--gold);
   }
   .disc__content .svolta__quote {
     margin: 0 0 1.5rem;
