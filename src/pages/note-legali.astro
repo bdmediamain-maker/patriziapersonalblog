@@ -1,13 +1,14 @@
 ---
 import Base from "../layouts/Base.astro";
 import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
 
 // NOTA: completare i campi tra [[ ]] con i dati reali del titolare
 // prima della pubblicazione.
 const aggiornamento = "Agosto 2026";
 ---
 
-<Base title="Note legali — PGNetwork" description="Note legali e condizioni d'uso del sito di Patrizia Gardis e del progetto PGNetwork.">
+<Base title="Note legali · PGNetwork" description="Note legali e condizioni d'uso del sito di Patrizia Gardis e del progetto PGNetwork.">
   <Nav />
   <main class="legal">
     <div class="legal__wrap">
@@ -84,6 +85,7 @@ const aggiornamento = "Agosto 2026";
       </section>
     </div>
   </main>
+  <Footer />
 </Base>
 
 <style>
@@ -112,20 +114,20 @@ const aggiornamento = "Agosto 2026";
   }
   .legal__eyebrow {
     margin: 0 0 1rem;
-    font-family: var(--font-sans);
-    font-weight: 500;
+    font-family: var(--font-label);
+    font-weight: 700;
     font-size: 11px;
     text-transform: uppercase;
-    letter-spacing: 0.28em;
+    letter-spacing: 0.16em;
     color: var(--gold);
   }
   .legal__title {
     margin: 0 0 0.75rem;
-    font-family: var(--font-serif);
-    font-optical-sizing: auto;
-    font-weight: 300;
-    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-family: var(--font-sans);
+    font-weight: 800;
+    font-size: clamp(2.25rem, 5.5vw, 3.5rem);
     line-height: 1.05;
+    letter-spacing: -0.035em;
     color: var(--paper);
   }
   .legal__meta {

@@ -1,24 +1,21 @@
 ---
 /**
- * SkillGroup — una colonna della griglia competenze.
+ * SkillGroup: una colonna della griglia competenze.
  * Titolo categoria + elenco puntato di skill tecniche.
  *
  * Props:
- *  - title: string  — nome categoria (es. "Database Administration")
- *  - num:   string  — indice a due cifre (es. "01")
+ *  - title: string : nome categoria (es. "Database Administration")
  *  - items: string[]
  */
 interface Props {
   title: string;
-  num: string;
   items: string[];
 }
-const { title, num, items } = Astro.props;
+const { title, items } = Astro.props;
 ---
 
 <article class="skill reveal">
   <header class="skill__head">
-    <span class="skill__num" aria-hidden="true">{num}</span>
     <h3 class="skill__title">{title}</h3>
   </header>
   <ul class="skill__list" role="list">
@@ -36,14 +33,6 @@ const { title, num, items } = Astro.props;
     align-items: baseline;
     gap: 0.9rem;
     margin-bottom: 1.5rem;
-  }
-  .skill__num {
-    font-family: var(--font-serif);
-    font-optical-sizing: auto;
-    font-weight: 300;
-    font-size: 1.25rem;
-    color: var(--gold);
-    font-variant-numeric: tabular-nums;
   }
   .skill__title {
     margin: 0;

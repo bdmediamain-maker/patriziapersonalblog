@@ -1,6 +1,7 @@
 ---
 import Base from "../layouts/Base.astro";
 import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
 import ChapterHero from "../components/ChapterHero.astro";
 
 // Posizioni aperte
@@ -51,16 +52,16 @@ const posizioni = [
           competenze, esperienza e visione.
         </p>
 
-        <div class="paths">
-          <a class="path" href="#posizioni">
+        <div class="paths" data-stagger>
+          <a class="path" href="#posizioni" data-tilt>
             <span class="path__eyebrow">POSIZIONI APERTE</span>
             <span class="path__title">Cerchi una nuova opportunità?</span>
-            <span class="path__cta">Invia il tuo CV →</span>
+            <span class="path__cta">Invia il tuo CV</span>
           </a>
-          <a class="path" href="#team">
+          <a class="path" href="#team" data-tilt>
             <span class="path__eyebrow">ENTRA NEL TEAM</span>
             <span class="path__title">Vuoi collaborare con noi?</span>
-            <span class="path__cta">Candidati al Team →</span>
+            <span class="path__cta">Candidati al Team</span>
           </a>
         </div>
       </div>
@@ -246,19 +247,7 @@ const posizioni = [
     </section>
   </main>
 
-  <footer class="footer">
-    <div class="footer__inner">
-      <p class="footer__copy">
-        PATRIZIA GARDIS · DATABASE &amp; INFRASTRUCTURE · FOUNDER PGNETWORK
-      </p>
-      <nav class="footer__links" aria-label="Link di servizio">
-        <a href="/servizi">SERVIZI</a>
-        <a href="/#contatti">CONTATTI</a>
-        <a href="/privacy">PRIVACY</a>
-        <a href="/note-legali">NOTE LEGALI</a>
-      </nav>
-    </div>
-  </footer>
+  <Footer />
 </Base>
 
 <script>
@@ -279,51 +268,43 @@ const posizioni = [
     max-width: 56rem;
   }
   .section {
-    padding-block: clamp(2.5rem, 5vw, 4.5rem);
+    padding-block: clamp(2.25rem, 4.5vw, 3.5rem);
   }
   .band {
-    background:
-      radial-gradient(
-        120% 100% at 0% 0%,
-        rgba(230, 169, 46, 0.05) 0%,
-        transparent 55%
-      ),
-      var(--navy);
-    border-block: 1px solid var(--navy-line);
+    background: var(--navy);
+    border-block: 1px solid var(--rule);
   }
   .lead {
-    margin: 2rem 0 0;
+    margin: 1.5rem 0 0;
     max-width: 62ch;
     font-family: var(--font-sans);
-    font-weight: 300;
-    font-size: clamp(1.15rem, 1.8vw, 1.4rem);
-    line-height: 1.6;
+    font-size: clamp(1.05rem, 1.6vw, 1.25rem);
+    line-height: 1.65;
     color: var(--muted);
   }
   .lead--sm {
-    font-size: clamp(1rem, 1.5vw, 1.15rem);
+    font-size: clamp(1rem, 1.4vw, 1.1rem);
     margin-top: 1rem;
   }
   .chapter__eyebrow {
     margin: 0;
-    font-family: var(--font-sans);
-    font-weight: 600;
-    font-size: 12px;
+    font-family: var(--font-label);
+    font-weight: 700;
+    font-size: 11px;
     text-transform: uppercase;
-    letter-spacing: 0.3em;
+    letter-spacing: 0.16em;
     color: var(--muted);
   }
   .chapter__eyebrow.gold {
     color: var(--gold);
   }
   .h2 {
-    margin: 0.9rem 0 0;
-    font-family: var(--font-serif);
-    font-optical-sizing: auto;
-    font-weight: 300;
-    font-size: clamp(1.9rem, 4vw, 3rem);
+    margin: 0.8rem 0 0;
+    font-family: var(--font-sans);
+    font-weight: 800;
+    font-size: clamp(1.8rem, 3.6vw, 2.75rem);
     line-height: 1.05;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.035em;
     color: var(--paper);
   }
 
@@ -338,52 +319,51 @@ const posizioni = [
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
-    padding: clamp(1.75rem, 3.5vw, 2.5rem);
-    border: 1px solid var(--navy-line);
-    border-radius: 4px;
-    background: rgba(255, 255, 255, 0.015);
+    padding: clamp(1.6rem, 3.5vw, 2.25rem);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 1rem;
+    background: rgba(255, 255, 255, 0.02);
     text-decoration: none;
     transition:
       border-color 300ms ease,
-      transform 400ms cubic-bezier(0.22, 1, 0.36, 1);
+      background-color 300ms ease,
+      translate 300ms cubic-bezier(0.22, 1, 0.36, 1);
   }
   .path:hover {
-    border-color: var(--gold);
-    transform: translateY(-3px);
+    border-color: rgba(230, 169, 46, 0.45);
+    background: rgba(230, 169, 46, 0.04);
   }
   .path__eyebrow {
-    font-family: var(--font-sans);
-    font-weight: 600;
+    font-family: var(--font-label);
+    font-weight: 700;
     font-size: 11px;
     text-transform: uppercase;
-    letter-spacing: 0.26em;
+    letter-spacing: 0.16em;
     color: var(--gold);
   }
   .path__title {
-    font-family: var(--font-serif);
-    font-optical-sizing: auto;
-    font-weight: 300;
-    font-size: clamp(1.35rem, 2.4vw, 1.85rem);
-    line-height: 1.1;
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: clamp(1.3rem, 2.2vw, 1.7rem);
+    line-height: 1.15;
+    letter-spacing: -0.025em;
     color: var(--paper);
   }
   .path__cta {
-    margin-top: 0.5rem;
+    margin-top: 0.4rem;
     font-family: var(--font-sans);
     font-weight: 600;
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: 0.18em;
+    font-size: 13px;
     color: var(--gold);
   }
 
   /* Posizione */
   .pos {
     margin-top: clamp(2rem, 4vw, 3rem);
-    padding: clamp(1.5rem, 3.5vw, 2.5rem);
-    border: 1px solid var(--navy-line);
-    border-radius: 4px;
-    background: rgba(255, 255, 255, 0.015);
+    padding: clamp(1.5rem, 3.5vw, 2.25rem);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 1rem;
+    background: rgba(255, 255, 255, 0.02);
   }
   .pos__head {
     display: flex;
@@ -402,11 +382,11 @@ const posizioni = [
   }
   .pos__ruolo {
     margin: 0.5rem 0 0.6rem;
-    font-family: var(--font-serif);
-    font-optical-sizing: auto;
-    font-weight: 300;
-    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    font-family: var(--font-sans);
+    font-weight: 800;
+    font-size: clamp(1.6rem, 3vw, 2.3rem);
     line-height: 1.05;
+    letter-spacing: -0.035em;
     color: var(--paper);
   }
   .pos__claim {
@@ -477,7 +457,7 @@ const posizioni = [
     font-weight: 300;
     font-size: 0.95rem;
     line-height: 1.45;
-    color: rgba(232, 230, 225, 0.85);
+    color: rgba(236, 235, 231, 0.85);
   }
   .pos__skills li::before {
     content: "";
@@ -492,20 +472,22 @@ const posizioni = [
 
   /* Buttons */
   .btn {
-    display: inline-block;
-    padding: 0.9rem 1.9rem;
-    background: #ffffff;
+    display: inline-flex;
+    align-items: center;
+    padding: 0.9rem 1.5rem;
+    border-radius: 999px;
+    background: var(--gold);
     color: var(--canvas);
     font-family: var(--font-sans);
-    font-weight: 600;
-    font-size: 12px;
+    font-weight: 700;
+    font-size: 13px;
     text-transform: uppercase;
-    letter-spacing: 0.24em;
+    letter-spacing: 0.06em;
     text-decoration: none;
-    transition: background-color 400ms ease;
+    transition: background-color 250ms ease;
   }
   .btn:hover {
-    background: var(--gold);
+    background: #f0bd52;
   }
 
   /* Form */
@@ -526,30 +508,28 @@ const posizioni = [
     grid-column: 1 / -1;
   }
   .field__label {
-    font-family: var(--font-sans);
-    font-weight: 500;
+    font-family: var(--font-label);
+    font-weight: 700;
     font-size: 11px;
     text-transform: uppercase;
-    letter-spacing: 0.24em;
+    letter-spacing: 0.12em;
     color: var(--muted);
   }
   .field__input {
     appearance: none;
     width: 100%;
-    background: transparent;
-    border: none;
-    border-bottom: 1px solid var(--rule);
-    border-radius: 0;
-    padding: 0.6rem 0;
+    padding: 0.75rem 0.9rem;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 0.65rem;
+    background: rgba(10, 10, 12, 0.6);
     font-family: var(--font-sans);
-    font-weight: 300;
-    font-size: 1.0625rem;
+    font-size: 0.98rem;
     color: var(--paper);
-    transition: border-color 400ms ease;
+    transition: border-color 250ms ease;
   }
   .field__input:focus {
     outline: none;
-    border-bottom-color: var(--gold);
+    border-color: var(--gold);
   }
   .field__textarea {
     resize: vertical;
@@ -565,16 +545,15 @@ const posizioni = [
   .field__file::file-selector-button {
     margin-right: 1rem;
     padding: 0.55rem 1.1rem;
-    border: 1px solid var(--rule);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 999px;
     background: transparent;
     color: var(--paper);
     font-family: var(--font-sans);
-    font-weight: 500;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.18em;
+    font-weight: 600;
+    font-size: 12px;
     cursor: pointer;
-    transition: border-color 300ms ease;
+    transition: border-color 250ms ease;
   }
   .field__file::file-selector-button:hover {
     border-color: var(--gold);
@@ -606,82 +585,39 @@ const posizioni = [
   .form__submit {
     appearance: none;
     margin-top: 1.75rem;
-    padding: 1.05rem 2.25rem;
+    padding: 1rem 1.75rem;
     border: none;
-    background: #ffffff;
+    border-radius: 999px;
+    background: var(--gold);
     color: var(--canvas);
     font-family: var(--font-sans);
-    font-weight: 600;
-    font-size: 12px;
+    font-weight: 700;
+    font-size: 13px;
     text-transform: uppercase;
-    letter-spacing: 0.24em;
+    letter-spacing: 0.06em;
     cursor: pointer;
-    transition: background-color 400ms ease;
+    transition: background-color 250ms ease;
   }
   .form__submit:hover {
-    background: var(--gold);
+    background: #f0bd52;
   }
   .form__submit:disabled {
     opacity: 0.6;
     cursor: default;
   }
-  .form-status {
+  /* Creato via JS (forms.ts): serve :global perché non ha l'attributo di scope */
+  .form :global(.form-status) {
     margin: 1.25rem 0 0;
     font-family: var(--font-sans);
-    font-weight: 400;
     font-size: 0.95rem;
     line-height: 1.5;
+    color: var(--muted);
   }
-  .form-status[data-state="ok"] {
+  .form :global(.form-status[data-state="ok"]) {
     color: var(--gold);
   }
-  .form-status[data-state="err"] {
-    color: #e88;
-  }
-  .form-status[data-state="info"] {
-    color: var(--muted);
-  }
-
-  /* Footer */
-  .footer {
-    border-top: 1px solid var(--rule);
-  }
-  .footer__inner {
-    max-width: 80rem;
-    margin: 0 auto;
-    padding: 3rem clamp(1.25rem, 5vw, 4rem);
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 1.5rem;
-    flex-wrap: wrap;
-  }
-  .footer__copy {
-    margin: 0;
-    font-family: var(--font-sans);
-    font-weight: 500;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.28em;
-    color: var(--muted);
-  }
-  .footer__links {
-    display: flex;
-    gap: clamp(1rem, 3vw, 2rem);
-    flex-wrap: wrap;
-  }
-  .footer__links a {
-    font-family: var(--font-sans);
-    font-weight: 500;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.28em;
-    color: var(--muted);
-    text-decoration: none;
-    transition: color 400ms ease;
-  }
-  .footer__links a:hover {
-    color: var(--gold);
+  .form :global(.form-status[data-state="err"]) {
+    color: #f08a8a;
   }
 
   @media (max-width: 800px) {
@@ -689,12 +625,6 @@ const posizioni = [
     .pos__grid,
     .form__grid {
       grid-template-columns: 1fr;
-    }
-  }
-  @media (max-width: 640px) {
-    .footer__inner {
-      flex-direction: column;
-      gap: 1.5rem;
     }
   }
 </style>

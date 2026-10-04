@@ -1,49 +1,17 @@
 ---
 import Base from "../layouts/Base.astro";
 import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
 import ChapterHero from "../components/ChapterHero.astro";
+import { aree } from "../data/aree";
 
-const servizi = [
-  {
-    title: "Database Assessment",
-    desc: "Analisi dello stato di salute di database e infrastrutture: performance, sicurezza, configurazioni e criticità, con report e piano di intervento.",
-  },
-  {
-    title: "Performance Tuning",
-    desc: "Ottimizzazione delle prestazioni di database e istanze: analisi dei colli di bottiglia, tuning di parametri, indici e risorse.",
-  },
-  {
-    title: "Ottimizzazione Query",
-    desc: "Analisi e riscrittura delle query critiche, gestione di indici e piani di esecuzione per ridurre tempi di risposta e carico sui sistemi.",
-  },
-  {
-    title: "Consulenza Database",
-    desc: "Supporto specialistico su Oracle, SQL Server, PostgreSQL, MongoDB, MySQL / MariaDB e Db2: architettura, scelte tecnologiche e best practice.",
-  },
-  {
-    title: "Supporto DBA",
-    desc: "Gestione ordinaria e straordinaria degli ambienti: monitoraggio, manutenzione, patching e presidio continuo, anche in affiancamento ai team interni.",
-  },
-  {
-    title: "Backup & Recovery",
-    desc: "Strategie di backup, test di ripristino, replica e continuità operativa (HA/DR) per proteggere i dati e ridurre i tempi di fermo.",
-  },
-  {
-    title: "Migration & Consolidation",
-    desc: "Migrazione, refresh e consolidamento di ambienti database, con assessment, pianificazione, collaudo e documentazione tecnica.",
-  },
-  {
-    title: "Cloud & Infrastructure",
-    desc: "Progettazione e gestione di infrastrutture on-premise e cloud (Oracle Cloud, Linux, networking, storage), con focus su affidabilità e sicurezza.",
-  },
-  {
-    title: "Security & Compliance",
-    desc: "Security assessment, access control, auditing e hardening per mettere in sicurezza database e infrastrutture.",
-  },
-];
+const ARROW = '<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>';
 ---
 
-<Base title="Servizi · PGNetwork | Database & Infrastructure">
+<Base
+  title="Servizi IT · PGNetwork | Software, database, cloud e sicurezza"
+  description="I servizi IT di PGNetwork: sviluppo e integrazione, database, Oracle Cloud, infrastruttura, cybersecurity, backup e disaster recovery, DevOps, data e consulenza tecnica."
+>
   <Nav />
 
   <main class="page">
@@ -51,252 +19,446 @@ const servizi = [
       <div class="wrap">
         <ChapterHero
           eyebrow="SERVIZI PGNETWORK"
-          title="Cosa facciamo"
+          title="Servizi IT, dal software ai database."
           size="96"
         />
         <p class="lead">
           Competenze, collaborazione, opportunità. Un network B2B di
-          professionisti e competenze per servizi digitali e infrastrutture
-          aziendali. Scegli un servizio per scoprirne di più e richiedere un
-          preventivo.
+          professionisti per servizi digitali e infrastrutture aziendali.
+          Scegli un'area per vedere cosa include e richiedere un preventivo.
         </p>
 
-        <div class="svc-list">
+        <div class="svc-grid" data-stagger>
           {
-            servizi.map((s) => (
-              <details class="svc">
-                <summary class="svc__summary">
-                  <span class="svc__title">{s.title}</span>
-                  <span class="svc__icon" aria-hidden="true" />
-                </summary>
-                <div class="svc__content">
-                  <p class="svc__desc">{s.desc}</p>
-                  <a class="btn" href="/#contatti">
-                    Richiedi un preventivo
-                  </a>
-                </div>
-              </details>
+            aree.map((a) => (
+              <button type="button" class="svc" id={a.slug} data-open={a.slug} data-tilt>
+                <span class="svc__icon fx-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" set:html={a.icon} />
+                </span>
+                <span class="svc__title">{a.title}</span>
+                <span class="svc__short">{a.short}</span>
+                <span class="svc__more">
+                  Scopri di più
+                  <svg viewBox="0 0 24 24" aria-hidden="true" set:html={ARROW} />
+                </span>
+              </button>
             ))
           }
         </div>
 
+        {
+          aree.map((a) => (
+            <dialog
+              class="dlg"
+              id={`dlg-${a.slug}`}
+              aria-labelledby={`dlg-t-${a.slug}`}
+            >
+              <div class="dlg__box">
+                <button
+                  type="button"
+                  class="dlg__close"
+                  data-close
+                  aria-label="Chiudi"
+                >
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M18 6 6 18M6 6l12 12" />
+                  </svg>
+                </button>
+                <span class="svc__icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" set:html={a.icon} />
+                </span>
+                <h2 class="dlg__title" id={`dlg-t-${a.slug}`}>
+                  {a.title}
+                </h2>
+                <p class="dlg__desc">{a.desc}</p>
+
+                <span class="label">Tecnologie e ambiti</span>
+                <ul class="chips" role="list">
+                  {a.tech.map((t) => (
+                    <li>{t}</li>
+                  ))}
+                </ul>
+
+                {a.servizi && (
+                  <>
+                    <span class="label">Servizi inclusi</span>
+                    <ul class="dlg__svc" role="list">
+                      {a.servizi.map((s) => (
+                        <li>
+                          <strong>{s.title}</strong>
+                          <span>{s.desc}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </>
+                )}
+
+                <div class="dlg__actions">
+                  <a class="pill" href="/#contatti" data-close>
+                    Richiedi un preventivo
+                    <svg viewBox="0 0 24 24" aria-hidden="true" set:html={ARROW} />
+                  </a>
+                  <a class="pill pill--ghost" href="/#contatti" data-close>
+                    Richiedi una consulenza
+                  </a>
+                </div>
+              </div>
+            </dialog>
+          ))
+        }
+
         <div class="svc-foot">
           <p class="lead lead--sm">
             Non trovi il servizio che cerchi? Raccontaci le tue esigenze:
-            costruiamo soluzioni su misura per database e infrastrutture.
+            costruiamo soluzioni su misura insieme ai professionisti del
+            network.
           </p>
-          <a class="btn btn--ghost" href="/#contatti">Parliamone</a>
+          <a class="pill pill--ghost" href="/#contatti">Parliamone</a>
         </div>
       </div>
     </section>
   </main>
 
-  <footer class="footer">
-    <div class="footer__inner">
-      <p class="footer__copy">
-        PATRIZIA GARDIS · DATABASE &amp; INFRASTRUCTURE · FOUNDER PGNETWORK
-      </p>
-      <nav class="footer__links" aria-label="Link di servizio">
-        <a href="/collabora">COLLABORA</a>
-        <a href="/#contatti">CONTATTI</a>
-        <a href="/privacy">PRIVACY</a>
-        <a href="/note-legali">NOTE LEGALI</a>
-      </nav>
-    </div>
-  </footer>
+  <Footer />
 </Base>
+
+<script>
+  const openDlg = (slug: string) => {
+    const dlg = document.getElementById(`dlg-${slug}`) as HTMLDialogElement | null;
+    if (dlg && !dlg.open) dlg.showModal();
+  };
+
+  document.querySelectorAll<HTMLElement>("[data-open]").forEach((btn) => {
+    btn.addEventListener("click", () => openDlg(btn.dataset.open as string));
+  });
+
+  document.querySelectorAll<HTMLDialogElement>("dialog.dlg").forEach((dlg) => {
+    // Chiudi cliccando fuori dalla scheda o sui comandi [data-close]
+    dlg.addEventListener("click", (e) => {
+      const t = e.target as HTMLElement;
+      if (t === dlg || t.closest("[data-close]")) dlg.close();
+    });
+  });
+
+  // Link diretti dalla home: /servizi#database apre la scheda giusta
+  const slug = decodeURIComponent(location.hash.slice(1));
+  if (slug) openDlg(slug);
+</script>
 
 <style>
   .page {
-    padding-top: clamp(4.5rem, 10vh, 7rem);
+    padding-top: clamp(5rem, 10vh, 6.5rem);
   }
   .wrap {
-    max-width: 72rem;
+    max-width: 80rem;
     margin: 0 auto;
     padding-inline: clamp(1.25rem, 5vw, 4rem);
   }
   .section {
-    padding-block: clamp(2.5rem, 5vw, 4.5rem);
+    padding-block: clamp(2.25rem, 4.5vw, 3.5rem);
   }
   .lead {
-    margin: 2rem 0 0;
-    max-width: 60ch;
+    margin: 1.5rem 0 0;
+    max-width: 62ch;
     font-family: var(--font-sans);
-    font-weight: 300;
-    font-size: clamp(1.15rem, 1.8vw, 1.4rem);
-    line-height: 1.6;
+    font-size: clamp(1.05rem, 1.6vw, 1.25rem);
+    line-height: 1.65;
     color: var(--muted);
   }
   .lead--sm {
-    font-size: clamp(1rem, 1.5vw, 1.2rem);
     margin: 0;
+    font-size: clamp(1rem, 1.4vw, 1.1rem);
   }
-
-  .svc-list {
-    margin-top: clamp(2.5rem, 5vw, 3.5rem);
-  }
-  .svc {
-    border-top: 1px solid var(--rule);
-  }
-  .svc:last-of-type {
-    border-bottom: 1px solid var(--rule);
-  }
-  .svc__summary {
-    list-style: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1.5rem;
-    padding: 1.4rem 0;
-  }
-  .svc__summary::-webkit-details-marker {
-    display: none;
-  }
-  .svc__title {
-    font-family: var(--font-serif);
-    font-optical-sizing: auto;
-    font-weight: 300;
-    font-size: clamp(1.4rem, 2.8vw, 2.1rem);
-    line-height: 1.1;
-    color: var(--paper);
-    transition: color 300ms ease;
-  }
-  .svc__summary:hover .svc__title,
-  .svc[open] .svc__title {
+  .label {
+    display: block;
+    margin: 1.5rem 0 0.75rem;
+    font-family: var(--font-label);
+    font-weight: 700;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
     color: var(--gold);
   }
-  .svc__icon {
-    position: relative;
-    flex: 0 0 auto;
-    width: 1.5rem;
-    height: 1.5rem;
+
+  /* Griglia aree */
+  .svc-grid {
+    margin-top: clamp(2.5rem, 5vw, 3.5rem);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
   }
-  .svc__icon::before,
-  .svc__icon::after {
-    content: "";
-    position: absolute;
-    background: var(--gold);
-    transition:
-      transform 320ms cubic-bezier(0.22, 1, 0.36, 1),
-      opacity 320ms ease;
-  }
-  .svc__icon::before {
-    top: 50%;
-    left: 0;
-    width: 100%;
-    height: 1.5px;
-    transform: translateY(-50%);
-  }
-  .svc__icon::after {
-    left: 50%;
-    top: 0;
-    width: 1.5px;
-    height: 100%;
-    transform: translateX(-50%);
-  }
-  .svc[open] .svc__icon::after {
-    transform: translateX(-50%) scaleY(0);
-    opacity: 0;
-  }
-  .svc__content {
-    padding: 0.25rem 0 2rem;
+  .svc {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 1.5rem;
-    max-width: 52rem;
+    gap: 0.7rem;
+    padding: 1.6rem;
+    text-align: left;
+    cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 1rem;
+    background: rgba(255, 255, 255, 0.02);
+    color: inherit;
+    font: inherit;
+    scroll-margin-top: 7rem;
+    transition:
+      border-color 300ms ease,
+      background-color 300ms ease,
+      translate 300ms cubic-bezier(0.22, 1, 0.36, 1);
   }
-  .svc__desc {
-    margin: 0;
+  .svc:hover,
+  .svc:focus-visible {
+    border-color: rgba(230, 169, 46, 0.45);
+    background: rgba(230, 169, 46, 0.04);
+  }
+  .svc__icon {
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 0.75rem;
+    background: rgba(230, 169, 46, 0.1);
+    color: var(--gold);
+  }
+  .svc__icon svg {
+    width: 22px;
+    height: 22px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.7;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .svc__title {
+    margin-top: 0.3rem;
     font-family: var(--font-sans);
-    font-weight: 300;
-    font-size: clamp(1rem, 1.5vw, 1.15rem);
-    line-height: 1.65;
-    color: rgba(232, 230, 225, 0.82);
+    font-weight: 700;
+    font-size: 1.15rem;
+    letter-spacing: -0.015em;
+    color: var(--paper);
   }
-
-  .btn {
-    display: inline-block;
-    padding: 0.9rem 1.9rem;
-    background: #ffffff;
-    color: var(--canvas);
+  .svc__short {
+    font-family: var(--font-sans);
+    font-size: 0.92rem;
+    line-height: 1.55;
+    color: var(--muted);
+  }
+  .svc__more {
+    margin-top: auto;
+    padding-top: 0.4rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
     font-family: var(--font-sans);
     font-weight: 600;
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: 0.24em;
-    text-decoration: none;
-    transition: background-color 400ms cubic-bezier(0.22, 1, 0.36, 1);
+    font-size: 13px;
+    color: var(--gold);
   }
-  .btn:hover {
-    background: var(--gold);
+  .svc__more svg,
+  .pill svg {
+    width: 15px;
+    height: 15px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: transform 250ms ease;
   }
-  .btn--ghost {
+  .svc:hover .svc__more svg,
+  .pill:hover svg {
+    transform: translateX(3px);
+  }
+
+  /* Dialog */
+  .dlg {
+    width: min(42rem, calc(100% - 2rem));
+    max-height: 88vh;
+    padding: 0;
+    border: none;
     background: transparent;
     color: var(--paper);
-    border: 1px solid var(--rule);
   }
-  .btn--ghost:hover {
+  .dlg::backdrop {
+    background: rgba(6, 6, 8, 0.78);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+  .dlg[open] {
+    animation: dlg-in 280ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  @keyframes dlg-in {
+    from {
+      opacity: 0;
+      translate: 0 12px;
+    }
+    to {
+      opacity: 1;
+      translate: 0 0;
+    }
+  }
+  .dlg__box {
+    position: relative;
+    max-height: 88vh;
+    overflow-y: auto;
+    padding: clamp(1.5rem, 4vw, 2.25rem);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 1.25rem;
+    background: #121214;
+  }
+  .dlg__close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 2.4rem;
+    height: 2.4rem;
+    display: grid;
+    place-items: center;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 999px;
     background: transparent;
+    color: var(--paper);
+    cursor: pointer;
+    transition: border-color 250ms ease;
+  }
+  .dlg__close:hover {
     border-color: var(--gold);
+  }
+  .dlg__close svg {
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+  }
+  .dlg__title {
+    margin: 1rem 0 0.6rem;
+    font-family: var(--font-sans);
+    font-weight: 800;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+  }
+  .dlg__desc {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.65;
+    color: rgba(236, 235, 231, 0.82);
+  }
+  .chips {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+  .chips li {
+    padding: 0.3rem 0.7rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.06);
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 12.5px;
+    color: rgba(236, 235, 231, 0.85);
+  }
+  .dlg__svc {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.75rem;
+  }
+  .dlg__svc li {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    padding: 0.9rem 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 0.75rem;
+  }
+  .dlg__svc strong {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 0.98rem;
+    color: var(--paper);
+  }
+  .dlg__svc span {
+    font-family: var(--font-sans);
+    font-size: 0.88rem;
+    line-height: 1.55;
+    color: var(--muted);
+  }
+  .dlg__actions {
+    margin-top: 1.75rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  /* Pill CTA */
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.9rem 1.5rem;
+    border: 1px solid var(--gold);
+    border-radius: 999px;
+    background: var(--gold);
+    color: var(--canvas);
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    text-decoration: none;
+    transition: background-color 250ms ease;
+  }
+  .pill:hover {
+    background: #f0bd52;
+  }
+  .pill--ghost {
+    background: transparent;
+    color: var(--paper);
+    border-color: rgba(255, 255, 255, 0.25);
+  }
+  .pill--ghost:hover {
+    background: transparent;
     color: var(--gold);
+    border-color: var(--gold);
   }
 
   .svc-foot {
     margin-top: clamp(3rem, 6vw, 4.5rem);
+    padding: clamp(1.5rem, 4vw, 2.5rem);
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1.5rem;
-  }
-
-  /* Footer */
-  .footer {
-    border-top: 1px solid var(--rule);
-  }
-  .footer__inner {
-    max-width: 80rem;
-    margin: 0 auto;
-    padding: 3rem clamp(1.25rem, 5vw, 4rem);
-    display: flex;
-    align-items: baseline;
+    align-items: center;
     justify-content: space-between;
+    flex-wrap: wrap;
     gap: 1.5rem;
-    flex-wrap: wrap;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 1.1rem;
+    background: rgba(255, 255, 255, 0.02);
   }
-  .footer__copy {
-    margin: 0;
-    font-family: var(--font-sans);
-    font-weight: 500;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.28em;
-    color: var(--muted);
-  }
-  .footer__links {
-    display: flex;
-    gap: clamp(1rem, 3vw, 2rem);
-    flex-wrap: wrap;
-  }
-  .footer__links a {
-    font-family: var(--font-sans);
-    font-weight: 500;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.28em;
-    color: var(--muted);
-    text-decoration: none;
-    transition: color 400ms ease;
-  }
-  .footer__links a:hover {
-    color: var(--gold);
+  .svc-foot .lead--sm {
+    max-width: 46ch;
   }
 
+  @media (max-width: 1000px) {
+    .svc-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
   @media (max-width: 640px) {
-    .footer__inner {
-      flex-direction: column;
-      gap: 1.5rem;
+    .svc-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .dlg[open] {
+      animation: none;
     }
   }
 </style>

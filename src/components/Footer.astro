@@ -1,0 +1,194 @@
+---
+/**
+ * Footer: condiviso da tutte le pagine.
+ * NOTA: la collaborazione con AC Milan è indicata solo come testo;
+ * logo e dettagli arriveranno dal cliente.
+ */
+const anno = new Date().getFullYear();
+
+const navigazione = [
+  { href: "/servizi", name: "Servizi" },
+  { href: "/#pgnetwork", name: "PGNetwork" },
+  { href: "/#chi-sono", name: "Chi sono" },
+  { href: "/#journal", name: "Journal" },
+  { href: "/collabora", name: "Collabora" },
+];
+---
+
+<footer class="foot">
+  <div class="foot__inner">
+    <div class="foot__top">
+      <div class="foot__brand">
+        <a href="/" class="foot__logo" aria-label="PGNetwork, home">
+          <span class="foot__mark" aria-hidden="true">PG</span>
+          <span class="foot__name">PGNETWORK</span>
+        </a>
+        <p class="foot__claim">
+          Servizi IT B2B: software, database, cloud, infrastrutture e
+          sicurezza. Fondato da Patrizia Gardis.
+        </p>
+      </div>
+
+      <nav class="foot__col" aria-label="Navigazione footer">
+        <span class="foot__label">Navigazione</span>
+        <ul role="list">
+          {navigazione.map((l) => (
+            <li><a href={l.href}>{l.name}</a></li>
+          ))}
+        </ul>
+      </nav>
+
+      <div class="foot__col">
+        <span class="foot__label">Contatti</span>
+        <ul role="list">
+          <li><a href="mailto:pgardis@pgnetwork.it">pgardis@pgnetwork.it</a></li>
+          <li><a href="tel:+393518108858">+39 351 810 8858</a></li>
+          <li><a href="/#contatti">Scrivici</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="foot__collab">
+      <span class="foot__label">In collaborazione con</span>
+      <span class="foot__collab-name">AC Milan</span>
+    </div>
+
+    <div class="foot__bottom">
+      <p>© {anno} PGNetwork · Patrizia Gardis</p>
+      <nav class="foot__legal" aria-label="Link legali">
+        <a href="/privacy">Privacy</a>
+        <a href="/note-legali">Note legali</a>
+      </nav>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .foot {
+    border-top: 1px solid var(--rule);
+    background: #0a0a0c;
+  }
+  .foot__inner {
+    max-width: 80rem;
+    margin: 0 auto;
+    padding: clamp(2.5rem, 4.5vw, 3.5rem) clamp(1.25rem, 5vw, 4rem) 2rem;
+  }
+  .foot__top {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: clamp(2rem, 5vw, 4rem);
+  }
+  .foot__logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    text-decoration: none;
+    color: #fff;
+  }
+  .foot__mark {
+    display: grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.85);
+    border-radius: 0.5rem;
+    font-family: var(--font-sans);
+    font-weight: 800;
+    font-size: 0.75rem;
+  }
+  .foot__name {
+    font-family: var(--font-sans);
+    font-weight: 800;
+    font-size: 15px;
+    letter-spacing: 0.08em;
+  }
+  .foot__claim {
+    margin: 1.1rem 0 0;
+    max-width: 30rem;
+    font-family: var(--font-sans);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--muted);
+  }
+  .foot__label {
+    display: block;
+    margin-bottom: 0.9rem;
+    font-family: var(--font-label);
+    font-weight: 700;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--gold);
+  }
+  .foot__col ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.6rem;
+  }
+  .foot__col a,
+  .foot__legal a {
+    font-family: var(--font-sans);
+    font-size: 0.95rem;
+    color: rgba(236, 235, 231, 0.82);
+    text-decoration: none;
+    transition: color 250ms ease;
+  }
+  .foot__col a:hover,
+  .foot__legal a:hover {
+    color: var(--gold);
+  }
+
+  .foot__collab {
+    margin-top: clamp(2.5rem, 5vw, 3.5rem);
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.25rem;
+    border: 1px solid var(--navy-line);
+    border-radius: 0.9rem;
+    background: rgba(255, 255, 255, 0.02);
+  }
+  .foot__collab .foot__label {
+    margin: 0;
+  }
+  .foot__collab-name {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 1.15rem;
+    letter-spacing: -0.01em;
+    color: #fff;
+  }
+
+  .foot__bottom {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--rule);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .foot__bottom p {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+  .foot__legal {
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  @media (max-width: 800px) {
+    .foot__top {
+      grid-template-columns: 1fr 1fr;
+    }
+    .foot__brand {
+      grid-column: 1 / -1;
+    }
+  }
+</style>

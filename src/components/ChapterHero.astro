@@ -1,11 +1,11 @@
 ---
 /**
- * ChapterHero — reusable chapter label + section title block.
+ * ChapterHero: reusable chapter label + section title block.
  *
  * Props:
- *  - eyebrow: small uppercase kicker (e.g. "CAPITOLO DUE — IL PRESENTE")
+ *  - eyebrow: small uppercase kicker (e.g. "CAPITOLO DUE: IL PRESENTE")
  *  - title:   section headline (Fraunces)
- *  - size:    headline size key — '60' | '72' | '96' (px target, fluid)
+ *  - size:    headline size key: '60' | '72' | '96' (px target, fluid)
  *  - align:   'left' | 'center'
  *  - invert:  true on light sections (text becomes canvas color)
  */
@@ -52,11 +52,11 @@ const {
 
   .chapter__eyebrow {
     margin: 0;
-    font-family: var(--font-sans);
-    font-weight: 600;
-    font-size: 12px;
+    font-family: var(--font-label);
+    font-weight: 700;
+    font-size: 11px;
     text-transform: uppercase;
-    letter-spacing: 0.32em;
+    letter-spacing: 0.16em;
     color: var(--gold);
   }
   .chapter--invert .chapter__eyebrow {
@@ -65,27 +65,26 @@ const {
 
   .chapter__title {
     margin: 0;
-    font-family: var(--font-serif);
-    font-optical-sizing: auto;
-    font-weight: 300;
-    line-height: 1;
-    letter-spacing: -0.02em;
+    font-family: var(--font-sans);
+    font-weight: 800;
+    line-height: 1.02;
+    letter-spacing: -0.035em;
     color: var(--paper);
     text-wrap: balance;
     /* default di sicurezza: un size non previsto resta comunque grande */
-    font-size: clamp(3rem, 7.5vw, 5rem);
+    font-size: clamp(2.25rem, 5.5vw, 3.75rem);
   }
   .chapter--invert .chapter__title {
     color: var(--canvas);
   }
 
   .chapter__title--60 {
-    font-size: clamp(2.75rem, 6.5vw, 4.25rem);
+    font-size: clamp(2.1rem, 5vw, 3.25rem);
   }
   .chapter__title--72 {
-    font-size: clamp(3rem, 7.5vw, 5rem);
+    font-size: clamp(2.25rem, 5.5vw, 3.75rem);
   }
   .chapter__title--96 {
-    font-size: clamp(3.25rem, 9.5vw, 6.75rem);
+    font-size: clamp(2.5rem, 6.5vw, 4.5rem);
   }
 </style>

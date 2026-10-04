@@ -1,0 +1,610 @@
+---
+/**
+ * CardFan: carte disposte a ventaglio (porting Astro del componente
+ * "card-fan-carousel", senza React). Fino a 7 carte visibili; oltre,
+ * frecce e indicatori fanno scorrere il ventaglio in modo circolare.
+ * Animazioni con GSAP: ingresso elastico, apertura al passaggio del mouse.
+ *
+ * Props:
+ *  - items: aree di servizio (icona, titolo, sintesi, tecnologie, slug)
+ *  - start: indice della carta centrale iniziale (default 3)
+ */
+import type { Area } from "../data/aree";
+
+interface Props {
+  items: Area[];
+  start?: number;
+}
+const { items, start = 3 } = Astro.props;
+const paginata = items.length > 7;
+
+const ARROW = '<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>';
+---
+
+<div class="fan" data-fan data-start={start}>
+  <div class="fan__layout" data-fan-layout>
+    {
+      items.map((a) => (
+        <a class="fan-card" href={`/servizi#${a.slug}`}>
+          <span class="fan-card__icon fx-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" set:html={a.icon} />
+          </span>
+          <span class="fan-card__title">{a.title}</span>
+          <span class="fan-card__short">{a.short}</span>
+          <span class="fan-card__tech">
+            {a.tech.slice(0, 3).map((t) => (
+              <span>{t}</span>
+            ))}
+          </span>
+          <span class="fan-card__more">
+            Dettagli
+            <svg viewBox="0 0 24 24" aria-hidden="true" set:html={ARROW} />
+          </span>
+        </a>
+      ))
+    }
+  </div>
+
+  {
+    paginata && (
+      <div class="fan__nav">
+        <button type="button" class="fan__arrow" data-fan-prev aria-label="Servizio precedente">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <polyline points="15 18 9 12 15 6" />
+          </svg>
+        </button>
+        <div class="fan__dots" aria-hidden="true">
+          {items.map(() => (
+            <span class="fan__dot" data-fan-dot />
+          ))}
+        </div>
+        <button type="button" class="fan__arrow" data-fan-next aria-label="Servizio successivo">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <polyline points="9 18 15 12 9 6" />
+          </svg>
+        </button>
+      </div>
+    )
+  }
+</div>
+
+<script>
+  import gsap from "gsap";
+
+  const MAX_VISIBLE = 7;
+  const HALF = 3;
+
+  const FAN_POSITIONS = [
+    { rot: -21, scale: 0.7756, x: -30, y: 7.3, zIndex: 1 },
+    { rot: -14, scale: 0.8498, x: -22, y: 4.0, zIndex: 2 },
+    { rot: -7, scale: 0.9346, x: -11, y: 1.3, zIndex: 3 },
+    { rot: 0, scale: 1.0, x: 0, y: 0.0, zIndex: 10 },
+    { rot: 7, scale: 0.9346, x: 11, y: 1.3, zIndex: 3 },
+    { rot: 14, scale: 0.8498, x: 22, y: 4.0, zIndex: 2 },
+    { rot: 21, scale: 0.7756, x: 30, y: 7.3, zIndex: 1 },
+  ];
+
+  function getResponsiveMultiplier(width: number) {
+    if (width < 480) return 0.28;
+    if (width < 640) return 0.38;
+    if (width < 768) return 0.5;
+    if (width < 1024) return 0.75;
+    return 1.0;
+  }
+
+  // Riduce offset verticali e distanze di ingresso se il viewport è basso.
+  function getHeightMultiplier(width: number) {
+    let idealPx: number;
+    if (width < 480) idealPx = 22 * 16;
+    else if (width < 640) idealPx = 26 * 16;
+    else if (width < 768) idealPx = 28 * 16;
+    else if (width < 1024) idealPx = 34 * 16;
+    else idealPx = 38 * 16;
+    const available = window.innerHeight * 0.7;
+    return available >= idealPx ? 1 : available / idealPx;
+  }
+
+  function getSlotConfig(totalCards: number, slot: number) {
+    if (totalCards >= MAX_VISIBLE) return FAN_POSITIONS[slot];
+    const center = totalCards >> 1;
+    const distance = totalCards > 1 ? (slot - center) / center : 0;
+    const abs = Math.abs(distance);
+    return {
+      rot: distance * 21,
+      scale: 1.0 - 0.2244 * abs * abs,
+      x: distance * 30,
+      y: abs * abs * 7.3,
+      zIndex: 10 - Math.abs(slot - center),
+    };
+  }
+
+  function initFan(root: HTMLElement) {
+    const container = root.querySelector<HTMLElement>("[data-fan-layout]");
+    if (!container) return;
+    const cards = Array.from(container.querySelectorAll<HTMLElement>(".fan-card"));
+    const total = cards.length;
+    if (!total) return;
+
+    const needsPagination = total > MAX_VISIBLE;
+    const startAttr = Number(root.dataset.start);
+    let centerIndex = needsPagination
+      ? (Number.isFinite(startAttr) ? startAttr : HALF) % total
+      : total >> 1;
+    let isAnimating = false;
+    let hasEntered = false;
+    let direction: "left" | "right" | null = null;
+    let prevVisible = new Set<number>();
+    let cleanup: (() => void) | null = null;
+
+    const dots = Array.from(root.querySelectorAll<HTMLElement>("[data-fan-dot]"));
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const d = (s: number) => (reduce ? 0 : s);
+
+    const getVisibleMap = (center: number) => {
+      const map = new Map<number, number>();
+      if (!needsPagination) {
+        cards.forEach((_, i) => map.set(i, i));
+        return map;
+      }
+      for (let slot = 0; slot < MAX_VISIBLE; slot++) {
+        map.set((((center + slot - HALF) % total) + total) % total, slot);
+      }
+      return map;
+    };
+
+    function render() {
+      cleanup?.();
+      const visibleMap = getVisibleMap(centerIndex);
+      const previouslyVisible = prevVisible;
+      const isFirstMount = !hasEntered;
+      const multiplier = getResponsiveMultiplier(window.innerWidth);
+      const hMult = getHeightMultiplier(window.innerWidth);
+      const slotCount = needsPagination ? MAX_VISIBLE : total;
+      const config = (slot: number) => getSlotConfig(slotCount, slot);
+
+      if (isFirstMount) isAnimating = true;
+
+      let completed = 0;
+      const visibleCount = visibleMap.size;
+      const onCardDone = () => {
+        if (++completed >= visibleCount) {
+          isAnimating = false;
+          if (isFirstMount) hasEntered = true;
+        }
+      };
+
+      cards.forEach((card, i) => {
+        const slot = visibleMap.get(i);
+        const wasVisible = previouslyVisible.has(i);
+        // Le carte nascoste non devono ricevere focus da tastiera
+        card.inert = slot === undefined;
+
+        if (slot !== undefined) {
+          const { x, y, rot, scale, zIndex } = config(slot);
+          const target = {
+            x: `${x * multiplier}rem`,
+            y: `${y * hMult}rem`,
+            rotation: rot,
+            scale,
+            opacity: 1,
+            zIndex,
+          };
+          if (isFirstMount) {
+            gsap.set(card, { x: 0, y: `${12 * hMult}rem`, rotation: 0, scale: 0.5, opacity: 0 });
+            gsap.to(card, {
+              ...target,
+              duration: d(1.2),
+              ease: "elastic.out(1.05,.78)",
+              delay: d(0.2 + slot * 0.06),
+              onComplete: onCardDone,
+            });
+          } else if (!wasVisible) {
+            const enterX = direction === "right" ? 40 : -40;
+            gsap.set(card, {
+              x: `${enterX}rem`,
+              y: `${y * hMult}rem`,
+              rotation: direction === "right" ? 30 : -30,
+              scale: 0.5,
+              opacity: 0,
+            });
+            gsap.to(card, { ...target, duration: d(0.6), ease: "power2.out", onComplete: onCardDone });
+          } else {
+            gsap.to(card, { ...target, duration: d(0.5), ease: "power2.out", onComplete: onCardDone });
+          }
+        } else if (wasVisible) {
+          const exitX = direction === "right" ? -40 : 40;
+          gsap.to(card, {
+            x: `${exitX}rem`,
+            opacity: 0,
+            scale: 0.5,
+            rotation: direction === "right" ? -30 : 30,
+            duration: d(0.4),
+            ease: "power2.in",
+            zIndex: 0,
+          });
+        } else if (isFirstMount) {
+          gsap.set(card, { opacity: 0, scale: 0.3, x: 0, y: 0, zIndex: 0 });
+        }
+      });
+
+      prevVisible = new Set(visibleMap.keys());
+      dots.forEach((dot, i) => dot.classList.toggle("is-active", i === centerIndex));
+
+      // Apertura del ventaglio al passaggio del mouse
+      const visibleEntries: { el: HTMLElement; slot: number }[] = [];
+      cards.forEach((el, i) => {
+        const slot = visibleMap.get(i);
+        if (slot !== undefined) visibleEntries.push({ el, slot });
+      });
+      visibleEntries.sort((a, b) => a.slot - b.slot);
+
+      let activeSlot: number | null = null;
+      let leaveTimer: number | null = null;
+      const centerSlot = visibleEntries.length >> 1;
+
+      const updateHoverLayout = (hoveredSlot: number | null) => {
+        const mult = getResponsiveMultiplier(window.innerWidth);
+        const hM = getHeightMultiplier(window.innerWidth);
+        visibleEntries.forEach(({ el, slot }) => {
+          const base = config(slot);
+          let tx = base.x * mult;
+          let ty = base.y * hM;
+          let tRot = base.rot;
+          let tScale = base.scale;
+          let delay = 0;
+
+          if (hoveredSlot !== null) {
+            const distance = Math.abs(slot - hoveredSlot);
+            delay = distance * 0.02;
+            if (slot === hoveredSlot) {
+              ty -= 2.5 * hM;
+              tScale *= 1.08;
+            } else {
+              const normalized = centerSlot > 0 ? (slot - centerSlot) / centerSlot : 0;
+              const push =
+                8 * (1 - Math.abs(normalized)) * (1 + 0.2 * Math.max(0, 3 - distance));
+              if (slot < hoveredSlot) {
+                tx -= push * mult;
+                tRot -= 3 / (distance + 1);
+              } else {
+                tx += push * mult;
+                tRot += 3 / (distance + 1);
+              }
+              if (slot === visibleEntries.length - 1 && hoveredSlot < centerSlot) ty -= 1 * hM;
+              if (slot === 0 && hoveredSlot > centerSlot) ty -= 1 * hM;
+            }
+          } else {
+            delay = Math.abs(slot - centerSlot) * 0.02;
+          }
+
+          gsap.to(el, {
+            x: `${tx}rem`,
+            y: `${ty}rem`,
+            rotation: tRot,
+            scale: tScale,
+            duration: d(0.5),
+            delay: d(delay),
+            ease: "elastic.out(1,.75)",
+            overwrite: "auto",
+          });
+          gsap.set(el, { zIndex: base.zIndex });
+        });
+      };
+
+      const enterHandlers = visibleEntries.map(({ el, slot }) => {
+        const handler = () => {
+          if (isAnimating) return;
+          if (leaveTimer) {
+            clearTimeout(leaveTimer);
+            leaveTimer = null;
+          }
+          if (activeSlot !== slot) {
+            activeSlot = slot;
+            updateHoverLayout(slot);
+          }
+        };
+        el.addEventListener("mouseenter", handler);
+        return { el, handler };
+      });
+
+      const onMouseLeave = () => {
+        if (isAnimating) return;
+        if (leaveTimer) clearTimeout(leaveTimer);
+        leaveTimer = window.setTimeout(() => {
+          activeSlot = null;
+          updateHoverLayout(null);
+        }, 50);
+      };
+      container!.addEventListener("mouseleave", onMouseLeave);
+
+      const onResize = () => {
+        if (!isAnimating) updateHoverLayout(activeSlot);
+      };
+      window.addEventListener("resize", onResize);
+
+      cleanup = () => {
+        enterHandlers.forEach(({ el, handler }) => el.removeEventListener("mouseenter", handler));
+        container!.removeEventListener("mouseleave", onMouseLeave);
+        window.removeEventListener("resize", onResize);
+        if (leaveTimer) clearTimeout(leaveTimer);
+      };
+    }
+
+    const cycle = (dir: "left" | "right") => {
+      if (isAnimating || !needsPagination) return;
+      isAnimating = true;
+      direction = dir;
+      centerIndex = dir === "right" ? (centerIndex + 1) % total : (centerIndex - 1 + total) % total;
+      render();
+    };
+
+    root.querySelector("[data-fan-prev]")?.addEventListener("click", () => cycle("left"));
+    root.querySelector("[data-fan-next]")?.addEventListener("click", () => cycle("right"));
+    root.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowLeft") cycle("left");
+      if (e.key === "ArrowRight") cycle("right");
+    });
+
+    // Di base le carte sono una fila visibile (anche senza JS). Poco prima che
+    // la sezione entri nello schermo passo al ventaglio (.is-fan), poi lancio
+    // l'animazione di ingresso quando è davvero visibile.
+    const ioPrepare = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((en) => en.isIntersecting)) {
+          ioPrepare.disconnect();
+          root.classList.add("is-fan");
+        }
+      },
+      { rootMargin: "0px 0px 35% 0px" },
+    );
+    const ioPlay = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((en) => en.isIntersecting)) {
+          ioPlay.disconnect();
+          root.classList.add("is-fan");
+          render();
+        }
+      },
+      { threshold: 0.2 },
+    );
+    ioPrepare.observe(root);
+    ioPlay.observe(root);
+  }
+
+  document.querySelectorAll<HTMLElement>("[data-fan]").forEach(initFan);
+</script>
+
+<style>
+  .fan {
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  /* Base (senza JS o prima dell'attivazione): fila orizzontale scorrevole */
+  .fan__layout {
+    position: relative;
+    width: 100%;
+    max-width: 80rem;
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 0.5rem;
+  }
+  .fan-card {
+    position: relative;
+    flex: 0 0 17rem;
+    height: min(23rem, 52vh);
+    scroll-snap-align: start;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    padding: 1.5rem 1.4rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 1.25rem;
+    background: #141416;
+    box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.9);
+    color: inherit;
+    text-decoration: none;
+    transition: border-color 300ms ease;
+  }
+
+  /* Ventaglio attivo: carte sovrapposte al centro, GSAP le dispone.
+     Altezza calibrata sull'ingombro reale (carta centrale + sollevamento in
+     hover sopra, carte esterne ruotate e abbassate sotto). */
+  .fan.is-fan .fan__layout {
+    display: block;
+    overflow: visible;
+    height: min(35rem, 70vh);
+    padding-bottom: 0;
+  }
+  .fan.is-fan .fan-card {
+    position: absolute;
+    left: 50%;
+    top: 40%;
+    width: 17rem;
+    margin-left: -8.5rem;
+    translate: 0 -50%;
+    opacity: 0;
+    will-change: transform, opacity;
+  }
+  .fan:not(.is-fan) .fan__nav {
+    display: none;
+  }
+  .fan-card:hover,
+  .fan-card:focus-visible {
+    border-color: rgba(230, 169, 46, 0.6);
+  }
+  .fan-card__icon {
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 0.75rem;
+    background: rgba(230, 169, 46, 0.12);
+    color: var(--gold);
+  }
+  .fan-card__icon svg {
+    width: 22px;
+    height: 22px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.7;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .fan-card__title {
+    margin-top: 0.4rem;
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 1.2rem;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: var(--paper);
+  }
+  .fan-card__short {
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: var(--muted);
+  }
+  .fan-card__tech {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+  .fan-card__tech span {
+    padding: 0.22rem 0.55rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.06);
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 11px;
+    color: rgba(236, 235, 231, 0.8);
+  }
+  .fan-card__more {
+    margin-top: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--gold);
+  }
+  .fan-card__more svg {
+    width: 15px;
+    height: 15px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  /* Navigazione */
+  .fan__nav {
+    margin-top: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .fan__arrow {
+    display: grid;
+    place-items: center;
+    width: 3rem;
+    height: 3rem;
+    border: 1.5px solid rgba(255, 255, 255, 0.12);
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.04);
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    transition:
+      border-color 250ms ease,
+      color 250ms ease;
+  }
+  .fan__arrow:hover,
+  .fan__arrow:focus-visible {
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+  .fan__arrow svg {
+    width: 20px;
+    height: 20px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .fan__dots {
+    display: flex;
+    gap: 0.5rem;
+  }
+  .fan__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.18);
+    transition:
+      background-color 300ms ease,
+      scale 300ms ease;
+  }
+  .fan__dot.is-active {
+    background: var(--gold);
+    scale: 1.3;
+  }
+
+  @media (max-width: 1023px) {
+    .fan.is-fan .fan__layout {
+      height: min(31rem, 70vh);
+    }
+    .fan-card {
+      flex-basis: 15rem;
+      height: min(21rem, 52vh);
+    }
+    .fan.is-fan .fan-card {
+      width: 15rem;
+      margin-left: -7.5rem;
+    }
+  }
+  @media (max-width: 767px) {
+    .fan.is-fan .fan__layout {
+      height: min(26rem, 68vh);
+    }
+    .fan-card {
+      flex-basis: 13rem;
+      height: 18.5rem;
+      padding: 1.2rem 1.1rem;
+      gap: 0.55rem;
+    }
+    .fan.is-fan .fan-card {
+      width: 13rem;
+      margin-left: -6.5rem;
+    }
+    .fan-card__title {
+      font-size: 1.05rem;
+    }
+    .fan-card__short {
+      font-size: 0.82rem;
+    }
+  }
+  @media (max-width: 479px) {
+    .fan.is-fan .fan__layout {
+      height: 21rem;
+    }
+    .fan-card {
+      flex-basis: 11.5rem;
+      height: 16.5rem;
+    }
+    .fan.is-fan .fan-card {
+      width: 11.5rem;
+      margin-left: -5.75rem;
+    }
+    .fan-card__tech {
+      display: none;
+    }
+  }
+</style>

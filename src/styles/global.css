@@ -1,41 +1,42 @@
 @import "tailwindcss";
 
 /* ============================================================
-   FONTS — Fraunces (serif display) + Manrope (sans)
-   Loaded via Google Fonts in <head> (see Base.astro) for
-   variable weight + optical sizing.
+   FONTS: Inter (testo e titoli), Plus Jakarta Sans (etichette),
+   Instrument Serif italic (parole d'accento).
+   Caricati via Google Fonts in <head> (vedi Base.astro).
    ============================================================ */
 
 /* ============================================================
-   DESIGN TOKENS
+   DESIGN TOKENS · stile IT (nero + accento oro)
    ============================================================ */
 @theme {
   --color-canvas: #0a0a0c;
-  --color-paper: #e8e6e1;
-  --color-accent: #d4c5a2;
+  --color-paper: #ecebe7;
+  --color-accent: #e6a92e;
   --color-gold: #e6a92e;
-  --color-navy: #0b1a2e;
+  --color-navy: #121214;
 
-  --font-serif: "Fraunces", ui-serif, Georgia, serif;
-  --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
 }
 
 :root {
   --canvas: #0a0a0c;
-  --paper: #e8e6e1;
+  --paper: #ecebe7;
 
-  /* Editorial base (racconto personale) */
-  --accent: #d4c5a2; /* oro champagne tenue */
-
-  /* PG Network brand (blocchi tecnici) */
-  --gold: #e6a92e; /* oro acceso del brand */
+  /* Accento principale (oro brand PGNetwork) */
+  --accent: #e6a92e;
+  --gold: #e6a92e;
   --gold-soft: rgba(230, 169, 46, 0.14);
-  --azure: #3d8bd4; /* accento blu tech (RPO/roots) */
-  --navy: #0b1a2e; /* pannelli tecnici */
-  --navy-line: rgba(230, 169, 46, 0.22);
+  --azure: #f3c35a; /* oro chiaro per glow */
+  --navy: #121214; /* pannelli */
+  --navy-line: rgba(230, 169, 46, 0.18);
 
-  --muted: rgba(232, 230, 225, 0.6);
-  --rule: rgba(232, 230, 225, 0.1);
+  --muted: rgba(236, 235, 231, 0.62);
+  --rule: rgba(255, 255, 255, 0.1);
+
+  --font-label: "Plus Jakarta Sans", "Inter", ui-sans-serif, sans-serif;
+  --font-accent: "Instrument Serif", ui-serif, Georgia, serif;
 }
 
 /* ============================================================
@@ -68,7 +69,35 @@ body {
   color: var(--canvas);
 }
 
-/* Fraunces optical sizing — applied wherever serif is used */
+/* ============================================================
+   SCROLLBAR a tema: binario nero, cursore oro.
+   Firefox usa scrollbar-color; Chrome, Edge e Safari le regole webkit
+   (in Chromium scrollbar-color le disattiverebbe, quindi resta solo per Firefox).
+   ============================================================ */
+@supports (-moz-appearance: none) {
+  html {
+    scrollbar-color: rgba(230, 169, 46, 0.6) var(--canvas);
+    scrollbar-width: thin;
+  }
+}
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-corner {
+  background: var(--canvas);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(230, 169, 46, 0.55);
+  border: 2px solid var(--canvas);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gold);
+}
+
+/* Fraunces optical sizing: applied wherever serif is used */
 .font-serif,
 h1,
 h2,
@@ -78,7 +107,7 @@ h3 {
 }
 
 /* ============================================================
-   ACCESSIBILITY — focus visible
+   ACCESSIBILITY: focus visible
    ============================================================ */
 :focus-visible {
   outline: 2px solid var(--accent);
@@ -93,26 +122,56 @@ textarea {
 }
 
 /* ============================================================
-   SCROLL-REVEAL — intersection observer hook
+   SCROLL-REVEAL: intersection observer hook
    Elements start hidden + translated; .is-visible lifts them.
    ============================================================ */
+/* Usa `translate` (non `transform`) così resta libero per l'inclinazione
+   delle card. --reveal-delay crea l'ingresso a cascata. */
 .reveal {
   opacity: 0;
-  transform: translateY(28px);
+  translate: 0 28px;
   transition:
-    opacity 1000ms cubic-bezier(0.22, 1, 0.36, 1),
-    transform 1000ms cubic-bezier(0.22, 1, 0.36, 1);
-  will-change: opacity, transform;
+    opacity 1000ms cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms),
+    translate 1000ms cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms);
 }
 
 .reveal.is-visible {
   opacity: 1;
-  transform: translateY(0);
+  translate: 0 0;
 }
 
-/* Optional stagger via inline --reveal-delay */
-.reveal {
-  transition-delay: var(--reveal-delay, 0ms);
+/* ============================================================
+   CARD FX: inclinazione 3D che segue il cursore + sollevamento.
+   Gli angoli --rx/--ry li imposta lo script in Base.astro.
+   Doppio selettore per vincere sulle transition degli stili scoped.
+   ============================================================ */
+[data-tilt][data-tilt] {
+  transform: perspective(900px) rotateX(var(--rx, 0deg))
+    rotateY(var(--ry, 0deg)) translateY(var(--lift, 0px));
+  transition:
+    opacity 1000ms cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms),
+    translate 1000ms cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms),
+    transform 500ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 300ms ease,
+    box-shadow 300ms ease,
+    background-color 300ms ease;
+}
+.fx-icon {
+  transition:
+    scale 450ms cubic-bezier(0.34, 1.56, 0.64, 1),
+    rotate 450ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@media (hover: hover) and (pointer: fine) {
+  [data-tilt][data-tilt]:hover {
+    --lift: -6px;
+    border-color: rgba(230, 169, 46, 0.55);
+    box-shadow: 0 28px 50px -28px rgba(0, 0, 0, 0.9);
+  }
+  [data-tilt]:hover .fx-icon,
+  .fan-card:hover .fx-icon {
+    scale: 1.12;
+    rotate: -8deg;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -121,7 +180,13 @@ textarea {
   }
   .reveal {
     opacity: 1;
+    translate: none;
+    transition: none;
+  }
+  [data-tilt][data-tilt] {
     transform: none;
+  }
+  .fx-icon {
     transition: none;
   }
 }

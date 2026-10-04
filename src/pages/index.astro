@@ -1,34 +1,39 @@
 ---
 import Base from "../layouts/Base.astro";
 import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
 import ChapterHero from "../components/ChapterHero.astro";
 import SkillGroup from "../components/SkillGroup.astro";
-import PosterImage from "../components/PosterImage.astro";
+import CardFan from "../components/CardFan.astro";
+import { aree } from "../data/aree";
 
 // ── Dati ──────────────────────────────────────────────────────
+
+// Video della hero (stream HLS indicato nel brief, ospitato su Mux).
+const HERO_STREAM =
+  "https://stream.mux.com/tLkHO1qZoaaQOUeVWo8hEBeGQfySP02EPS02BmnNFyXys.m3u8";
 
 const stack = [
   "Oracle",
   "SQL Server",
   "PostgreSQL",
   "MongoDB",
-  "Db2",
-  "MySQL",
+  "MySQL / MariaDB",
+  "IBM Db2",
   "Linux",
-];
-
-const servizi = [
-  "Database Administration",
-  "Migration",
-  "Consolidation",
-  "Security",
-  "Backup & Recovery",
-  "Infrastructure Assessment",
+  "Windows",
+  "Oracle Cloud (OCI)",
+  "Exadata",
+  "Docker",
+  "Kubernetes",
+  "Ansible",
+  "IBM AIX",
+  "WebLogic",
+  "CI/CD",
 ];
 
 const competenze = [
   {
-    num: "01",
     title: "Database Administration",
     items: [
       "Oracle 12c / 18c / 19c",
@@ -40,7 +45,6 @@ const competenze = [
     ],
   },
   {
-    num: "02",
     title: "Oracle & Enterprise",
     items: [
       "RMAN / RMAN Duplicate",
@@ -52,7 +56,6 @@ const competenze = [
     ],
   },
   {
-    num: "03",
     title: "Migration & Consolidation",
     items: [
       "Database Migration",
@@ -64,7 +67,6 @@ const competenze = [
     ],
   },
   {
-    num: "04",
     title: "Infrastructure",
     items: [
       "Linux / Red Hat / CentOS",
@@ -173,36 +175,47 @@ const formazione = [
   },
 ];
 
+// Journal: schede illustrate, ognuna con argomento chiaro e sintesi.
 const journal = [
   {
+    tag: "Database",
+    title: "Cosa fa davvero un DBA",
+    desc: "Dietro un database non ci sono solo tabelle: capire le esigenze, mappare le dipendenze, pianificare, ridurre i rischi di una migrazione e garantire continuità.",
     src: "/poster-dietro-database.jpg",
-    alt: "Dietro un database non ci sono solo tabelle: il ruolo di un DBA",
+    alt: "Scheda: dietro un database non ci sono solo tabelle, il ruolo del DBA",
     w: 1024,
     h: 1536,
-    caption: "Il ruolo di un DBA",
   },
   {
+    tag: "Disaster Recovery",
+    title: "RTO e RPO, spiegati semplice",
+    desc: "Quanti dati puoi permetterti di perdere e per quanto tempo puoi restare fermo: le due metriche alla base di ogni piano di ripristino, con esempi concreti.",
     src: "/poster-rto-rpo.jpg",
-    alt: "RTO e RPO: le due metriche chiave del Disaster Recovery",
+    alt: "Scheda: RTO e RPO, le due metriche chiave del Disaster Recovery",
     w: 1254,
     h: 1254,
-    caption: "RTO & RPO nel Disaster Recovery",
   },
   {
+    tag: "Servizio",
+    title: "Assessment database e infrastruttura",
+    desc: "Analisi di performance e sicurezza su Oracle, PostgreSQL, MongoDB, MySQL e MariaDB, con report chiaro, raccomandazioni e supporto di secondo e terzo livello.",
     src: "/poster-summer-offer.jpg",
-    alt: "Assessment di database e infrastrutture",
+    alt: "Scheda: assessment di database e infrastrutture PGNetwork",
     w: 1254,
     h: 1254,
-    caption: "Database & Infrastructure Assessment",
   },
   {
+    tag: "Innovazione",
+    title: "Bitcoin e mining: prima capire",
+    desc: "Come funziona il mining, il ruolo della potenza di calcolo e perché dietro c'è un'infrastruttura reale. Prima di investire, scegli di capire.",
     src: "/poster-bitcoin-mining.jpg",
-    alt: "Prima di investire, scegli di capire: Bitcoin e Mining",
+    alt: "Scheda: prima di investire scegli di capire, Bitcoin e mining",
     w: 1254,
     h: 1254,
-    caption: "Bitcoin & Mining",
   },
 ];
+
+const ARROW = '<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>';
 ---
 
 <Base>
@@ -210,101 +223,278 @@ const journal = [
 
   <main>
     <!-- ════════════════════════════════════════════════════════
-         1 · HOME · HERO
+         1 · HERO · PGNetwork servizi IT
          ════════════════════════════════════════════════════════ -->
-    <section class="hero-cinematic" aria-label="Copertina">
+    <section class="hero" aria-label="PGNetwork, servizi IT">
       <video
-        class="hero-video"
-        autoplay
+        class="hero__video"
+        data-hls={HERO_STREAM}
         muted
+        autoplay
+        loop
         playsinline
-        preload="auto"
+        preload="none"
         aria-hidden="true"
-      >
-        <source src="/hero-background.mp4" type="video/mp4" />
-      </video>
+      ></video>
+      <div class="hero__shade" aria-hidden="true"></div>
 
-      <div class="hero-overlay" aria-hidden="true"></div>
+      <div class="hero__inner">
+        <p class="hero__badge" style="--d:0">PGNetwork · Servizi IT B2B</p>
 
-      <div class="hero-content">
-        <span class="hero-eyebrow">PATRIZIA GARDIS · PGNETWORK</span>
-        <h1 class="hero-title">
-          <span class="line-1">Database &amp;</span>
-          <span class="line-2">Infrastructure</span>
-          <span class="line-3">Consultant.</span>
+        <h1 class="hero__title" style="--d:1">
+          <span class="hero__line">Trasformiamo le</span>
+          <span class="hero__line">competenze in</span>
+          <span class="hero__line hero__line--gold">soluzioni.</span>
         </h1>
-        <p class="hero-role">Founder di PGNetwork</p>
-        <p class="hero-tagline">
-          Oltre sette anni nell'IT enterprise. Progetto, metto in sicurezza e
-          consolido database e infrastrutture critiche.
-        </p>
+
+        <div class="hero__bottom" style="--d:2">
+          <div class="hero__copy">
+            <p class="hero__desc">
+              Un network B2B di professionisti IT per aziende e partner: dallo
+              sviluppo software ai database, dal cloud all'infrastruttura, fino
+              a sicurezza e continuità operativa.
+            </p>
+            <div class="hero__actions">
+              <a class="pill" href="/servizi">
+                Scopri i servizi
+                <svg viewBox="0 0 24 24" aria-hidden="true" set:html={ARROW} />
+              </a>
+              <a class="hero__link" href="#contatti">Parliamo del tuo progetto</a>
+            </div>
+          </div>
+
+          <a
+            class="founder"
+            data-tilt
+            href="#chi-sono"
+            aria-label="Chi sono: Patrizia Gardis, fondatrice di PGNetwork"
+          >
+            <span class="founder__head">
+              <span class="founder__avatar" aria-hidden="true">
+                <img
+                  src="/patrizia-ritratto.jpg"
+                  alt=""
+                  width="1024"
+                  height="1536"
+                  decoding="async"
+                />
+              </span>
+              <span>
+                <span class="founder__label">Fondato da</span>
+                <span class="founder__name">Patrizia Gardis</span>
+                <span class="founder__role">Database &amp; Infrastructure Consultant</span>
+              </span>
+            </span>
+            <span class="founder__stats">
+              <span><strong>7+</strong> anni nell'IT enterprise</span>
+              <span><strong>9</strong> aree di servizio IT</span>
+            </span>
+          </a>
+        </div>
       </div>
     </section>
 
     <!-- ════════════════════════════════════════════════════════
-         2 · HOME · POSIZIONAMENTO (keyword + CTA)
+         2 · STACK · nastro tecnologie
          ════════════════════════════════════════════════════════ -->
-    <section class="section strip" aria-label="Specializzazione">
-      <div class="wrap">
-        <div class="strip__row reveal">
-          <span class="strip__label">Stack</span>
-          <ul class="keywords" role="list">
-            {stack.map((k) => <li>{k}</li>)}
+    <section class="stackbar" aria-label="Stack tecnologico">
+      <div class="stackbar__inner">
+        <span class="stackbar__label">Stack tecnologico</span>
+        <div class="marquee">
+          <ul class="marquee__track" role="list">
+            {
+              [...stack, ...stack].map((t, i) => (
+                <li aria-hidden={i >= stack.length ? "true" : undefined}>{t}</li>
+              ))
+            }
           </ul>
         </div>
-        <div class="strip__row reveal">
-          <span class="strip__label">Servizi</span>
-          <ul class="keywords" role="list">
-            {servizi.map((k) => <li>{k}</li>)}
-          </ul>
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════════════════════════════
+         3 · CHI SONO (foto in apertura)
+         ════════════════════════════════════════════════════════ -->
+    <section class="section intro" id="chi-sono" aria-label="Chi sono">
+      <div class="wrap intro__grid">
+        <div class="intro__media reveal">
+          <img
+            src="/patrizia-ritratto.jpg"
+            alt="Ritratto di Patrizia Gardis"
+            width="1024"
+            height="1536"
+            loading="lazy"
+            decoding="async"
+          />
+          <span class="intro__badge">Founder · PGNetwork</span>
         </div>
-        <div class="strip__cta reveal">
-          <p class="strip__statement">
-            Una specializzazione chiara, un metodo verificabile.
+
+        <div class="intro__text">
+          <ChapterHero
+            eyebrow="CHI SONO"
+            title="Mi chiamo Patrizia Gardis."
+            size="72"
+          />
+          <p class="prose prose--big reveal">
+            Lavoro nel settore IT da oltre sette anni. Sono
+            <strong class="strong">donna, madre, professionista e
+            imprenditrice</strong>, ma il mio percorso principale nasce nella
+            <em class="accent">Database Administration</em> e nelle
+            infrastrutture IT.
           </p>
-          <a class="btn" href="#contatti">Entriamo in contatto</a>
+          <p class="prose reveal">
+            Sono cresciuta attraverso progetti sempre più complessi:
+            dall'operatività quotidiana alla progettazione di soluzioni
+            infrastrutturali, al consolidamento di ambienti enterprise e alla
+            collaborazione con team multidisciplinari. Metodo, responsabilità e
+            attenzione ai dettagli sono il filo che tiene insieme ogni
+            esperienza.
+          </p>
+
+          <ul class="facts" role="list" data-stagger>
+            <li data-tilt>
+              <span class="facts__num">7+</span>
+              <span class="facts__lab">anni nell'IT enterprise</span>
+            </li>
+            <li data-tilt>
+              <span class="facts__num">DBA</span>
+              <span class="facts__lab">Oracle, SQL Server, PostgreSQL, MongoDB</span>
+            </li>
+            <li data-tilt>
+              <span class="facts__num">Founder</span>
+              <span class="facts__lab">PGNetwork, network IT B2B</span>
+            </li>
+          </ul>
+
+          <div class="intro__actions reveal">
+            <a class="pill pill--ghost" href="/cv-patrizia-gardis.pdf" download>
+              Scarica il CV
+            </a>
+            <a class="textlink" href="#percorso">Il mio percorso</a>
+          </div>
         </div>
       </div>
     </section>
 
     <!-- ════════════════════════════════════════════════════════
-         3 · EXPERTISE
+         4 · PGNETWORK · aree di servizio IT
          ════════════════════════════════════════════════════════ -->
-    <section class="section" id="expertise" aria-labelledby="exp-title">
+    <section class="section pg" id="pgnetwork" aria-label="PGNetwork">
+      <div class="wrap">
+        <div class="pg__head">
+          <ChapterHero
+            eyebrow="PGNETWORK"
+            title="Un network IT, tante competenze."
+            size="72"
+          />
+          <div class="pg__intro">
+            <p class="prose prose--lead reveal">
+              PGNetwork nasce dalla mia esperienza nella Database
+              Administration: un network di professionisti IT specializzati che
+              lavorano in sinergia per offrire ad aziende e partner servizi
+              strutturati, affidabili e continuativi.
+            </p>
+            <p class="prose reveal">
+              È un progetto in crescita, non una grande società già
+              strutturata: un modo di lavorare con metodo, sinergia e supporto
+              continuo. Sono disponibile anche come
+              <em class="accent">partner DBA per società di consulenza IT</em>,
+              per estendere i loro team quando serve.
+            </p>
+          </div>
+        </div>
+
+        <div class="areas">
+          <CardFan items={aree} start={1} />
+        </div>
+
+        <div class="pg__cta reveal">
+          <a class="pill" href="/servizi">
+            Tutti i servizi
+            <svg viewBox="0 0 24 24" aria-hidden="true" set:html={ARROW} />
+          </a>
+          <a class="textlink" href="#contatti">Richiedi una consulenza</a>
+        </div>
+
+        <ol class="values" role="list" data-stagger>
+          {
+            valori.map((v) => (
+              <li class="value">
+                <span class="value__name">{v.name}</span>
+                <span class="value__body">{v.body}</span>
+              </li>
+            ))
+          }
+        </ol>
+
+        <div class="partners reveal">
+          <span class="label">Partner tecnologici</span>
+          <p class="partners__intro">
+            PGNetwork lavora in sinergia con partner specializzati, per coprire
+            l'intera catena tecnologica: database, infrastrutture, AI e
+            sicurezza.
+          </p>
+          <div class="partners__grid" data-stagger>
+            {
+              partner.map((p) => (
+                <article class="partner" data-tilt>
+                  <h3 class="partner__name">{p.name}</h3>
+                  <p class="partner__desc">{p.desc}</p>
+                  <a
+                    class="partner__link"
+                    href={p.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {p.label}
+                  </a>
+                </article>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+
+      <div class="pg-quote">
+        <div class="wrap wrap--narrow">
+          <blockquote class="pg-quote__text reveal">
+            Non amministriamo soltanto database. Trasformiamo la
+            <em>complessità in valore</em>.
+          </blockquote>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════════════════════════════
+         5 · COMPETENZE
+         ════════════════════════════════════════════════════════ -->
+    <section class="section" id="competenze" aria-label="Competenze">
       <div class="wrap">
         <ChapterHero
-          eyebrow="EXPERTISE"
-          title="Database & Infrastructure"
+          eyebrow="COMPETENZE"
+          title="Il cuore tecnico: database e infrastrutture."
           size="72"
         />
         <p class="prose prose--lead reveal">
-          Lavoro nel settore IT da oltre sette anni, con una specializzazione
-          precisa: Database Administration e infrastrutture enterprise.
-        </p>
-        <p class="prose reveal">
-          Nel tempo il mio ruolo si è evoluto dall'operatività quotidiana alla
-          progettazione di soluzioni infrastrutturali, all'assessment, alla
-          migrazione e al consolidamento di ambienti database complessi.
-          Metodo, responsabilità e attenzione ai dettagli sono il filo che
-          tiene insieme ogni progetto, dall'analisi iniziale fino alla
+          Una specializzazione precisa: Database Administration e
+          infrastrutture enterprise, dall'analisi iniziale fino alla
           documentazione e all'handover.
         </p>
-        <div class="competenze__grid">
+        <div class="competenze__grid" data-stagger>
           {competenze.map((c) => <SkillGroup {...c} />)}
         </div>
       </div>
 
-      <!-- Proof · progetto recente ridotto a numeri/keyword -->
       <div class="wrap proof">
         <div class="proof__head reveal">
-          <span class="chapter__eyebrow">PROGETTO RECENTE</span>
+          <span class="label">Progetto recente</span>
           <h3 class="proof__title">Enterprise Database Consolidation</h3>
         </div>
-        <ul class="proof__stats reveal" role="list">
-          <li><span class="proof__num">~2</span><span class="proof__lab">mesi</span></li>
-          <li><span class="proof__num">3</span><span class="proof__lab">tecnologie core</span></li>
-          <li><span class="proof__num">Multi</span><span class="proof__lab">ambienti enterprise</span></li>
-          <li><span class="proof__num">6</span><span class="proof__lab">fasi di metodo</span></li>
+        <ul class="proof__stats" role="list" data-stagger>
+          <li data-tilt><span class="proof__num">~2</span><span class="proof__lab">mesi</span></li>
+          <li data-tilt><span class="proof__num">3</span><span class="proof__lab">tecnologie core</span></li>
+          <li data-tilt><span class="proof__num">Multi</span><span class="proof__lab">ambienti enterprise</span></li>
+          <li data-tilt><span class="proof__num">6</span><span class="proof__lab">fasi di metodo</span></li>
         </ul>
         <p class="prose reveal">
           In circa due mesi ho partecipato al consolidamento e al riallineamento
@@ -320,13 +510,10 @@ const journal = [
         </p>
         <ol class="flow reveal" aria-label="Fasi del progetto">
           {
-            flusso.map((f, i) => (
+            flusso.map((f) => (
               <li class="flow__step">
                 <span class="flow__k">{f.k}</span>
                 <span class="flow__d">{f.d}</span>
-                {i < flusso.length - 1 && (
-                  <span class="flow__arrow" aria-hidden="true">→</span>
-                )}
               </li>
             ))
           }
@@ -335,149 +522,79 @@ const journal = [
     </section>
 
     <!-- ════════════════════════════════════════════════════════
-         4 · PGNETWORK
+         6 · JOURNAL · schede illustrate
          ════════════════════════════════════════════════════════ -->
-    <section class="section pg" id="pgnetwork" aria-labelledby="pg-title">
+    <section class="section journal" id="journal" aria-label="Journal">
       <div class="wrap">
-        <ChapterHero
-          eyebrow="PGNETWORK"
-          title="L'evoluzione: un network."
-          size="72"
-        />
-        <div class="pg__grid">
-          <div class="pg__body">
-            <p class="prose reveal">
-              Da anni lavoro nella Database Administration e nelle infrastrutture
-              IT, collaborando su ambienti enterprise e progetti complessi. Nel
-              tempo il mio ruolo si è evoluto dall'operatività alla
-              progettazione, all'assessment, alla migrazione e al consolidamento.
-            </p>
-            <p class="prose reveal">
-              Da questa evoluzione nasce <strong class="strong">PGNetwork</strong>:
-              un network di professionisti IT specializzati che lavorano in
-              sinergia per offrire ad aziende e partner servizi Database &amp;
-              Infrastructure strutturati, affidabili e continuativi.
-            </p>
-            <p class="prose reveal">
-              È un progetto in crescita, non una grande società già strutturata:
-              un modo di lavorare con metodo, sinergia e supporto continuo. Sono
-              disponibile anche come <em class="accent">partner DBA per società
-              di consulenza IT</em>, per estendere i loro team quando serve.
-            </p>
-          </div>
-          <div class="pg__poster">
-            <PosterImage
-              src="/poster-opportunita.jpg"
-              alt="Ogni stagione porta nuove opportunità"
-              w={1024}
-              h={1536}
-              max="20rem"
-              caption="Un progetto in crescita"
-            />
-          </div>
+        <div class="journal__head">
+          <ChapterHero
+            eyebrow="JOURNAL"
+            title="Guide e approfondimenti IT."
+            size="72"
+          />
+          <p class="prose prose--lead reveal">
+            Schede brevi e visive su database, disaster recovery e innovazione:
+            i concetti chiave spiegati in modo chiaro. Apri una scheda per
+            leggerla a tutto schermo.
+          </p>
         </div>
 
-        <ul class="values reveal" role="list">
+        <div class="jgrid" data-stagger>
           {
-            valori.map((v) => (
-              <li class="value">
-                <span class="value__name">{v.name}</span>
-                <span class="value__body">{v.body}</span>
-              </li>
+            journal.map((j) => (
+              <article class="jcard" data-tilt>
+                <button
+                  type="button"
+                  class="jcard__thumb"
+                  data-zoom
+                  aria-label={`Apri la scheda: ${j.title}`}
+                >
+                  <img
+                    src={j.src}
+                    alt={j.alt}
+                    width={j.w}
+                    height={j.h}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </button>
+                <div class="jcard__body">
+                  <span class="jcard__tag">{j.tag}</span>
+                  <h3 class="jcard__title">{j.title}</h3>
+                  <p class="jcard__desc">{j.desc}</p>
+                  <button
+                    type="button"
+                    class="jcard__cta"
+                    data-zoom
+                    data-zoom-src={j.src}
+                    data-zoom-alt={j.alt}
+                  >
+                    Apri la scheda
+                    <svg viewBox="0 0 24 24" aria-hidden="true" set:html={ARROW} />
+                  </button>
+                </div>
+              </article>
             ))
           }
-        </ul>
-
-        <div class="partners reveal">
-          <span class="chapter__eyebrow">PARTNER TECNOLOGICI</span>
-          <p class="partners__intro">
-            PGNetwork lavora in sinergia con partner specializzati, per coprire
-            l'intera catena tecnologica: database, infrastrutture, AI e
-            sicurezza.
-          </p>
-          <div class="partners__grid">
-            {
-              partner.map((p) => (
-                <article class="partner">
-                  <h3 class="partner__name">{p.name}</h3>
-                  <p class="partner__desc">{p.desc}</p>
-                  <a
-                    class="partner__link"
-                    href={p.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {p.label} <span aria-hidden="true">→</span>
-                  </a>
-                </article>
-              ))
-            }
-          </div>
-        </div>
-      </div>
-
-      <div class="pg-quote">
-        <div class="wrap wrap--narrow">
-          <blockquote class="pg-quote__text reveal">
-            Non amministriamo soltanto database. Trasformiamo la
-            <em class="accent">complessità in valore</em>.
-          </blockquote>
         </div>
       </div>
     </section>
 
     <!-- ════════════════════════════════════════════════════════
-         5 · ABOUT (Stagioni + personale + interessi + formazione)
+         7 · IL PERCORSO (stagioni + approfondimenti personali)
          ════════════════════════════════════════════════════════ -->
-    <section class="section" id="about" aria-labelledby="about-title">
+    <section class="section" id="percorso" aria-label="Il percorso">
       <div class="wrap">
         <ChapterHero
-          eyebrow="CHI SONO"
-          title="Mi chiamo Patrizia Gardis."
-          size="96"
+          eyebrow="IL PERCORSO"
+          title="Le stagioni di Patrizia."
+          size="72"
         />
-        <div class="about__intro">
-          <div>
-            <p class="prose reveal">
-              Lavoro nel settore IT da oltre sette anni. Sono
-              <strong class="strong">donna, madre, professionista e
-              imprenditrice</strong>, ma il mio percorso principale nasce nella
-              <em class="accent">Database Administration</em> e nelle
-              infrastrutture IT.
-            </p>
-            <p class="prose reveal">
-              Sono cresciuta attraverso progetti sempre più complessi:
-              dall'operatività quotidiana alla progettazione di soluzioni
-              infrastrutturali, al consolidamento di ambienti enterprise e alla
-              collaborazione con team multidisciplinari. Metodo, responsabilità
-              e attenzione ai dettagli sono il filo che tiene insieme ogni
-              esperienza.
-            </p>
-            <a class="cv-link reveal" href="/cv-patrizia-gardis.pdf" download>
-              Scarica il CV <span aria-hidden="true">↓</span>
-            </a>
-          </div>
-          <div class="about__media reveal">
-            <img
-              src="/patrizia-ritratto.jpg"
-              alt="Ritratto di Patrizia Gardis"
-              width="1024"
-              height="1536"
-              loading="lazy"
-              decoding="async"
-            />
-          </div>
-        </div>
       </div>
 
-      <!-- Stagioni -->
-      <div class="wrap subhead reveal">
-        <span class="chapter__eyebrow">IL PERCORSO</span>
-        <h3 class="subhead__title">Le stagioni di Patrizia</h3>
-      </div>
       <div class="seasons">
         <div class="seasons__bg" aria-hidden="true"></div>
-        <div class="seasons__content wrap seasons__grid">
+        <div class="seasons__content wrap seasons__grid" data-stagger>
           {
             stagioni.map((s) => (
               <article class="season reveal">
@@ -490,12 +607,11 @@ const journal = [
         </div>
       </div>
 
-      <!-- Approfondimenti comprimibili -->
       <div class="wrap disc-group">
         <details class="disc reveal">
           <summary class="disc__summary">
             <span class="disc__head">
-              <span class="chapter__eyebrow">IL PERCORSO</span>
+              <span class="label">Il percorso</span>
               <span class="disc__title">Il punto di svolta</span>
             </span>
             <span class="disc__icon" aria-hidden="true"></span>
@@ -519,7 +635,7 @@ const journal = [
         <details class="disc reveal">
           <summary class="disc__summary">
             <span class="disc__head">
-              <span class="chapter__eyebrow">VITA PRIVATA</span>
+              <span class="label">Vita privata</span>
               <span class="disc__title">Famiglia, passioni e missione</span>
             </span>
             <span class="disc__icon" aria-hidden="true"></span>
@@ -527,7 +643,7 @@ const journal = [
           <div class="disc__content">
             <div class="personal">
               <div class="personal__block">
-                <span class="chapter__eyebrow">FAMIGLIA</span>
+                <span class="label">Famiglia</span>
                 <p class="personal__line">
                   Tre figli: Nicole, Loris e Nicolas. La famiglia è una delle
                   mie motivazioni più grandi e mi ricorda ogni giorno perché
@@ -535,8 +651,8 @@ const journal = [
                 </p>
               </div>
               <div class="personal__block">
-                <span class="chapter__eyebrow">PASSIONI</span>
-                <ul class="keywords keywords--soft" role="list">
+                <span class="label">Passioni</span>
+                <ul class="keywords" role="list">
                   <li>Danza</li>
                   <li>Canto</li>
                   <li>Viaggi</li>
@@ -549,7 +665,7 @@ const journal = [
                 </p>
               </div>
               <div class="personal__block">
-                <span class="chapter__eyebrow">MISSIONE</span>
+                <span class="label">Missione</span>
                 <p class="personal__line">
                   Un giorno, una scuola a Santo Domingo, il mio Paese d'origine,
                   per offrire ai giovani più possibilità di formazione e futuro.
@@ -563,7 +679,7 @@ const journal = [
         <details class="disc reveal">
           <summary class="disc__summary">
             <span class="disc__head">
-              <span class="chapter__eyebrow">OLTRE LA TECNOLOGIA</span>
+              <span class="label">Oltre la tecnologia</span>
               <span class="disc__title">Progetti &amp; Interessi</span>
             </span>
             <span class="disc__icon" aria-hidden="true"></span>
@@ -572,7 +688,7 @@ const journal = [
             <div class="cards">
               {
                 interessi.map((r) => (
-                  <article class="card">
+                  <article class="card" data-tilt>
                     <span class="card__meta">{r.meta}</span>
                     <h4 class="card__title">{r.title}</h4>
                     <p class="card__desc">{r.desc}</p>
@@ -583,7 +699,7 @@ const journal = [
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        {r.cta} <span aria-hidden="true">→</span>
+                        {r.cta}
                       </a>
                     )}
                   </article>
@@ -596,7 +712,7 @@ const journal = [
         <details class="disc reveal">
           <summary class="disc__summary">
             <span class="disc__head">
-              <span class="chapter__eyebrow">FORMAZIONE</span>
+              <span class="label">Formazione</span>
               <span class="disc__title">Quattro aree di crescita</span>
             </span>
             <span class="disc__icon" aria-hidden="true"></span>
@@ -616,7 +732,7 @@ const journal = [
             <div class="formgrid">
               {
                 formazione.map((f) => (
-                  <article class="formcat">
+                  <article class="formcat" data-tilt>
                     <h4 class="formcat__cat">{f.cat}</h4>
                     <p class="formcat__desc">{f.desc}</p>
                     <ul class="formcat__refs" role="list">
@@ -639,88 +755,54 @@ const journal = [
     </section>
 
     <!-- ════════════════════════════════════════════════════════
-         6 · JOURNAL · Approfondimenti
+         8 · NETWORK · Servizi & Collabora
          ════════════════════════════════════════════════════════ -->
-    <section class="section" id="journal" aria-labelledby="journal-title">
-      <div class="wrap">
-        <ChapterHero eyebrow="JOURNAL" title="Approfondimenti" size="72" />
-        <p class="prose prose--lead reveal">
-          Contenuti divulgativi su database, continuità operativa e innovazione.
-        </p>
-        <p class="prose reveal">
-          Condivido ciò che imparo su temi chiave come il ruolo di un DBA, le
-          metriche del Disaster Recovery (RTO e RPO), l'assessment delle
-          infrastrutture e l'esplorazione di nuove tecnologie e criptovalute.
-        </p>
-      </div>
-      <div class="wrap journal__grid">
-        {
-          journal.map((p) => (
-            <PosterImage
-              src={p.src}
-              alt={p.alt}
-              w={p.w}
-              h={p.h}
-              max="24rem"
-              caption={p.caption}
-            />
-          ))
-        }
-      </div>
-    </section>
-
-    <!-- ════════════════════════════════════════════════════════
-         6b · NETWORK · Servizi & Collabora
-         ════════════════════════════════════════════════════════ -->
-    <section class="network-band" aria-label="PGNetwork">
+    <section class="network-band" aria-label="Costruiamo il network insieme">
       <div class="wrap wrap--narrow">
-        <span class="chapter__eyebrow reveal">PGNETWORK</span>
+        <span class="label reveal">PGNetwork</span>
         <h2 class="network-band__title reveal">Costruiamo il network insieme.</h2>
-        <p class="prose reveal">
-          Che tu cerchi un servizio Database &amp; Infrastructure o voglia
-          mettere le tue competenze al servizio di nuovi progetti, PGNetwork è
-          il punto di incontro.
+        <p class="network-band__text reveal">
+          Che tu cerchi un servizio IT o voglia mettere le tue competenze al
+          servizio di nuovi progetti, PGNetwork è il punto di incontro.
         </p>
         <div class="network-band__cta reveal">
-          <a class="btn" href="/servizi">Servizi PGNetwork</a>
-          <a class="btn btn--ghost" href="/collabora">Collabora con noi</a>
+          <a class="pill" href="/servizi">
+            Servizi PGNetwork
+            <svg viewBox="0 0 24 24" aria-hidden="true" set:html={ARROW} />
+          </a>
+          <a class="pill pill--ghost" href="/collabora">Collabora con noi</a>
         </div>
       </div>
     </section>
 
     <!-- ════════════════════════════════════════════════════════
-         7 · CONTATTI
+         9 · CONTATTI (compatti)
          ════════════════════════════════════════════════════════ -->
-    <section class="cta" id="contatti" aria-labelledby="cta-title">
-      <div class="cta__card reveal">
-        <div class="cta__head">
-          <span>PGNETWORK</span>
-          <span>DATABASE &amp; INFRASTRUCTURE</span>
+    <section class="section contact" id="contatti" aria-label="Contatti">
+      <div class="wrap contact__grid">
+        <div class="contact__info">
+          <ChapterHero
+            eyebrow="CONTATTI"
+            title="Parliamo del tuo progetto."
+            size="60"
+          />
+          <p class="contact__lead reveal">
+            Raccontaci in poche righe di cosa hai bisogno.
+          </p>
+          <ul class="contact__list reveal" role="list">
+            <li>
+              <span>Email</span>
+              <a href="mailto:pgardis@pgnetwork.it">pgardis@pgnetwork.it</a>
+            </li>
+            <li>
+              <span>Telefono</span>
+              <a href="tel:+393518108858">+39 351 810 8858</a>
+            </li>
+          </ul>
         </div>
 
-        <h2 id="cta-title" class="cta__title">Entriamo in contatto.</h2>
-        <p class="cta__lead">
-          Se il mio profilo è utile per un progetto in ambito Database &amp;
-          Infrastructure, scriviamoci.
-        </p>
-
-        <ul class="contact-list" role="list">
-          <li>
-            <span class="contact-list__label">Email</span>
-            <a href="mailto:pgardis@pgnetwork.it">pgardis@pgnetwork.it</a>
-          </li>
-          <li>
-            <span class="contact-list__label">Telefono</span>
-            <a href="tel:+393518108858">+39 351 810 8858</a>
-          </li>
-          <li>
-            <span class="contact-list__label">PGNetwork</span>
-            <span class="contact-list__soft">Sito in costruzione</span>
-          </li>
-        </ul>
-
         <form
-          class="form"
+          class="cform reveal"
           data-pgform
           data-tipo="contatto"
           novalidate
@@ -728,82 +810,37 @@ const journal = [
           method="post"
           enctype="text/plain"
         >
-          <div class="field">
-            <label class="field__label" for="nome">Nome</label>
-            <input
-              class="field__input"
-              type="text"
-              id="nome"
-              name="nome"
-              autocomplete="name"
-              placeholder="Il tuo nome"
-            />
+          <div class="cform__row">
+            <label class="cfield">
+              <span>Nome</span>
+              <input type="text" name="nome" autocomplete="name" required />
+            </label>
+            <label class="cfield">
+              <span>Email</span>
+              <input type="email" name="email" autocomplete="email" required />
+            </label>
           </div>
-          <div class="field">
-            <label class="field__label" for="email">Email</label>
-            <input
-              class="field__input"
-              type="email"
-              id="email"
-              name="email"
-              autocomplete="email"
-              placeholder="La tua email"
-            />
-          </div>
-          <div class="field">
-            <label class="field__label" for="messaggio">Messaggio</label>
-            <textarea
-              class="field__input field__textarea"
-              id="messaggio"
-              name="messaggio"
-              rows="4"
-              placeholder="Raccontami in breve"></textarea>
-          </div>
-
+          <label class="cfield">
+            <span>Messaggio</span>
+            <textarea name="messaggio" rows="3" required></textarea>
+          </label>
           <label class="consent">
             <input type="checkbox" name="consenso" required />
             <span>
-              Ho letto e accetto la
-              <a href="/privacy">Privacy Policy</a> e autorizzo il trattamento
-              dei miei dati per rispondere alla richiesta.
+              Ho letto la <a href="/privacy">Privacy Policy</a> e acconsento al
+              trattamento dei dati per ricevere una risposta.
             </span>
           </label>
-
-          <button class="form__submit" type="submit">INVIA</button>
+          <button class="pill cform__submit" type="submit">
+            Invia richiesta
+            <svg viewBox="0 0 24 24" aria-hidden="true" set:html={ARROW} />
+          </button>
         </form>
-
-        <p class="cta__disclaimer">
-          I tuoi dati saranno trattati nel rispetto del GDPR. Consulta la
-          <a href="/privacy">Privacy Policy</a> e le
-          <a href="/note-legali">Note legali</a>.
-        </p>
       </div>
-    </section>
-
-    <!-- ════════════════════════════════════════════════════════
-         8 · FINAL STATEMENT
-         ════════════════════════════════════════════════════════ -->
-    <section class="final" aria-label="Statement finale">
-      <h2 class="final__headline reveal">
-        <span class="final__line">Costruire</span>
-        <span class="final__line final__line--italic">con</span>
-        <span class="final__line">intenzione.</span>
-      </h2>
     </section>
   </main>
 
-  <footer class="footer">
-    <div class="footer__inner">
-      <p class="footer__copy">
-        PATRIZIA GARDIS · DATABASE &amp; INFRASTRUCTURE · FOUNDER PGNETWORK
-      </p>
-      <nav class="footer__links" aria-label="Link di servizio">
-        <a href="mailto:pgardis@pgnetwork.it">EMAIL</a>
-        <a href="/privacy">PRIVACY</a>
-        <a href="/note-legali">NOTE LEGALI</a>
-      </nav>
-    </div>
-  </footer>
+  <Footer />
 </Base>
 
 <script>
@@ -811,339 +848,726 @@ const journal = [
   initForms();
 </script>
 
+<script>
+  // Video hero: prima hls.js (MSE), HLS nativo solo come ripiego (iOS).
+  // Alcuni browser dichiarano "maybe" per l'HLS nativo ma poi non lo riproducono,
+  // quindi canPlayType non è affidabile come primo test.
+  const video = document.querySelector<HTMLVideoElement>("video[data-hls]");
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (video && !reduce) {
+    const src = video.dataset.hls as string;
+    const play = () => video.play().catch(() => {});
+    // Il browser può rimandare l'autoplay se la scheda è in background: riprova.
+    video.addEventListener("canplay", play, { once: true });
+    document.addEventListener("visibilitychange", () => {
+      if (!document.hidden && video.paused) play();
+    });
+    import("hls.js").then(({ default: Hls }) => {
+      if (Hls.isSupported()) {
+        const hls = new Hls({ enableWorker: false, capLevelToPlayerSize: true });
+        hls.loadSource(src);
+        hls.attachMedia(video);
+        hls.on(Hls.Events.MANIFEST_PARSED, play);
+      } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
+        video.src = src;
+        video.addEventListener("loadedmetadata", play, { once: true });
+      }
+    });
+  }
+</script>
+
 <style>
-  /* ── Shared wrappers ──────────────────────────────────────── */
+  /* ── Shared ───────────────────────────────────────────────── */
   .wrap {
     max-width: 80rem;
     margin: 0 auto;
     padding-inline: clamp(1.25rem, 5vw, 4rem);
   }
   .wrap--narrow {
-    max-width: 56rem;
+    max-width: 52rem;
   }
   .section {
-    padding-block: clamp(2.5rem, 5vw, 4.5rem);
+    padding-block: clamp(2.5rem, 4.5vw, 3.5rem);
   }
-
-  /* ── Prose ────────────────────────────────────────────────── */
+  /* PGNetwork termina con la fascia citazione: niente padding sotto la fascia */
+  .section.pg {
+    padding-bottom: 0;
+  }
+  .label {
+    display: inline-block;
+    font-family: var(--font-label);
+    font-weight: 700;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--gold);
+  }
   .prose {
     font-family: var(--font-sans);
-    font-weight: 300;
-    font-size: clamp(1.125rem, 1.6vw, 1.375rem);
+    font-weight: 400;
+    font-size: clamp(1.02rem, 1.4vw, 1.15rem);
     line-height: 1.7;
-    color: var(--paper);
-    margin: 0 0 1.6em;
-    max-width: 60ch;
+    color: rgba(236, 235, 231, 0.8);
+    margin: 0 0 1.4em;
+    max-width: 62ch;
   }
   .prose--lead {
-    margin-top: 2rem;
-    font-size: clamp(1.25rem, 1.9vw, 1.5rem);
-    color: var(--muted);
+    margin-top: 1.5rem;
+    font-size: clamp(1.1rem, 1.7vw, 1.3rem);
+    color: rgba(236, 235, 231, 0.9);
+  }
+  .prose--big {
+    margin-top: 1.75rem;
+    font-size: clamp(1.15rem, 1.9vw, 1.4rem);
+    line-height: 1.6;
+    color: var(--paper);
   }
   .accent {
-    color: var(--accent);
-    font-style: italic;
+    color: var(--gold);
+    font-style: normal;
   }
   .strong {
     font-weight: 600;
     color: var(--paper);
   }
+  .textlink {
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 0.95rem;
+    color: rgba(236, 235, 231, 0.85);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    padding-bottom: 2px;
+    transition:
+      color 250ms ease,
+      border-color 250ms ease;
+  }
+  .textlink:hover {
+    color: var(--gold);
+    border-color: var(--gold);
+  }
 
-  /* ── Buttons ──────────────────────────────────────────────── */
-  .btn {
-    display: inline-block;
-    padding: 1rem 2rem;
-    background: #ffffff;
+  /* Pill CTA (verde) */
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.95rem 1.6rem;
+    border: 1px solid var(--gold);
+    border-radius: 999px;
+    background: var(--gold);
     color: var(--canvas);
     font-family: var(--font-sans);
-    font-weight: 600;
-    font-size: 12px;
+    font-weight: 700;
+    font-size: 13px;
     text-transform: uppercase;
-    letter-spacing: 0.28em;
+    letter-spacing: 0.06em;
     text-decoration: none;
-    transition: background-color 400ms cubic-bezier(0.22, 1, 0.36, 1);
+    cursor: pointer;
+    transition:
+      background-color 250ms ease,
+      color 250ms ease,
+      transform 250ms ease;
   }
-  .btn:hover {
-    background: var(--gold);
+  .pill svg {
+    width: 16px;
+    height: 16px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: transform 250ms ease;
   }
-  .btn--ghost {
+  .pill:hover {
+    background: #f0bd52;
+  }
+  .pill:hover svg {
+    transform: translateX(3px);
+  }
+  .pill--ghost {
     background: transparent;
     color: var(--paper);
-    border: 1px solid var(--rule);
+    border-color: rgba(255, 255, 255, 0.25);
   }
-  .btn--ghost:hover {
+  .pill--ghost:hover {
     background: transparent;
+    color: var(--gold);
     border-color: var(--gold);
-    color: var(--gold);
   }
 
-  /* Network band (home → Servizi / Collabora) */
-  .network-band {
-    padding-block: clamp(3rem, 6vw, 5rem);
-    padding-inline: clamp(1.25rem, 5vw, 4rem);
-    text-align: center;
-    background:
-      radial-gradient(
-        120% 100% at 50% 0%,
-        rgba(230, 169, 46, 0.06) 0%,
-        transparent 55%
-      ),
-      var(--navy);
-    border-block: 1px solid var(--navy-line);
-  }
-  .network-band .chapter__eyebrow {
-    color: var(--gold);
-  }
-  .network-band__title {
-    margin: 1rem auto 1.25rem;
-    font-family: var(--font-serif);
-    font-optical-sizing: auto;
-    font-weight: 300;
-    font-size: clamp(2rem, 5vw, 3.5rem);
-    line-height: 1.05;
-    letter-spacing: -0.02em;
-    color: var(--paper);
-  }
-  .network-band .prose {
-    margin-inline: auto;
-    text-align: center;
-  }
-  .network-band__cta {
-    margin-top: 2rem;
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-
-  /* ════ 1 · HERO CINEMATIC ═════════════════════════════════ */
-  .hero-cinematic {
+  /* ════ 1 · HERO ═══════════════════════════════════════════ */
+  .hero {
     position: relative;
-    width: 100%;
-    height: 100vh;
-    height: 100svh;
+    min-height: 100vh;
+    min-height: 100svh;
     overflow: hidden;
     background: #0a0a0c;
+    isolation: isolate;
   }
-  .hero-video {
+  .hero__video {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center;
-    z-index: 1;
+    opacity: 0.6;
+    /* il video originale è verde-acqua: ruoto la tinta verso l'oro del brand */
+    filter: hue-rotate(-125deg) saturate(0.7);
+    z-index: -3;
   }
-  .hero-overlay {
+  .hero__shade {
     position: absolute;
     inset: 0;
-    background: linear-gradient(
-      180deg,
-      rgba(10, 10, 12, 0.55) 0%,
-      rgba(10, 10, 12, 0.4) 40%,
-      rgba(10, 10, 12, 0.78) 100%
-    );
-    z-index: 2;
+    z-index: -2;
+    background:
+      linear-gradient(
+        90deg,
+        #0a0a0c 0%,
+        rgba(10, 10, 12, 0.82) 30%,
+        rgba(10, 10, 12, 0) 72%
+      ),
+      linear-gradient(0deg, #0a0a0c 0%, rgba(10, 10, 12, 0) 45%);
   }
-  .hero-content {
+  .hero__inner {
     position: relative;
-    z-index: 3;
-    width: 100%;
-    height: 100%;
+    max-width: 90rem;
+    margin: 0 auto;
+    min-height: 100vh;
+    min-height: 100svh;
+    padding: 7.5rem clamp(1.25rem, 5vw, 4rem) 3.5rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
-    padding: 0 8vw;
   }
-  .hero-eyebrow {
-    font-family: var(--font-sans);
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 3vh;
+  .hero__inner > * {
+    animation: hero-rise 900ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: calc(var(--d, 0) * 110ms + 150ms);
   }
-  .hero-title {
-    font-family: var(--font-serif);
-    font-optical-sizing: auto;
-    font-weight: 300;
-    line-height: 0.95;
-    letter-spacing: -0.025em;
-    color: var(--paper);
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-  }
-  .hero-title .line-1 {
-    font-style: italic;
-    font-size: clamp(2.75rem, 8.5vw, 7.5rem);
-  }
-  .hero-title .line-2 {
-    font-weight: 300;
-    color: var(--accent);
-    font-size: clamp(2.75rem, 8.5vw, 7.5rem);
-  }
-  .hero-title .line-3 {
-    font-weight: 400;
-    font-size: clamp(2.75rem, 8.5vw, 7.5rem);
-  }
-  .hero-role {
-    margin: 2.5vh 0 0;
-    font-family: var(--font-sans);
-    font-weight: 600;
-    font-size: clamp(0.8rem, 1.4vw, 1rem);
-    text-transform: uppercase;
-    letter-spacing: 0.28em;
-    color: var(--gold);
-  }
-  .hero-tagline {
-    margin: 2vh 0 0;
-    max-width: 34rem;
-    font-family: var(--font-sans);
-    font-weight: 300;
-    font-size: clamp(1rem, 1.5vw, 1.25rem);
-    line-height: 1.6;
-    color: rgba(232, 230, 225, 0.85);
+  @keyframes hero-rise {
+    from {
+      opacity: 0;
+      translate: 0 18px;
+    }
+    to {
+      opacity: 1;
+      translate: 0 0;
+    }
   }
 
-  /* ════ 2 · STRIP · POSIZIONAMENTO ═════════════════════════ */
-  .strip {
-    border-bottom: 1px solid var(--rule);
-  }
-  .strip__row {
-    display: grid;
-    grid-template-columns: 8rem 1fr;
-    gap: 1.5rem;
-    align-items: baseline;
-    padding: 1.5rem 0;
-    border-top: 1px solid var(--rule);
-  }
-  .strip__label {
-    font-family: var(--font-sans);
-    font-weight: 500;
-    font-size: 11px;
+  /* Etichetta sopra il titolo: solo testo, niente pillola né pallino */
+  .hero__badge {
+    margin: 0 0 1.5rem;
+    font-family: var(--font-label);
+    font-weight: 700;
+    font-size: 12px;
     text-transform: uppercase;
-    letter-spacing: 0.28em;
+    letter-spacing: 0.18em;
     color: var(--gold);
   }
-  .keywords {
+
+  /* Titolo protagonista: tre righe, l'ultima in oro */
+  .hero__title {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-weight: 800;
+    font-size: clamp(48px, min(7.6vw, 11vh), 112px);
+    line-height: 0.92;
+    letter-spacing: -0.045em;
+    text-transform: uppercase;
+    color: #fff;
+  }
+  .hero__line {
+    display: block;
+  }
+  .hero__line--gold {
+    color: var(--gold);
+  }
+
+  /* Riga inferiore: testo + CTA a sinistra, card fondatrice a destra */
+  .hero__bottom {
+    width: 100%;
+    margin-top: clamp(1.75rem, 4.5vh, 3rem);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 2rem 3rem;
+    align-items: end;
+  }
+  .hero__desc {
+    margin: 0;
+    max-width: 32rem;
+    font-family: var(--font-sans);
+    font-size: clamp(15px, 1.25vw, 17px);
+    line-height: 1.65;
+    color: rgba(255, 255, 255, 0.78);
+  }
+
+  /* Card fondatrice: fondo pieno e bordo oro, leggibile sopra il video */
+  .founder {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: min(100%, 23rem);
+    padding: 1.2rem 1.35rem;
+    border: 1px solid rgba(230, 169, 46, 0.4);
+    border-radius: 1.1rem;
+    background: rgba(14, 14, 16, 0.86);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 24px 60px -24px rgba(0, 0, 0, 0.85);
+    color: inherit;
+    text-decoration: none;
+    transition:
+      border-color 300ms ease,
+      translate 300ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .founder:focus-visible {
+    border-color: var(--gold);
+  }
+  .founder__head {
+    display: flex;
+    align-items: center;
+    gap: 0.95rem;
+  }
+  /* Il ritratto è a figura intera: lo ingrandisco e centro il viso
+     (finestra 300x300 px del file a partire da x 397, y 147) */
+  .founder__avatar {
+    position: relative;
+    flex: 0 0 auto;
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    border: 2px solid var(--gold);
+    overflow: hidden;
+    background: #111;
+  }
+  .founder__avatar img {
+    position: absolute;
+    width: 198px;
+    max-width: none;
+    height: auto;
+    left: -76.8px;
+    top: -28.4px;
+  }
+  .founder__label,
+  .founder__name,
+  .founder__role {
+    display: block;
+  }
+  .founder__label {
+    font-family: var(--font-label);
+    font-weight: 700;
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--gold);
+  }
+  .founder__name {
+    margin: 0.15rem 0 0.1rem;
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 1.1rem;
+    letter-spacing: -0.015em;
+    color: #fff;
+  }
+  .founder__role {
+    font-family: var(--font-sans);
+    font-size: 0.82rem;
+    color: rgba(255, 255, 255, 0.72);
+  }
+  .founder__stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    padding-top: 0.9rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .founder__stats > span {
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    line-height: 1.35;
+    color: rgba(255, 255, 255, 0.72);
+  }
+  .founder__stats strong {
+    display: block;
+    font-weight: 800;
+    font-size: 1.45rem;
+    letter-spacing: -0.03em;
+    color: var(--gold);
+  }
+
+  .hero__actions {
+    margin-top: 1.75rem;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1.25rem 1.75rem;
+  }
+  .hero__link {
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.82);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+    padding-bottom: 2px;
+    transition:
+      color 250ms ease,
+      border-color 250ms ease;
+  }
+  .hero__link:hover {
+    color: var(--gold);
+    border-color: var(--gold);
+  }
+
+  /* ════ 2 · STACK (nastro) ═════════════════════════════════ */
+  .stackbar {
+    border-block: 1px solid var(--rule);
+    background: rgba(255, 255, 255, 0.015);
+  }
+  .stackbar__inner {
+    max-width: 90rem;
+    margin: 0 auto;
+    padding: 1.1rem clamp(1.25rem, 5vw, 4rem);
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+  .stackbar__label {
+    flex: 0 0 auto;
+    font-family: var(--font-label);
+    font-weight: 700;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--gold);
+  }
+  .marquee {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(
+      90deg,
+      transparent 0,
+      #000 6%,
+      #000 94%,
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      90deg,
+      transparent 0,
+      #000 6%,
+      #000 94%,
+      transparent 100%
+    );
+  }
+  .marquee__track {
     list-style: none;
     margin: 0;
     padding: 0;
     display: flex;
-    flex-wrap: wrap;
+    gap: 0.75rem;
+    width: max-content;
+    animation: marquee 48s linear infinite;
+  }
+  .marquee:hover .marquee__track {
+    animation-play-state: paused;
+  }
+  .marquee__track li {
+    display: inline-flex;
     align-items: center;
-    gap: 0.4rem 0;
-  }
-  .keywords li {
-    display: flex;
-    align-items: center;
-    font-family: var(--font-serif);
-    font-optical-sizing: auto;
-    font-weight: 300;
-    font-size: clamp(1.1rem, 1.9vw, 1.55rem);
-    line-height: 1.2;
-    color: var(--paper);
-  }
-  .keywords li:not(:last-child)::after {
-    content: "•";
-    margin: 0 0.9rem;
-    color: var(--gold);
-    font-size: 0.7em;
-  }
-  .keywords--soft li {
+    gap: 0.55rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 999px;
     font-family: var(--font-sans);
-    font-weight: 300;
-    font-size: clamp(0.95rem, 1.5vw, 1.15rem);
-    color: rgba(232, 230, 225, 0.85);
+    font-weight: 500;
+    font-size: 14px;
+    white-space: nowrap;
+    color: rgba(236, 235, 231, 0.88);
   }
-  .strip__cta {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 1.5rem;
-    margin-top: 2.5rem;
+  .marquee__track li::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--gold);
+    box-shadow: 0 0 10px rgba(230, 169, 46, 0.8);
   }
-  .strip__statement {
-    margin: 0;
-    font-family: var(--font-serif);
-    font-optical-sizing: auto;
-    font-style: italic;
-    font-weight: 300;
-    font-size: clamp(1.35rem, 2.6vw, 2rem);
-    line-height: 1.2;
-    color: var(--paper);
-    max-width: 34ch;
+  @keyframes marquee {
+    to {
+      transform: translateX(calc(-50% - 0.375rem));
+    }
   }
 
-  /* ════ 3 · EXPERTISE ══════════════════════════════════════ */
+  /* ════ 3 · CHI SONO ═══════════════════════════════════════ */
+  .intro__grid {
+    display: grid;
+    grid-template-columns: 5fr 7fr;
+    gap: clamp(2.5rem, 6vw, 5.5rem);
+    align-items: center;
+  }
+  .intro__media {
+    position: relative;
+    max-width: 30rem;
+  }
+  .intro__media img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 1.25rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .intro__badge {
+    position: absolute;
+    left: 1rem;
+    bottom: 1rem;
+    padding: 0.55rem 0.95rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: rgba(10, 10, 12, 0.55);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    font-family: var(--font-label);
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: #fff;
+  }
+  .facts {
+    list-style: none;
+    margin: 2rem 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+  .facts li {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    padding: 1rem 1.1rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 0.9rem;
+    background: rgba(255, 255, 255, 0.02);
+  }
+  .facts__num {
+    font-family: var(--font-sans);
+    font-weight: 800;
+    font-size: clamp(1.35rem, 2.2vw, 1.75rem);
+    letter-spacing: -0.03em;
+    color: var(--gold);
+  }
+  .facts__lab {
+    font-family: var(--font-sans);
+    font-size: 0.82rem;
+    line-height: 1.4;
+    color: var(--muted);
+  }
+  .intro__actions {
+    margin-top: 2rem;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem 1.75rem;
+  }
+
+  /* ════ 4 · PGNETWORK ══════════════════════════════════════ */
+  .pg__head {
+    display: grid;
+    grid-template-columns: 5fr 6fr;
+    gap: clamp(2rem, 5vw, 4.5rem);
+    align-items: end;
+  }
+  .pg__intro .prose--lead {
+    margin-top: 0;
+  }
+  .areas {
+    margin-top: clamp(1rem, 2vw, 1.5rem);
+  }
+  .pg__cta {
+    margin-top: 2rem;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem 1.75rem;
+  }
+
+  .values {
+    list-style: none;
+    margin: clamp(2.5rem, 4.5vw, 3.5rem) 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1rem;
+  }
+  .value {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(230, 169, 46, 0.3);
+  }
+  .value__name {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--paper);
+  }
+  .value__body {
+    font-family: var(--font-sans);
+    font-size: 0.88rem;
+    line-height: 1.5;
+    color: var(--muted);
+  }
+
+  .partners {
+    margin-top: clamp(2.5rem, 4.5vw, 3.5rem);
+  }
+  .partners__intro {
+    margin: 0.85rem 0 0;
+    max-width: 52rem;
+    font-family: var(--font-sans);
+    font-size: clamp(1rem, 1.4vw, 1.12rem);
+    line-height: 1.6;
+    color: var(--muted);
+  }
+  .partners__grid {
+    margin-top: 1.75rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+  .partner {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: flex-start;
+    padding: 1.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 1rem;
+    background: rgba(255, 255, 255, 0.02);
+  }
+  .partner__name {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 1.3rem;
+    letter-spacing: -0.02em;
+    color: var(--paper);
+  }
+  .partner__desc {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--muted);
+  }
+  .partner__link {
+    margin-top: auto;
+    padding-top: 0.35rem;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--gold);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 250ms ease;
+  }
+  .partner__link:hover {
+    border-bottom-color: var(--gold);
+  }
+
+  .pg-quote {
+    margin-top: clamp(2.5rem, 4.5vw, 3.5rem);
+    padding-block: clamp(2.75rem, 5vw, 4rem);
+    background: var(--navy);
+    border-block: 1px solid var(--rule);
+  }
+  .pg-quote__text {
+    margin: 0 auto;
+    max-width: 44rem;
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: clamp(1.6rem, 3.4vw, 2.6rem);
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    color: var(--paper);
+    text-align: center;
+    text-wrap: balance;
+  }
+  .pg-quote__text em {
+    font-family: var(--font-accent);
+    font-weight: 400;
+    font-style: italic;
+    letter-spacing: 0;
+    color: var(--gold);
+  }
+
+  /* ════ 5 · COMPETENZE ═════════════════════════════════════ */
   .competenze__grid {
-    margin-top: clamp(2.5rem, 5vw, 4rem);
+    margin-top: clamp(2.5rem, 5vw, 3.5rem);
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: clamp(1.5rem, 3vw, 2.5rem);
   }
   .proof {
-    margin-top: clamp(3.5rem, 7vw, 5.5rem);
-    padding-top: clamp(2.5rem, 5vw, 3.5rem);
+    margin-top: clamp(2.5rem, 4.5vw, 3.5rem);
+    padding-top: clamp(2rem, 4vw, 2.75rem);
     border-top: 1px solid var(--rule);
   }
   .proof__head {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 0.6rem;
   }
   .proof__title {
     margin: 0;
-    font-family: var(--font-serif);
-    font-optical-sizing: auto;
-    font-weight: 300;
-    font-size: clamp(1.75rem, 3.5vw, 2.75rem);
+    font-family: var(--font-sans);
+    font-weight: 800;
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
     line-height: 1.05;
+    letter-spacing: -0.03em;
     color: var(--paper);
   }
   .proof__stats {
     list-style: none;
-    margin: clamp(2rem, 4vw, 3rem) 0;
+    margin: clamp(2rem, 4vw, 2.75rem) 0;
     padding: 0;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 1.5rem;
+    gap: 1rem;
   }
   .proof__stats li {
     display: flex;
     flex-direction: column;
     gap: 0.3rem;
-    border-top: 1px solid var(--navy-line);
-    padding-top: 1rem;
+    padding: 1.1rem 1.2rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 0.9rem;
+    background: rgba(255, 255, 255, 0.02);
   }
   .proof__num {
-    font-family: var(--font-serif);
-    font-optical-sizing: auto;
-    font-weight: 300;
-    font-size: clamp(2rem, 3.6vw, 3.25rem);
+    font-family: var(--font-sans);
+    font-weight: 800;
+    font-size: clamp(1.8rem, 3.2vw, 2.6rem);
     line-height: 1;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.04em;
     color: var(--gold);
   }
   .proof__lab {
     font-family: var(--font-sans);
-    font-weight: 300;
     font-size: 0.85rem;
     color: var(--muted);
   }
   .flow {
-    margin: clamp(2.5rem, 5vw, 3.5rem) 0 0;
+    margin: clamp(2rem, 4vw, 3rem) 0 0;
     padding: 0;
     list-style: none;
     display: flex;
     flex-wrap: wrap;
     gap: 0.75rem 0;
-    align-items: stretch;
   }
   .flow__step {
     position: relative;
@@ -1152,224 +1576,140 @@ const journal = [
     display: flex;
     flex-direction: column;
     gap: 0.35rem;
-    padding: 1.15rem 1.25rem 1.15rem 0;
+    padding: 1rem 1.25rem 1rem 0;
   }
   .flow__k {
     font-family: var(--font-sans);
-    font-weight: 600;
+    font-weight: 700;
     font-size: 0.95rem;
     color: var(--gold);
   }
   .flow__d {
     font-family: var(--font-sans);
-    font-weight: 300;
     font-size: 0.82rem;
     line-height: 1.45;
     color: var(--muted);
   }
-  .flow__arrow {
-    position: absolute;
-    right: 0.35rem;
-    top: 1.05rem;
-    color: rgba(230, 169, 46, 0.5);
-    font-size: 1.1rem;
-  }
 
-  /* ════ 4 · PGNETWORK ══════════════════════════════════════ */
-  .pg__grid {
-    margin-top: clamp(2rem, 5vw, 3.5rem);
+  /* ════ 6 · JOURNAL ════════════════════════════════════════ */
+  .journal__head {
     display: grid;
-    grid-template-columns: 1fr auto;
-    gap: clamp(2rem, 5vw, 4rem);
-    align-items: start;
+    grid-template-columns: 5fr 6fr;
+    gap: clamp(2rem, 5vw, 4.5rem);
+    align-items: end;
   }
-  .pg__body {
-    max-width: 46rem;
+  .journal__head .prose--lead {
+    margin: 0;
   }
-  .pg__poster {
-    display: flex;
-    justify-content: flex-end;
-  }
-  .values {
-    list-style: none;
-    margin: clamp(3rem, 6vw, 4.5rem) 0 0;
-    padding: 0;
+  .jgrid {
+    margin-top: clamp(2.5rem, 5vw, 3.5rem);
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: clamp(1.25rem, 2.5vw, 2rem);
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
   }
-  .value {
+  .jcard {
     display: flex;
     flex-direction: column;
-    gap: 0.6rem;
-    border-top: 1px solid var(--navy-line);
-    padding-top: 1.1rem;
-  }
-  .value__name {
-    font-family: var(--font-sans);
-    font-weight: 600;
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: 0.22em;
-    color: var(--gold);
-  }
-  .value__body {
-    font-family: var(--font-sans);
-    font-weight: 300;
-    font-size: 0.9rem;
-    line-height: 1.5;
-    color: rgba(232, 230, 225, 0.78);
-  }
-  .partners {
-    margin-top: clamp(3rem, 6vw, 4.5rem);
-  }
-  .partners .chapter__eyebrow {
-    color: var(--gold);
-  }
-  .partners__intro {
-    margin: 1rem 0 0;
-    max-width: 52rem;
-    font-family: var(--font-sans);
-    font-weight: 300;
-    font-size: clamp(1.05rem, 1.5vw, 1.25rem);
-    line-height: 1.6;
-    color: var(--muted);
-  }
-  .partners__grid {
-    margin-top: clamp(1.75rem, 4vw, 2.5rem);
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: clamp(1.25rem, 2.5vw, 2rem);
-  }
-  .partner {
-    display: flex;
-    flex-direction: column;
-    gap: 0.85rem;
-    align-items: flex-start;
-    padding: clamp(1.5rem, 3vw, 2.25rem);
-    border: 1px solid var(--navy-line);
-    border-radius: 4px;
-    background:
-      radial-gradient(
-        140% 120% at 100% 0%,
-        rgba(230, 169, 46, 0.06) 0%,
-        transparent 55%
-      ),
-      rgba(255, 255, 255, 0.015);
-  }
-  .partner__name {
-    margin: 0;
-    font-family: var(--font-serif);
-    font-optical-sizing: auto;
-    font-weight: 400;
-    font-size: clamp(1.25rem, 2vw, 1.6rem);
-    line-height: 1.1;
-    color: var(--paper);
-  }
-  .partner__desc {
-    margin: 0;
-    font-family: var(--font-sans);
-    font-weight: 300;
-    font-size: 0.95rem;
-    line-height: 1.55;
-    color: rgba(232, 230, 225, 0.78);
-  }
-  .partner__link {
-    margin-top: auto;
-    padding-top: 0.35rem;
-    font-family: var(--font-sans);
-    font-weight: 600;
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: 0.18em;
-    color: var(--gold);
-    text-decoration: none;
-    border-bottom: 1px solid transparent;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 1rem;
+    background: rgba(255, 255, 255, 0.02);
+    overflow: hidden;
     transition: border-color 300ms ease;
   }
-  .partner__link:hover {
-    border-bottom-color: var(--gold);
+  .jcard:hover {
+    border-color: rgba(230, 169, 46, 0.4);
   }
-
-  .pg-quote {
-    margin-top: clamp(3rem, 6vw, 4.5rem);
-    padding-block: clamp(3rem, 6vw, 5rem);
-    background:
-      radial-gradient(
-        120% 100% at 0% 0%,
-        rgba(230, 169, 46, 0.06) 0%,
-        transparent 55%
-      ),
-      var(--navy);
-    border-block: 1px solid var(--navy-line);
-  }
-  .pg-quote__text {
-    margin: 0 auto;
-    max-width: 44rem;
-    font-family: var(--font-serif);
-    font-optical-sizing: auto;
-    font-weight: 300;
-    font-size: clamp(1.6rem, 3.4vw, 2.75rem);
-    line-height: 1.25;
-    color: var(--paper);
-    text-align: center;
-    text-wrap: balance;
-  }
-
-  /* ════ 5 · ABOUT ══════════════════════════════════════════ */
-  .about__intro {
-    margin-top: clamp(2rem, 5vw, 3rem);
-    display: grid;
-    grid-template-columns: 7fr 5fr;
-    gap: clamp(2rem, 6vw, 5rem);
-    align-items: start;
-  }
-  .about__intro > div .prose:first-child {
-    font-size: clamp(1.35rem, 2.3vw, 1.85rem);
-    line-height: 1.5;
-    color: var(--paper);
-  }
-  .cv-link {
-    display: inline-block;
-    margin-top: 0.5rem;
-    padding: 0.8rem 1.6rem;
-    border: 1px solid var(--rule);
-    font-family: var(--font-sans);
-    font-weight: 600;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.24em;
-    color: var(--paper);
-    text-decoration: none;
-    transition:
-      border-color 300ms ease,
-      color 300ms ease;
-  }
-  .cv-link:hover {
-    border-color: var(--gold);
-    color: var(--gold);
-  }
-  .about__media {
-    display: flex;
-    justify-content: flex-end;
-  }
-  .about__media img {
+  .jcard__thumb {
+    position: relative;
     display: block;
     width: 100%;
-    max-width: 24rem;
-    height: auto;
-    border: 1px solid var(--rule);
-    border-radius: 3px;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    padding: 0;
+    border: none;
+    cursor: zoom-in;
+    background: #121214;
+  }
+  .jcard__thumb img {
+    /* assoluta: con aspect-ratio l'immagine verticale allungherebbe il box */
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .jcard:hover .jcard__thumb img {
+    transform: scale(1.03);
+  }
+  .jcard__body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.6rem;
+    padding: 1.25rem 1.3rem 1.4rem;
+  }
+  .jcard__tag {
+    padding: 0.25rem 0.65rem;
+    border-radius: 999px;
+    background: rgba(230, 169, 46, 0.12);
+    font-family: var(--font-label);
+    font-weight: 700;
+    font-size: 10.5px;
+    letter-spacing: 0.06em;
+    color: var(--gold);
+  }
+  .jcard__title {
+    margin: 0.2rem 0 0;
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 1.08rem;
+    line-height: 1.25;
+    letter-spacing: -0.015em;
+    color: var(--paper);
+  }
+  .jcard__desc {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: 0.88rem;
+    line-height: 1.55;
+    color: var(--muted);
+  }
+  .jcard__cta {
+    margin-top: auto;
+    padding: 0.4rem 0 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--gold);
+  }
+  .jcard__cta svg {
+    width: 15px;
+    height: 15px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: transform 250ms ease;
+  }
+  .jcard__cta:hover svg {
+    transform: translateX(3px);
   }
 
-  /* Seasons */
-  .subhead + .seasons {
-    margin-top: clamp(1.5rem, 3vw, 2.25rem);
-  }
+  /* ════ 7 · IL PERCORSO ════════════════════════════════════ */
   .seasons {
     position: relative;
-    margin-top: clamp(2rem, 4vw, 3rem);
-    padding-block: clamp(2.75rem, 5.5vw, 4.5rem);
+    margin-top: clamp(1.25rem, 2.5vw, 2rem);
+    padding-block: clamp(2.25rem, 4.5vw, 3.25rem);
     overflow: hidden;
     isolation: isolate;
   }
@@ -1380,20 +1720,18 @@ const journal = [
     background-image: url("/albero-pgnetwork.jpg");
     background-size: cover;
     background-position: center;
-    background-repeat: no-repeat;
-    filter: blur(6px) brightness(0.5) saturate(0.95);
+    filter: blur(6px) brightness(0.45) saturate(0.6);
     transform: scale(1.08);
   }
   .seasons__bg::after {
     content: "";
     position: absolute;
     inset: 0;
-    z-index: -1;
     background: linear-gradient(
       180deg,
-      rgba(10, 10, 12, 0.78) 0%,
+      rgba(10, 10, 12, 0.8) 0%,
       rgba(10, 10, 12, 0.62) 45%,
-      rgba(10, 10, 12, 0.82) 100%
+      rgba(10, 10, 12, 0.85) 100%
     );
   }
   .seasons__content {
@@ -1406,222 +1744,35 @@ const journal = [
     gap: clamp(1.25rem, 2.5vw, 2rem);
   }
   .season {
-    border-top: 1px solid rgba(230, 169, 46, 0.4);
-    padding-top: 1.5rem;
+    border-top: 1px solid rgba(230, 169, 46, 0.45);
+    padding-top: 1.35rem;
   }
   .season__name {
-    font-family: var(--font-sans);
-    font-weight: 600;
+    font-family: var(--font-label);
+    font-weight: 700;
     font-size: 11px;
     text-transform: uppercase;
-    letter-spacing: 0.28em;
+    letter-spacing: 0.16em;
     color: var(--gold);
   }
   .season__key {
-    margin: 0.75rem 0 0.9rem;
-    font-family: var(--font-serif);
-    font-optical-sizing: auto;
-    font-weight: 300;
-    font-size: clamp(1.5rem, 2.4vw, 2rem);
-    line-height: 1.1;
+    margin: 0.65rem 0 0.6rem;
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: clamp(1.35rem, 2.2vw, 1.75rem);
+    letter-spacing: -0.025em;
     color: var(--paper);
   }
   .season__body {
     margin: 0;
     font-family: var(--font-sans);
-    font-weight: 300;
-    font-size: 0.975rem;
+    font-size: 0.95rem;
     line-height: 1.6;
-    color: rgba(232, 230, 225, 0.8);
+    color: rgba(236, 235, 231, 0.78);
   }
 
-  /* Personale */
-  .personal {
-    margin-top: clamp(3rem, 6vw, 4.5rem);
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: clamp(1.5rem, 4vw, 3rem);
-  }
-  .personal__block {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    border-top: 1px solid var(--rule);
-    padding-top: 1.25rem;
-  }
-  .personal__line {
-    margin: 0;
-    font-family: var(--font-serif);
-    font-optical-sizing: auto;
-    font-weight: 300;
-    font-size: clamp(1.15rem, 1.9vw, 1.4rem);
-    line-height: 1.35;
-    color: var(--paper);
-  }
-  .personal__line--sm {
-    margin-top: 0.9rem;
-    font-family: var(--font-sans);
-    font-size: 0.95rem;
-    line-height: 1.55;
-    color: rgba(232, 230, 225, 0.72);
-  }
-
-  /* Punto di svolta */
-  .svolta {
-    margin-top: clamp(3rem, 6vw, 4.5rem);
-    display: grid;
-    grid-template-columns: 5fr 7fr;
-    gap: clamp(2rem, 5vw, 4rem);
-    align-items: start;
-  }
-  .svolta__quote {
-    margin: 0;
-    padding-left: 1.75rem;
-    border-left: 4px solid var(--accent);
-    font-family: var(--font-serif);
-    font-optical-sizing: auto;
-    font-style: italic;
-    font-weight: 300;
-    font-size: clamp(1.4rem, 2.8vw, 2.1rem);
-    line-height: 1.25;
-    color: var(--paper);
-  }
-  .svolta .prose {
-    margin: 0;
-  }
-
-  /* Subhead (divisori interni About) */
-  .subhead {
-    margin-top: clamp(3.5rem, 7vw, 5rem);
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-  }
-  .subhead__title {
-    margin: 0;
-    font-family: var(--font-serif);
-    font-optical-sizing: auto;
-    font-weight: 300;
-    font-size: clamp(1.75rem, 3.5vw, 2.75rem);
-    line-height: 1.05;
-    color: var(--paper);
-  }
-
-  /* Cards (interessi) */
-  .cards {
-    margin-top: clamp(1.75rem, 4vw, 2.5rem);
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: clamp(1.25rem, 2.5vw, 2rem);
-  }
-  .card {
-    display: flex;
-    flex-direction: column;
-    gap: 0.65rem;
-    border-top: 1px solid var(--rule);
-    padding-top: 1.25rem;
-  }
-  .card__meta {
-    font-family: var(--font-sans);
-    font-weight: 500;
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.24em;
-    color: var(--gold);
-  }
-  .card__title {
-    margin: 0;
-    font-family: var(--font-serif);
-    font-optical-sizing: auto;
-    font-weight: 400;
-    font-size: clamp(1.1rem, 1.7vw, 1.35rem);
-    line-height: 1.15;
-    color: var(--paper);
-  }
-  .card__desc {
-    margin: 0;
-    font-family: var(--font-sans);
-    font-weight: 300;
-    font-size: 0.9rem;
-    line-height: 1.55;
-    color: rgba(232, 230, 225, 0.72);
-  }
-  .card__cta {
-    margin-top: 0.4rem;
-    align-self: flex-start;
-    font-family: var(--font-sans);
-    font-weight: 600;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.18em;
-    color: var(--gold);
-    text-decoration: none;
-    border-bottom: 1px solid transparent;
-    transition: border-color 300ms ease;
-  }
-  .card__cta:hover {
-    border-bottom-color: var(--gold);
-  }
-
-  /* Formazione categorie */
-  .formgrid {
-    margin-top: clamp(1.75rem, 4vw, 2.5rem);
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: clamp(1.5rem, 3vw, 2.5rem);
-  }
-  .formcat {
-    border-top: 1px solid var(--navy-line);
-    padding-top: 1.35rem;
-  }
-  .formcat__cat {
-    margin: 0 0 0.5rem;
-    font-family: var(--font-serif);
-    font-optical-sizing: auto;
-    font-weight: 400;
-    font-size: clamp(1.25rem, 2vw, 1.6rem);
-    line-height: 1.1;
-    color: var(--paper);
-  }
-  .formcat__desc {
-    margin: 0 0 1rem;
-    font-family: var(--font-sans);
-    font-weight: 300;
-    font-size: 0.95rem;
-    line-height: 1.5;
-    color: var(--muted);
-  }
-  .formcat__refs {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
-  .formcat__refs li {
-    font-family: var(--font-sans);
-    font-weight: 500;
-    font-size: 12px;
-    letter-spacing: 0.02em;
-    color: rgba(232, 230, 225, 0.85);
-    border: 1px solid var(--rule);
-    border-radius: 999px;
-    padding: 0.35rem 0.85rem;
-  }
-  .fineprint {
-    margin: clamp(2.5rem, 5vw, 3.5rem) 0 0;
-    max-width: 52rem;
-    font-family: var(--font-sans);
-    font-weight: 300;
-    font-size: 12px;
-    line-height: 1.7;
-    color: var(--muted);
-  }
-
-  /* Blocchi comprimibili (details/summary) */
   .disc-group {
-    margin-top: clamp(2.5rem, 5vw, 3.5rem);
+    margin-top: clamp(1.5rem, 3vw, 2.25rem);
   }
   .disc {
     border-top: 1px solid var(--rule);
@@ -1636,7 +1787,7 @@ const journal = [
     align-items: center;
     justify-content: space-between;
     gap: 1.5rem;
-    padding: 1.4rem 0;
+    padding: 1.3rem 0;
   }
   .disc__summary::-webkit-details-marker {
     display: none;
@@ -1644,16 +1795,15 @@ const journal = [
   .disc__head {
     display: flex;
     flex-direction: column;
-    gap: 0.55rem;
+    gap: 0.45rem;
   }
   .disc__title {
-    font-family: var(--font-serif);
-    font-optical-sizing: auto;
-    font-weight: 300;
-    font-size: clamp(1.5rem, 3vw, 2.25rem);
-    line-height: 1.05;
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: clamp(1.2rem, 2.3vw, 1.65rem);
+    letter-spacing: -0.02em;
     color: var(--paper);
-    transition: color 300ms ease;
+    transition: color 250ms ease;
   }
   .disc__summary:hover .disc__title,
   .disc[open] .disc__title {
@@ -1662,8 +1812,8 @@ const journal = [
   .disc__icon {
     position: relative;
     flex: 0 0 auto;
-    width: 1.5rem;
-    height: 1.5rem;
+    width: 1.4rem;
+    height: 1.4rem;
   }
   .disc__icon::before,
   .disc__icon::after {
@@ -1693,199 +1843,321 @@ const journal = [
     opacity: 0;
   }
   .disc__content {
-    padding: 0.35rem 0 2rem;
-  }
-  .disc__content .personal,
-  .disc__content .cards,
-  .disc__content .formgrid {
-    margin-top: 0;
+    padding: 0.25rem 0 2rem;
   }
   .disc-intro {
     margin: 0 0 1.75rem;
     max-width: 52rem;
     font-family: var(--font-sans);
-    font-weight: 300;
-    font-size: clamp(1rem, 1.5vw, 1.15rem);
+    font-size: clamp(1rem, 1.4vw, 1.1rem);
     line-height: 1.6;
-    color: rgba(232, 230, 225, 0.82);
+    color: rgba(236, 235, 231, 0.82);
   }
   .disc-link {
     color: var(--gold);
     text-decoration: none;
     border-bottom: 1px solid transparent;
-    transition: border-color 300ms ease;
+    transition: border-color 250ms ease;
   }
   .disc-link:hover {
     border-bottom-color: var(--gold);
   }
-  .disc__content .svolta__quote {
+  .svolta__quote {
     margin: 0 0 1.5rem;
+    padding-left: 1.5rem;
+    border-left: 3px solid var(--gold);
+    font-family: var(--font-accent);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(1.5rem, 2.8vw, 2.2rem);
+    line-height: 1.2;
+    color: var(--paper);
   }
   .disc__content .prose:last-child,
   .disc__content .fineprint {
     margin-bottom: 0;
   }
-  @media (prefers-reduced-motion: reduce) {
-    .disc__icon::before,
-    .disc__icon::after {
-      transition: none;
-    }
-  }
 
-  /* ════ 6 · JOURNAL ════════════════════════════════════════ */
-  .journal__grid {
-    margin-top: clamp(2.5rem, 5vw, 3.5rem);
+  .personal {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: clamp(2rem, 4vw, 3.5rem);
-    justify-items: center;
-    align-items: start;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(1.5rem, 4vw, 3rem);
   }
-
-  /* ════ 7 · CTA / CONTATTI ═════════════════════════════════ */
-  .cta {
-    padding-block: clamp(3rem, 6vw, 5rem);
-    padding-inline: clamp(1.25rem, 5vw, 4rem);
-  }
-  .cta__card {
-    max-width: 56rem;
-    margin: 0 auto;
-    padding: clamp(2rem, 5vw, 4rem);
-    border: 1px solid var(--rule);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-    background: rgba(255, 255, 255, 0.015);
-  }
-  .cta__head {
+  .personal__block {
     display: flex;
-    justify-content: space-between;
-    gap: 1rem;
-    font-family: var(--font-sans);
-    font-weight: 500;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.28em;
-    color: var(--muted);
-  }
-  .cta__title {
-    margin: 2.5rem 0 1rem;
-    font-family: var(--font-serif);
-    font-optical-sizing: auto;
-    font-weight: 300;
-    font-size: clamp(2rem, 4.5vw, 3rem);
-    line-height: 1.05;
-    color: var(--paper);
-  }
-  .cta__lead {
-    margin: 0 0 2rem;
-    font-family: var(--font-sans);
-    font-weight: 300;
-    font-size: 18px;
-    line-height: 1.6;
-    color: var(--muted);
-    max-width: 46ch;
-  }
-  .contact-list {
-    margin: 0 0 2.5rem;
-    padding: 0;
-    list-style: none;
-    display: grid;
-    gap: 1rem;
+    flex-direction: column;
+    gap: 0.85rem;
     border-top: 1px solid var(--rule);
-    padding-top: 2rem;
+    padding-top: 1.1rem;
   }
-  .contact-list li {
-    display: flex;
-    align-items: baseline;
-    gap: 1.5rem;
-  }
-  .contact-list__label {
-    flex: 0 0 6rem;
+  .personal__line {
+    margin: 0;
     font-family: var(--font-sans);
-    font-weight: 500;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.28em;
+    font-size: 1.02rem;
+    line-height: 1.6;
+    color: rgba(236, 235, 231, 0.85);
+  }
+  .personal__line--sm {
+    font-size: 0.92rem;
     color: var(--muted);
   }
-  .contact-list a {
+  .keywords {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+  .keywords li {
+    padding: 0.3rem 0.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 999px;
     font-family: var(--font-sans);
-    font-weight: 300;
-    font-size: 1.0625rem;
+    font-size: 0.85rem;
+    color: rgba(236, 235, 231, 0.85);
+  }
+
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+  }
+  .card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    padding: 1.25rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 0.9rem;
+    background: rgba(255, 255, 255, 0.02);
+  }
+  .card__meta {
+    font-family: var(--font-label);
+    font-weight: 700;
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--gold);
+  }
+  .card__title {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 1.05rem;
+    letter-spacing: -0.015em;
     color: var(--paper);
+  }
+  .card__desc {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: 0.88rem;
+    line-height: 1.55;
+    color: var(--muted);
+  }
+  .card__cta {
+    margin-top: 0.3rem;
+    align-self: flex-start;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--gold);
     text-decoration: none;
     border-bottom: 1px solid transparent;
-    transition:
-      color 300ms ease,
-      border-color 300ms ease;
+    transition: border-color 250ms ease;
   }
-  .contact-list a:hover {
-    color: var(--gold);
+  .card__cta:hover {
     border-bottom-color: var(--gold);
   }
-  .contact-list__soft {
+
+  .formgrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+  .formcat {
+    padding: 1.25rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 0.9rem;
+  }
+  .formcat__cat {
+    margin: 0 0 0.4rem;
     font-family: var(--font-sans);
-    font-weight: 300;
-    font-size: 1.0625rem;
+    font-weight: 700;
+    font-size: 1.12rem;
+    letter-spacing: -0.015em;
+    color: var(--paper);
+  }
+  .formcat__desc {
+    margin: 0 0 0.9rem;
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    line-height: 1.5;
     color: var(--muted);
-    font-style: italic;
   }
-  .form {
+  .formcat__refs {
+    list-style: none;
+    margin: 0;
+    padding: 0;
     display: flex;
-    flex-direction: column;
-    gap: 2rem;
+    flex-wrap: wrap;
+    gap: 0.4rem;
   }
-  .field {
-    display: flex;
-    flex-direction: column;
-    gap: 0.6rem;
-  }
-  .field__label {
+  .formcat__refs li {
+    padding: 0.3rem 0.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 999px;
     font-family: var(--font-sans);
     font-weight: 500;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.28em;
+    font-size: 12px;
+    color: rgba(236, 235, 231, 0.85);
+  }
+  .fineprint {
+    margin: 1.75rem 0 0;
+    max-width: 52rem;
+    font-family: var(--font-sans);
+    font-size: 12px;
+    line-height: 1.7;
     color: var(--muted);
   }
-  .field__input {
-    appearance: none;
-    width: 100%;
-    background: transparent;
-    border: none;
-    border-bottom: 1px solid var(--rule);
-    border-radius: 0;
-    padding: 0.65rem 0;
+
+  /* ════ 8 · NETWORK BAND ═══════════════════════════════════ */
+  .network-band {
+    padding: clamp(2.75rem, 5vw, 4rem) clamp(1.25rem, 5vw, 4rem);
+    text-align: center;
+    background: var(--navy);
+    border-block: 1px solid var(--rule);
+  }
+  .network-band__title {
+    margin: 0.9rem auto 1rem;
     font-family: var(--font-sans);
-    font-weight: 300;
-    font-size: 1.0625rem;
+    font-weight: 800;
+    font-size: clamp(2rem, 4.5vw, 3.25rem);
+    line-height: 1.05;
+    letter-spacing: -0.035em;
     color: var(--paper);
-    transition: border-color 400ms cubic-bezier(0.22, 1, 0.36, 1);
   }
-  .field__input::placeholder {
-    color: rgba(232, 230, 225, 0.35);
+  .network-band__text {
+    margin: 0 auto;
+    max-width: 38rem;
+    font-family: var(--font-sans);
+    font-size: clamp(1rem, 1.4vw, 1.12rem);
+    line-height: 1.65;
+    color: var(--muted);
   }
-  .field__input:focus {
-    outline: none;
-    border-bottom-color: var(--gold);
+  .network-band__cta {
+    margin-top: 2rem;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
   }
-  .field__textarea {
-    resize: vertical;
-    min-height: 6rem;
+
+  /* ════ 9 · CONTATTI ═══════════════════════════════════════ */
+  .contact__grid {
+    display: grid;
+    grid-template-columns: 5fr 6fr;
+    gap: clamp(2.5rem, 6vw, 5rem);
+    align-items: start;
+  }
+  .contact__lead {
+    margin: 1.25rem 0 0;
+    font-family: var(--font-sans);
+    font-size: 1.05rem;
     line-height: 1.6;
+    color: var(--muted);
+  }
+  .contact__list {
+    list-style: none;
+    margin: 1.75rem 0 0;
+    padding: 0;
+    display: grid;
+    gap: 0.9rem;
+  }
+  .contact__list li {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+  .contact__list span {
+    font-family: var(--font-label);
+    font-weight: 700;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+  }
+  .contact__list a {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--paper);
+    text-decoration: none;
+    transition: color 250ms ease;
+  }
+  .contact__list a:hover {
+    color: var(--gold);
+  }
+  .cform {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: clamp(1.5rem, 3vw, 2rem);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 1.1rem;
+    background: rgba(255, 255, 255, 0.02);
+  }
+  .cform__row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  .cfield {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+  .cfield span {
+    font-family: var(--font-label);
+    font-weight: 700;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+  }
+  .cfield input,
+  .cfield textarea {
+    width: 100%;
+    padding: 0.75rem 0.9rem;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 0.65rem;
+    background: rgba(10, 10, 12, 0.6);
+    font-family: var(--font-sans);
+    font-size: 0.98rem;
+    color: var(--paper);
+    transition: border-color 250ms ease;
+  }
+  .cfield textarea {
+    resize: vertical;
+    min-height: 5.5rem;
+    line-height: 1.55;
+  }
+  .cfield input:focus,
+  .cfield textarea:focus {
+    outline: none;
+    border-color: var(--gold);
   }
   .consent {
     display: flex;
     align-items: flex-start;
-    gap: 0.75rem;
+    gap: 0.65rem;
     font-family: var(--font-sans);
-    font-weight: 300;
-    font-size: 13px;
-    line-height: 1.55;
+    font-size: 12.5px;
+    line-height: 1.5;
     color: var(--muted);
   }
   .consent input {
-    margin-top: 0.2rem;
+    margin-top: 0.15rem;
     accent-color: var(--gold);
     flex: 0 0 auto;
   }
@@ -1896,128 +2168,26 @@ const journal = [
   .consent a:hover {
     color: var(--gold);
   }
-  .form__submit {
-    appearance: none;
-    width: 100%;
-    margin-top: 0.5rem;
-    padding: 1.15rem 1.5rem;
-    border: none;
-    border-radius: 0;
-    background: #ffffff;
-    color: var(--canvas);
-    font-family: var(--font-sans);
-    font-weight: 600;
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: 0.28em;
-    cursor: pointer;
-    transition: background-color 400ms cubic-bezier(0.22, 1, 0.36, 1);
+  .cform__submit {
+    align-self: flex-start;
   }
-  .form__submit:hover {
-    background: var(--gold);
-  }
-  .cta__disclaimer {
-    margin: 2rem 0 0;
+  .cform :global(.form-status) {
+    margin: 0;
     font-family: var(--font-sans);
-    font-weight: 300;
-    font-size: 12px;
+    font-size: 0.92rem;
+    line-height: 1.5;
     color: var(--muted);
   }
-  .cta__disclaimer a {
-    color: var(--muted);
-    text-underline-offset: 3px;
-  }
-  .cta__disclaimer a:hover {
+  .cform :global(.form-status[data-state="ok"]) {
     color: var(--gold);
   }
-
-  .chapter__eyebrow {
-    margin: 0;
-    font-family: var(--font-sans);
-    font-weight: 500;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.28em;
-    color: var(--muted);
-  }
-
-  /* ════ 8 · FINAL ══════════════════════════════════════════ */
-  .final {
-    min-height: 46vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: clamp(4rem, 12vw, 8rem) clamp(1.25rem, 5vw, 4rem);
-    text-align: center;
-    border-top: 1px solid var(--rule);
-  }
-  .final__headline {
-    margin: 0;
-    font-family: var(--font-serif);
-    font-optical-sizing: auto;
-    font-weight: 300;
-    line-height: 0.95;
-  }
-  .final__line {
-    display: block;
-    font-size: clamp(3rem, 9vw, 9rem);
-  }
-  .final__line--italic {
-    font-style: italic;
-    color: var(--accent);
-  }
-
-  /* ════ FOOTER ═════════════════════════════════════════════ */
-  .footer {
-    border-top: 1px solid var(--rule);
-  }
-  .footer__inner {
-    max-width: 80rem;
-    margin: 0 auto;
-    padding: 3rem clamp(1.25rem, 5vw, 4rem);
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 1.5rem;
-    flex-wrap: wrap;
-  }
-  .footer__copy {
-    margin: 0;
-    font-family: var(--font-sans);
-    font-weight: 500;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.28em;
-    color: var(--muted);
-  }
-  .footer__links {
-    display: flex;
-    gap: clamp(1rem, 3vw, 2rem);
-    flex-wrap: wrap;
-  }
-  .footer__links a {
-    font-family: var(--font-sans);
-    font-weight: 500;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.28em;
-    color: var(--muted);
-    text-decoration: none;
-    transition: color 400ms cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  .footer__links a:hover {
-    color: var(--gold);
+  .cform :global(.form-status[data-state="err"]) {
+    color: #f08a8a;
   }
 
   /* ════ RESPONSIVE ═════════════════════════════════════════ */
-  @media (max-width: 1000px) {
-    .competenze__grid,
-    .proof__stats {
-      grid-template-columns: repeat(2, 1fr);
-    }
-    .seasons__grid,
-    .values,
-    .cards {
+  @media (max-width: 1100px) {
+    .jgrid {
       grid-template-columns: repeat(2, 1fr);
     }
     .values {
@@ -2026,14 +2196,57 @@ const journal = [
   }
 
   @media (max-width: 900px) {
-    .about__intro,
-    .pg__grid,
-    .svolta {
+    .hero__bottom {
+      grid-template-columns: 1fr;
+      align-items: start;
+    }
+    .founder {
+      width: min(100%, 26rem);
+    }
+  }
+
+  @media (max-width: 767px) {
+    .hero__inner {
+      padding-top: 6.5rem;
+    }
+    .hero__title {
+      font-size: clamp(30px, 9.4vw, 48px);
+      letter-spacing: -0.04em;
+    }
+  }
+
+  /* Schermi bassi (portatili 720-820px): la hero deve stare nel primo schermo */
+  @media (min-width: 768px) and (max-height: 820px) {
+    .hero__inner {
+      padding-top: 6.75rem;
+      padding-bottom: 2.5rem;
+    }
+    .hero__badge {
+      margin-bottom: 1.25rem;
+    }
+    .hero__actions {
+      margin-top: 1.4rem;
+    }
+  }
+
+  @media (max-width: 1000px) {
+    .competenze__grid,
+    .proof__stats,
+    .seasons__grid,
+    .cards {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 900px) {
+    .intro__grid,
+    .pg__head,
+    .journal__head,
+    .contact__grid {
       grid-template-columns: 1fr;
     }
-    .about__media,
-    .pg__poster {
-      justify-content: flex-start;
+    .intro__media {
+      max-width: 24rem;
     }
     .personal {
       grid-template-columns: 1fr;
@@ -2041,56 +2254,52 @@ const journal = [
     .flow__step {
       flex: 1 1 45%;
     }
-    .strip__row {
-      grid-template-columns: 1fr;
-      gap: 0.75rem;
-    }
   }
 
   @media (max-width: 768px) {
-    .hero-content {
-      padding: 0 6vw;
-    }
-    .hero-title .line-1,
-    .hero-title .line-2,
-    .hero-title .line-3 {
-      overflow-wrap: break-word;
-    }
-    .final {
-      min-height: auto;
-      padding-block: clamp(4rem, 16vw, 7rem);
-    }
     .formgrid,
-    .values,
-    .journal__grid,
-    .partners__grid {
+    .partners__grid,
+    .facts {
       grid-template-columns: 1fr;
+    }
+    .stackbar__label {
+      display: none;
     }
   }
 
   @media (max-width: 640px) {
+    .jgrid,
     .competenze__grid,
     .seasons__grid,
     .cards,
-    .proof__stats {
+    .proof__stats,
+    .values,
+    .cform__row {
       grid-template-columns: 1fr;
     }
     .flow__step {
       flex: 1 1 100%;
     }
-    .contact-list li {
-      flex-direction: column;
-      gap: 0.3rem;
-    }
-    .footer__inner {
-      flex-direction: column;
-      gap: 1.5rem;
-    }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .hero-video {
+    .hero__video {
       display: none;
+    }
+    .hero__inner > * {
+      animation: none;
+    }
+    .marquee__track {
+      animation: none;
+      flex-wrap: wrap;
+      width: auto;
+    }
+    .marquee__track li[aria-hidden="true"] {
+      display: none;
+    }
+    .disc__icon::before,
+    .disc__icon::after {
+      transition: none;
     }
   }
 </style>
