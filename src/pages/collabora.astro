@@ -5,7 +5,16 @@ import Footer from "../components/Footer.astro";
 import ChapterHero from "../components/ChapterHero.astro";
 
 // Posizioni aperte
-const posizioni = [
+interface Posizione {
+  ruolo: string;
+  posti: string;
+  claim: string;
+  meta: { k: string; v: string }[];
+  competenze: string[];
+  ai?: string[];
+}
+
+const posizioni: Posizione[] = [
   {
     ruolo: "GIS Developer",
     posti: "3 posizioni",
@@ -29,6 +38,23 @@ const posizioni = [
       "Angular 9+",
       "Git / GitLab e metodologie Agile / Scrum",
     ],
+  },
+  {
+    ruolo: "Full-Stack AI Developer",
+    posti: "Agentic Software Development",
+    claim:
+      "Professionista con esperienza concreta nell'utilizzo dell'AI nello sviluppo software, REST API, database relazionali e NoSQL, Git e CI/CD.",
+    meta: [
+      { k: "Livello", v: "Middle" },
+      { k: "Tipologia", v: "Consulenza e delivery" },
+    ],
+    competenze: [
+      "Uso concreto dell'AI nello sviluppo software",
+      "REST API",
+      "Database relazionali e NoSQL",
+      "Git e CI/CD",
+    ],
+    ai: ["GitHub Copilot", "Claude Code", "Cursor"],
   },
 ];
 ---
@@ -102,6 +128,18 @@ const posizioni = [
                       <li>{c}</li>
                     ))}
                   </ul>
+                  {p.ai && (
+                    <>
+                      <span class="pos__skills-lab pos__skills-lab--ai">
+                        Competenze AI richieste
+                      </span>
+                      <ul class="pos__chips" role="list">
+                        {p.ai.map((t) => (
+                          <li>{t}</li>
+                        ))}
+                      </ul>
+                    </>
+                  )}
                 </div>
               </div>
             </article>
@@ -458,6 +496,25 @@ const posizioni = [
     font-size: 0.95rem;
     line-height: 1.45;
     color: rgba(236, 235, 231, 0.85);
+  }
+  .pos__skills-lab--ai {
+    margin-top: 1.5rem;
+  }
+  .pos__skills .pos__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .pos__skills .pos__chips li {
+    padding: 0.35rem 0.85rem;
+    border: 1px solid rgba(230, 169, 46, 0.45);
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.88rem;
+    color: var(--gold);
+  }
+  .pos__skills .pos__chips li::before {
+    content: none;
   }
   .pos__skills li::before {
     content: "";
