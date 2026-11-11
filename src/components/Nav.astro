@@ -16,6 +16,7 @@ const principali = [
 const tutte = [
   { href: "/", name: "Home" },
   { href: "/#pgnetwork", name: "PGNetwork" },
+  { href: "/#network", name: "Il nostro Network" },
   { href: "/servizi", name: "Servizi" },
   { href: "/#chi-sono", name: "Chi sono" },
   { href: "/#competenze", name: "Competenze" },
@@ -91,7 +92,7 @@ const tutte = [
 <style>
   .nav {
     position: fixed;
-    top: 0;
+    top: var(--suspend-h, 0);
     left: 0;
     right: 0;
     z-index: 60;

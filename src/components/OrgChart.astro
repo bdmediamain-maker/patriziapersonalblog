@@ -1,0 +1,294 @@
+---
+/**
+ * OrgChart: organigramma di PGNetwork, data-driven (src/data/network.ts).
+ * Patrizia in cima (founder), due rami: direzione servizi e rete di persone.
+ * Collegamenti a linee oro su desktop; impilato su mobile. Nero + oro.
+ */
+import {
+  leader,
+  areeServizi,
+  partnerEsterni,
+  collaboratori,
+} from "../data/network";
+---
+
+<div class="org">
+  <article class="org__leader" data-tilt>
+    <span class="org__avatar" aria-hidden="true">
+      <img src={leader.foto} alt="" width="1024" height="1536" loading="lazy" />
+    </span>
+    <div class="org__leader-txt">
+      <span class="org__eyebrow">{leader.ruolo} · {leader.org}</span>
+      <h3 class="org__name">{leader.name}</h3>
+      <p class="org__desc">{leader.desc}</p>
+    </div>
+  </article>
+
+  <span class="org__trunk" aria-hidden="true"></span>
+
+  <div class="org__branches">
+    <section class="org__branch">
+      <h4 class="org__btitle">Direzione e sviluppo dei servizi</h4>
+      <ul class="org__areas" role="list">
+        {areeServizi.map((a) => <li>{a}</li>)}
+      </ul>
+    </section>
+
+    <section class="org__branch">
+      <h4 class="org__btitle">Rete di professionisti e collaboratori</h4>
+
+      <div class="org__group">
+        <span class="org__glabel">Partner esterni</span>
+        <ul class="org__people" role="list">
+          {
+            partnerEsterni.map((p) => (
+              <li class="person person--partner" data-tilt>
+                <span class="person__name">{p.name}</span>
+                <span class="person__tipo">{p.tipo}</span>
+                <span class="person__area">{p.area}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <div class="org__group">
+        <span class="org__glabel">Collaboratori</span>
+        <ul class="org__people" role="list">
+          {
+            collaboratori.map((p) => (
+              <li class="person" data-tilt>
+                <span class="person__name">{p.name}</span>
+                <span class="person__tipo">{p.tipo}</span>
+                <span class="person__area">{p.area}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </section>
+  </div>
+</div>
+
+<style>
+  .org {
+    --conn: rgba(230, 169, 46, 0.4);
+    --gap: 2.5rem;
+    /* spazio tra i due rami: serve anche a calcolare le estremità della barra */
+    --bgap: clamp(1.25rem, 3vw, 2.25rem);
+    margin-top: clamp(2rem, 4vw, 3rem);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* Leader */
+  .org__leader {
+    display: flex;
+    align-items: center;
+    gap: 1.1rem;
+    width: 100%;
+    max-width: 38rem;
+    padding: 1.4rem 1.6rem;
+    border: 1px solid rgba(230, 169, 46, 0.4);
+    border-radius: 1.1rem;
+    background: #141416;
+    box-shadow: 0 24px 50px -28px rgba(0, 0, 0, 0.9);
+  }
+  .org__avatar {
+    position: relative;
+    flex: 0 0 auto;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 2px solid var(--gold);
+    overflow: hidden;
+    background: #111;
+  }
+  .org__avatar img {
+    position: absolute;
+    width: 205px;
+    max-width: none;
+    height: auto;
+    left: -79.4px;
+    top: -29.4px;
+  }
+  .org__eyebrow {
+    font-family: var(--font-label);
+    font-weight: 700;
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--gold);
+  }
+  .org__name {
+    margin: 0.15rem 0 0.3rem;
+    font-family: var(--font-sans);
+    font-weight: 800;
+    font-size: clamp(1.25rem, 2.2vw, 1.6rem);
+    letter-spacing: -0.03em;
+    color: var(--paper);
+  }
+  .org__desc {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: var(--muted);
+  }
+
+  /* Connettori */
+  .org__trunk {
+    width: 2px;
+    height: var(--gap);
+    background: linear-gradient(var(--gold), var(--conn));
+  }
+  .org__branches {
+    position: relative;
+    width: 100%;
+    padding-top: var(--gap);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--bgap);
+  }
+  /* la barra arriva al centro di ogni ramo: centro ramo = (100% - gap) / 4 dal bordo */
+  .org__branches::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: calc((100% - var(--bgap)) / 4);
+    right: calc((100% - var(--bgap)) / 4);
+    height: 2px;
+    background: var(--conn);
+  }
+  .org__branch {
+    position: relative;
+  }
+  /* l'asticella sale dal bordo alto del ramo fino alla barra (sopra, nel padding) */
+  .org__branch::before {
+    content: "";
+    position: absolute;
+    top: calc(-1 * var(--gap));
+    left: 50%;
+    margin-left: -1px;
+    width: 2px;
+    height: var(--gap);
+    background: var(--conn);
+  }
+  .org__btitle {
+    margin: 0 0 1rem;
+    padding: 0.65rem 0.9rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0.8rem;
+    background: rgba(230, 169, 46, 0.06);
+    text-align: center;
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: -0.01em;
+    color: var(--paper);
+  }
+
+  /* Ramo A: aree di servizio */
+  .org__areas {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.6rem;
+  }
+  .org__areas li {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.85rem 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 0.75rem;
+    background: rgba(255, 255, 255, 0.02);
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--paper);
+  }
+  .org__areas li::before {
+    content: "";
+    flex: 0 0 auto;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--gold);
+  }
+
+  /* Ramo B: gruppi di persone */
+  .org__group + .org__group {
+    margin-top: 1.25rem;
+  }
+  .org__glabel {
+    display: block;
+    margin-bottom: 0.7rem;
+    font-family: var(--font-label);
+    font-weight: 700;
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--gold);
+  }
+  .org__people {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(10.5rem, 1fr));
+    gap: 0.6rem;
+  }
+  .person {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    padding: 0.85rem 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 0.75rem;
+    background: rgba(255, 255, 255, 0.02);
+  }
+  .person--partner {
+    border-color: rgba(230, 169, 46, 0.45);
+    background: rgba(230, 169, 46, 0.05);
+  }
+  .person__name {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--paper);
+  }
+  .person__tipo {
+    font-family: var(--font-label);
+    font-weight: 700;
+    font-size: 9.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--gold);
+  }
+  .person__area {
+    font-family: var(--font-sans);
+    font-size: 0.82rem;
+    line-height: 1.4;
+    color: var(--muted);
+  }
+
+  @media (max-width: 767px) {
+    .org__trunk,
+    .org__branches::before,
+    .org__branch::before {
+      display: none;
+    }
+    .org__branches {
+      grid-template-columns: 1fr;
+      padding-top: 1.5rem;
+      gap: 1.75rem;
+    }
+    .org__leader {
+      flex-direction: column;
+      text-align: center;
+    }
+  }
+</style>

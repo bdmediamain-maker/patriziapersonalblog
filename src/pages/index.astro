@@ -5,6 +5,7 @@ import Footer from "../components/Footer.astro";
 import ChapterHero from "../components/ChapterHero.astro";
 import SkillGroup from "../components/SkillGroup.astro";
 import CardFan from "../components/CardFan.astro";
+import OrgChart from "../components/OrgChart.astro";
 import { aree } from "../data/aree";
 
 // ── Dati ──────────────────────────────────────────────────────
@@ -355,6 +356,12 @@ const ARROW = '<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>';
             Un percorso costruito passo dopo passo, con competenza, metodo e una
             visione orientata al futuro.
           </p>
+          <p class="prose prose--social reveal">
+            Accanto al lavoro, Patrizia sostiene personalmente
+            <strong class="strong">UNICEF</strong> e
+            <strong class="strong">AMCEF</strong>, nel loro impegno a favore
+            dell'infanzia e dell'educazione.
+          </p>
 
           <ul class="facts" role="list" data-stagger>
             <li data-tilt>
@@ -467,6 +474,25 @@ const ARROW = '<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>';
             <em>complessità in valore</em>.
           </blockquote>
         </div>
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════════════════════════════
+         4b · IL NOSTRO NETWORK (organigramma)
+         ════════════════════════════════════════════════════════ -->
+    <section class="section" id="network" aria-label="Il nostro Network">
+      <div class="wrap">
+        <ChapterHero
+          eyebrow="IL NOSTRO NETWORK"
+          title="La mappa del network."
+          size="72"
+        />
+        <p class="prose prose--lead reveal">
+          Una struttura aperta e in crescita: la direzione strategica di
+          Patrizia, le aree di servizio e una rete di partner e collaboratori
+          specializzati.
+        </p>
+        <OrgChart />
       </div>
     </section>
 
@@ -926,6 +952,11 @@ const ARROW = '<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>';
     font-size: clamp(1.15rem, 1.9vw, 1.4rem);
     line-height: 1.6;
     color: var(--paper);
+  }
+  .prose--social {
+    padding-left: 1.1rem;
+    border-left: 2px solid rgba(230, 169, 46, 0.5);
+    font-size: 0.98rem;
   }
   .accent {
     color: var(--gold);

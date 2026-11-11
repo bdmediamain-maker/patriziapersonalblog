@@ -53,6 +53,8 @@ html {
 
 body {
   margin: 0;
+  /* spazio per l'avviso di sospensione fisso in alto (0 se assente) */
+  padding-top: var(--suspend-h, 0);
   background-color: var(--canvas);
   color: var(--paper);
   font-family: var(--font-sans);
